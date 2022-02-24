@@ -38,8 +38,8 @@ describe('Load FIIs', () => {
       html: MOCK_HTML,
     });
 
-    const sqliteConnect = SqliteConnection.connect();
-    const fiisStorage = new FIIsStorageSqlite(sqliteConnect);
+    const sqliteConnection = SqliteConnection.connect();
+    const fiisStorage = new FIIsStorageSqlite(sqliteConnection);
     const fiisService = new FIIsService(fiisStorage);
     const loadFIIs = LoadFIIs(fiisService);
 
