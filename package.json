@@ -10,7 +10,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
-    "test": "ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/jest-cli/bin/jest.js" 
+    "test": "ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/jest-cli/bin/jest.js"
   },
   "keywords": [],
   "author": "billkondo",
@@ -89,6 +89,7 @@
     "eslint-plugin-import": "^2.25.4",
     "fork-ts-checker-webpack-plugin": "^6.5.0",
     "jest": "^27.5.1",
+    "jest-mock-extended": "^2.0.4",
     "node-loader": "^2.0.0",
     "style-loader": "^3.3.1",
     "ts-jest": "^27.1.3",
@@ -97,6 +98,7 @@
   },
   "dependencies": {
     "better-sqlite3": "^7.5.0",
+    "bignumber.js": "^9.0.2",
     "electron-squirrel-startup": "^1.0.0",
     "node-html-parser": "^5.2.0",
     "react": "^17.0.2",
