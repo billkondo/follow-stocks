@@ -1,4 +1,5 @@
 import FII from 'domain/fii';
+import Stock from 'domain/stock';
 import FIIsRepository from 'main/repositories/fiis_repository';
 import FIIsStorage from 'main/repositories/fiis_storage';
 import NodeHtmlParser from 'node-html-parser';
@@ -39,6 +40,16 @@ class FIIsService implements FIIsRepository {
 
   async findFIIs(): Promise<FII[]> {
     return await this.fiisStorage.findAllFIIs();
+  }
+
+  exists: (stock: Stock) => Promise<boolean>;
+
+  async search(tickerText: string) {
+    return await this.fiisStorage.searchByTicker(tickerText);
+  }
+
+  async saveStocks(stocks: Stock[]) {
+    await this.fiisStorage.saveFIIs(stocks);
   }
 }
 
