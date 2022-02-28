@@ -1,13 +1,11 @@
 import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
 
-interface StocksNegotiationsRepository {
+interface StocksNegotiationsStorage {
   saveStockNegotiations: (
     stock: Stock,
     stockNegotiations: StockNegotiation[],
   ) => Promise<void>;
-
-  findNegotiationsFromStock: (stock: Stock) => Promise<StockNegotiation[]>;
 
   findStockNegotiationsByDate: (
     stock: Stock,
@@ -15,4 +13,4 @@ interface StocksNegotiationsRepository {
   ) => Promise<StockNegotiation[]>;
 }
 
-export default StocksNegotiationsRepository;
+export default StocksNegotiationsStorage;

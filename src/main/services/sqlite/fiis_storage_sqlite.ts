@@ -26,13 +26,22 @@ class FIIsStorageSqlite implements FIIsStorage {
     this.findAllFIIsStatement = db.prepare('SELECT ticker, name from fiis');
 
     this.searchFIIsByTickerStatement = db.prepare(
-      `SELECT ticker, name from fiis WHERE ticker LIKE :tickerText LIMIT 10`,
+      `
+        SELECT ticker, name from fiis 
+        WHERE ticker LIKE :tickerText 
+        LIMIT 10
+      `,
     );
   }
 
   static createFIIsTable(db: Database) {
     db.prepare(
-      'CREATE TABLE IF NOT EXISTS fiis (ticker VARCHAR, name VARCHAR)',
+      `
+        CREATE TABLE IF NOT EXISTS fiis (
+          ticker VARCHAR PRIMARY KEY, 
+          name VARCHAR
+        )
+      `,
     ).run();
   }
 
