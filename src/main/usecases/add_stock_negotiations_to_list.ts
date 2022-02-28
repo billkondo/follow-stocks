@@ -1,12 +1,12 @@
 import StockNegotiation from 'domain/stock_negotiation';
 
-const AddStocksNegotiationsToList = (
-  stocksNegotiations: StockNegotiation[],
-  newStocksNegotiations: StockNegotiation[],
+const AddStockNegotiationsToList = (
+  stockNegotiations: StockNegotiation[],
+  newStockNegotiations: StockNegotiation[],
 ) => {
   const negotiations: { [key: string]: StockNegotiation[] } = {};
 
-  for (const stockNegotiation of stocksNegotiations) {
+  for (const stockNegotiation of stockNegotiations) {
     const dateMS = stockNegotiation.date.getTime();
     const hasDateAppeared = !!negotiations[dateMS];
 
@@ -15,11 +15,11 @@ const AddStocksNegotiationsToList = (
     negotiations[dateMS].push(stockNegotiation);
   }
 
-  const newDateMS = newStocksNegotiations[0].date.getTime();
+  const newDateMS = newStockNegotiations[0].date.getTime();
   const hasNewDateAppeared = !!negotiations[newDateMS];
 
   if (!hasNewDateAppeared) {
-    negotiations[newDateMS] = newStocksNegotiations;
+    negotiations[newDateMS] = newStockNegotiations;
   } else {
     const removeBuysAndSellsThatHaveNewDate = () => {
       negotiations[newDateMS] = negotiations[newDateMS].filter(
@@ -28,7 +28,7 @@ const AddStocksNegotiationsToList = (
     };
 
     removeBuysAndSellsThatHaveNewDate();
-    negotiations[newDateMS].push(...newStocksNegotiations);
+    negotiations[newDateMS].push(...newStockNegotiations);
   }
 
   const negotiationsAfterInsetions: StockNegotiation[] = [];
@@ -42,4 +42,4 @@ const AddStocksNegotiationsToList = (
   return negotiationsAfterInsetions;
 };
 
-export default AddStocksNegotiationsToList;
+export default AddStockNegotiationsToList;

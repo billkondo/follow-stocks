@@ -2,7 +2,7 @@ import Price from 'domain/price';
 import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
 import { mock } from 'jest-mock-extended';
-import AddStocksNegotiationsToList from 'main/usecases/add_stocks_negotiations_to_list';
+import AddStockNegotiationsToList from 'main/usecases/add_stock_negotiations_to_list';
 
 describe('Add stocks negotiations to list', () => {
   test('should add stocks negotiations', () => {
@@ -25,7 +25,7 @@ describe('Add stocks negotiations to list', () => {
       },
     ];
 
-    const stocksNegotiationsAfterInsertion = AddStocksNegotiationsToList(
+    const stocksNegotiationsAfterInsertion = AddStockNegotiationsToList(
       mockStocksNegotiations,
       [
         {
@@ -90,7 +90,7 @@ describe('Add stocks negotiations to list', () => {
       },
     ];
 
-    const stocksNegotiationsAfterInsertion = AddStocksNegotiationsToList(
+    const stocksNegotiationsAfterInsertion = AddStockNegotiationsToList(
       mockStocksNegotiations,
       [
         {

@@ -6,7 +6,7 @@ import StockNegotiation from 'domain/stock_negotiation';
 import { mock } from 'jest-mock-extended';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
 import StocksRepository from 'main/repositories/stocks_repository';
-import AddStocksNegotiations from 'main/usecases/add_stocks_negotiations';
+import AddStockNegotiations from 'main/usecases/add_stock_negotiations';
 
 describe('Add stocks negotiations', () => {
   const setup = () => {
@@ -14,28 +14,28 @@ describe('Add stocks negotiations', () => {
       mock<StocksNegotiationsRepository>();
     const mockStocksRepository = mock<StocksRepository>();
 
-    const addStocksNegotiations = AddStocksNegotiations({
+    const addStockNegotiations = AddStockNegotiations({
       stocksNegotiationsRepository: mockStocksNegotiationsRepository,
       stocksRepository: mockStocksRepository,
     });
 
     return {
-      addStocksNegotiations,
+      addStockNegotiations,
       mockStocksRepository,
       mockStocksNegotiationsRepository,
     };
   };
 
   test('should throw domain error if stocks negotiations are empty', async () => {
-    const { addStocksNegotiations } = setup();
+    const { addStockNegotiations } = setup();
 
-    await expect(addStocksNegotiations([])).rejects.toThrow(
+    await expect(addStockNegotiations([])).rejects.toThrow(
       new DomainError('stocks negotiations should not be empty'),
     );
   });
 
   test('should throw domain error if stocks negotiations have different stocks', async () => {
-    const { addStocksNegotiations } = setup();
+    const { addStockNegotiations } = setup();
 
     const mockStockNegotiationsFactory = (stock: Stock) => {
       const mockStockNegotiation = mock<StockNegotiation>();
@@ -45,7 +45,7 @@ describe('Add stocks negotiations', () => {
     };
 
     await expect(
-      addStocksNegotiations([
+      addStockNegotiations([
         mockStockNegotiationsFactory({ name: 'A', ticker: 'A11' }),
         mockStockNegotiationsFactory({ name: 'A', ticker: 'A11' }),
         mockStockNegotiationsFactory({ name: 'B', ticker: 'B11' }),
@@ -56,7 +56,7 @@ describe('Add stocks negotiations', () => {
   });
 
   test('should throw domain error if stocks negotiations have different currencies', async () => {
-    const { addStocksNegotiations } = setup();
+    const { addStockNegotiations } = setup();
 
     const mockStockNegotiationsFactory = (code: PriceCode) => {
       const mockStockNegotiation = mock<StockNegotiation>();
@@ -68,7 +68,7 @@ describe('Add stocks negotiations', () => {
     };
 
     await expect(
-      addStocksNegotiations([
+      addStockNegotiations([
         mockStockNegotiationsFactory('BRL'),
         mockStockNegotiationsFactory('BRL'),
         mockStockNegotiationsFactory('USD'),
@@ -78,9 +78,30 @@ describe('Add stocks negotiations', () => {
     );
   });
 
+  test('should throw domain error if stocks negotiations have different dates', async () => {
+    const { addStockNegotiations } = setup();
+
+    const mockStockNegotiationsFactory = (date: Date) => {
+      const mockStockNegotiation = mock<StockNegotiation>();
+      mockStockNegotiation.date = date;
+
+      return mockStockNegotiation;
+    };
+
+    await expect(
+      addStockNegotiations([
+        mockStockNegotiationsFactory(new Date(2022, 12, 1)),
+        mockStockNegotiationsFactory(new Date(2022, 12, 1)),
+        mockStockNegotiationsFactory(new Date(2022, 12, 2)),
+      ]),
+    ).rejects.toThrow(
+      new DomainError('stocks negotiations should have same date'),
+    );
+  });
+
   test('should throw domain error if stocks negotiations inserted do not have same currency than previous negotiations', async () => {
     const {
-      addStocksNegotiations,
+      addStockNegotiations,
       mockStocksRepository,
       mockStocksNegotiationsRepository,
     } = setup();
@@ -107,8 +128,8 @@ describe('Add stocks negotiations', () => {
     );
 
     await expect(
-      addStocksNegotiations([
-        mockStockNegotiationsFactory('BRL', new Date(2022, 12, 3)),
+      addStockNegotiations([
+        mockStockNegotiationsFactory('BRL', new Date(2022, 12, 4)),
         mockStockNegotiationsFactory('BRL', new Date(2022, 12, 4)),
       ]),
     ).rejects.toThrow(
@@ -126,15 +147,16 @@ describe('Add stocks negotiations', () => {
   test.each([-10, 0])(
     'should throw domain error if stock negotiations prices are not positive',
     async (price: number) => {
-      const { addStocksNegotiations } = setup();
+      const { addStockNegotiations } = setup();
       const mockStockNegotiation = mock<StockNegotiation>();
       mockStockNegotiation.price = {
         value: price,
         code: 'BRL',
       };
+      mockStockNegotiation.date = mock<Date>();
 
       await expect(
-        addStocksNegotiations([mockStockNegotiation]),
+        addStockNegotiations([mockStockNegotiation]),
       ).rejects.toThrow(
         new DomainError('stock negotiations prices should be positive'),
       );
@@ -144,12 +166,13 @@ describe('Add stocks negotiations', () => {
   test.each([-10, 0])(
     'should throw domain error if stock negotiations quantities are not positive',
     async (quantity: number) => {
-      const { addStocksNegotiations } = setup();
+      const { addStockNegotiations } = setup();
       const mockStockNegotiation = mock<StockNegotiation>();
       mockStockNegotiation.quantity = quantity;
+      mockStockNegotiation.date = mock<Date>();
 
       await expect(
-        addStocksNegotiations([mockStockNegotiation]),
+        addStockNegotiations([mockStockNegotiation]),
       ).rejects.toThrow(
         new DomainError('stock negotiations quantities should be positive'),
       );
@@ -157,13 +180,14 @@ describe('Add stocks negotiations', () => {
   );
 
   test('should throw domain error if negotiations stock does not exist', async () => {
-    const { addStocksNegotiations, mockStocksRepository } = setup();
+    const { addStockNegotiations, mockStocksRepository } = setup();
     mockStocksRepository.exists.mockResolvedValue(false);
     const mockStock = mock<Stock>();
     const mockStockNegotiation = mock<StockNegotiation>();
     mockStockNegotiation.stock = mockStock;
+    mockStockNegotiation.date = mock<Date>();
 
-    await expect(addStocksNegotiations([mockStockNegotiation])).rejects.toThrow(
+    await expect(addStockNegotiations([mockStockNegotiation])).rejects.toThrow(
       new DomainError('stock does not exist'),
     );
     expect(mockStocksRepository.exists).toBeCalledWith(mockStock);
@@ -171,7 +195,7 @@ describe('Add stocks negotiations', () => {
 
   test('should save stocks negotiations', async () => {
     const {
-      addStocksNegotiations,
+      addStockNegotiations,
       mockStocksNegotiationsRepository,
       mockStocksRepository,
     } = setup();
@@ -216,14 +240,14 @@ describe('Add stocks negotiations', () => {
       mockStocksNegotiations,
     );
 
-    await addStocksNegotiations(mockNewStocksNegotiations);
+    await addStockNegotiations(mockNewStocksNegotiations);
     expect(mockStocksRepository.exists).toHaveBeenCalledWith(mockStock);
     expect(
       mockStocksNegotiationsRepository.findNegotiationsFromStock,
     ).toHaveBeenCalledWith(mockStock);
     expect(
-      mockStocksNegotiationsRepository.saveNegotiations,
-    ).toHaveBeenCalledWith([
+      mockStocksNegotiationsRepository.saveStockNegotiations,
+    ).toHaveBeenCalledWith(mockStock, [
       ...mockStocksNegotiations,
       ...mockNewStocksNegotiations,
     ]);

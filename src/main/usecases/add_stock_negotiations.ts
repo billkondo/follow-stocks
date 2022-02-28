@@ -3,10 +3,10 @@ import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
 import StocksRepository from 'main/repositories/stocks_repository';
-import AddStocksNegotiationsToList from './add_stocks_negotiations_to_list';
+import AddStockNegotiationsToList from './add_stock_negotiations_to_list';
 import AssertStocksNegotiationsBalanceIsNotNegative from './assert_stocks_negotiations_balance_is_not_negative';
 
-const AddStocksNegotiations =
+const AddStockNegotiations =
   ({
     stocksRepository,
     stocksNegotiationsRepository,
@@ -14,26 +14,31 @@ const AddStocksNegotiations =
     stocksRepository: StocksRepository;
     stocksNegotiationsRepository: StocksNegotiationsRepository;
   }) =>
-  async (stocksNegotiations: StockNegotiation[]) => {
-    assertNotEmpty(stocksNegotiations);
-    assertHaveSameStock(stocksNegotiations);
-    assertHaveSameCurrency(stocksNegotiations);
-    assertPriceIsPositive(stocksNegotiations);
-    assertQuantityIsPositive(stocksNegotiations);
-    await assertStockExists(stocksRepository)(stocksNegotiations);
+  async (stockNegotiations: StockNegotiation[]) => {
+    assertNotEmpty(stockNegotiations);
+    assertHaveSameStock(stockNegotiations);
+    assertHaveSameCurrency(stockNegotiations);
+    assertHaveSameDate(stockNegotiations);
+    assertPriceIsPositive(stockNegotiations);
+    assertQuantityIsPositive(stockNegotiations);
+
+    const stock = stockNegotiations[0].stock;
+
+    await assertStockExists(stocksRepository)(stock);
 
     const oldStocksNegotiations =
-      await stocksNegotiationsRepository.findNegotiationsFromStock(
-        stocksNegotiations[0].stock,
-      );
-    const newStocksNegotiations = AddStocksNegotiationsToList(
+      await stocksNegotiationsRepository.findNegotiationsFromStock(stock);
+    const newStocksNegotiations = AddStockNegotiationsToList(
       oldStocksNegotiations,
-      stocksNegotiations,
+      stockNegotiations,
     );
 
     assertHaveSameCurrencyAfterInsertion(newStocksNegotiations);
     AssertStocksNegotiationsBalanceIsNotNegative(newStocksNegotiations);
-    await stocksNegotiationsRepository.saveNegotiations(newStocksNegotiations);
+    await stocksNegotiationsRepository.saveStockNegotiations(
+      stock,
+      newStocksNegotiations,
+    );
   };
 
 const assertNotEmpty = (stocksNegotiations: StockNegotiation[]) => {
@@ -65,9 +70,7 @@ const assertQuantityIsPositive = (stocksNegotiations: StockNegotiation[]) => {
 };
 
 const assertStockExists =
-  (stocksRepository: StocksRepository) =>
-  async (stocksNegotiations: StockNegotiation[]) => {
-    const stock = stocksNegotiations[0].stock;
+  (stocksRepository: StocksRepository) => async (stock: Stock) => {
     const exists = await stocksRepository.exists(stock);
 
     if (!exists) throw new DomainError('stock does not exist');
@@ -79,6 +82,14 @@ const assertHaveSameCurrency = (stocksNegotiations: StockNegotiation[]) => {
   for (const stockNegotiation of stocksNegotiations)
     if (stockNegotiation.price.code !== firstCode)
       throw new DomainError('stocks negotiations should have same currency');
+};
+
+const assertHaveSameDate = (stocksNegotiations: StockNegotiation[]) => {
+  const firstDate = stocksNegotiations[0].date;
+
+  for (const stockNegotiation of stocksNegotiations)
+    if (firstDate.getTime() !== stockNegotiation.date.getTime())
+      throw new DomainError('stocks negotiations should have same date');
 };
 
 const assertHaveSameCurrencyAfterInsertion = (
@@ -97,4 +108,4 @@ const assertHaveSameCurrencyAfterInsertion = (
   }
 };
 
-export default AddStocksNegotiations;
+export default AddStockNegotiations;
