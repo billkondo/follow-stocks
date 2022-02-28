@@ -4,8 +4,8 @@ import StockNegotiation from 'domain/stock_negotiation';
 import { mock } from 'jest-mock-extended';
 import AddStockNegotiationsToList from 'main/usecases/add_stock_negotiations_to_list';
 
-describe('Add stocks negotiations to list', () => {
-  test('should add stocks negotiations', () => {
+describe('Add stock negotiations to list', () => {
+  test('should add stock negotiations', () => {
     const mockStock = mock<Stock>();
     const mockPrice = mock<Price>();
     const mockStocksNegotiations: StockNegotiation[] = [

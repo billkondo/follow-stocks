@@ -8,7 +8,7 @@ import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_
 import StocksRepository from 'main/repositories/stocks_repository';
 import AddStockNegotiations from 'main/usecases/add_stock_negotiations';
 
-describe('Add stocks negotiations', () => {
+describe('Add stock negotiations', () => {
   const setup = () => {
     const mockStocksNegotiationsRepository =
       mock<StocksNegotiationsRepository>();
@@ -26,15 +26,15 @@ describe('Add stocks negotiations', () => {
     };
   };
 
-  test('should throw domain error if stocks negotiations are empty', async () => {
+  test('should throw domain error if stock negotiations are empty', async () => {
     const { addStockNegotiations } = setup();
 
     await expect(addStockNegotiations([])).rejects.toThrow(
-      new DomainError('stocks negotiations should not be empty'),
+      new DomainError('stock negotiations should not be empty'),
     );
   });
 
-  test('should throw domain error if stocks negotiations have different stocks', async () => {
+  test('should throw domain error if stock negotiations have different stocks', async () => {
     const { addStockNegotiations } = setup();
 
     const mockStockNegotiationsFactory = (stock: Stock) => {
@@ -51,11 +51,11 @@ describe('Add stocks negotiations', () => {
         mockStockNegotiationsFactory({ name: 'B', ticker: 'B11' }),
       ]),
     ).rejects.toThrow(
-      new DomainError('stocks negotiations should have same stock'),
+      new DomainError('stock negotiations should have same stock'),
     );
   });
 
-  test('should throw domain error if stocks negotiations have different currencies', async () => {
+  test('should throw domain error if stock negotiations have different currencies', async () => {
     const { addStockNegotiations } = setup();
 
     const mockStockNegotiationsFactory = (code: PriceCode) => {
@@ -74,11 +74,11 @@ describe('Add stocks negotiations', () => {
         mockStockNegotiationsFactory('USD'),
       ]),
     ).rejects.toThrow(
-      new DomainError('stocks negotiations should have same currency'),
+      new DomainError('stock negotiations should have same currency'),
     );
   });
 
-  test('should throw domain error if stocks negotiations have different dates', async () => {
+  test('should throw domain error if stock negotiations have different dates', async () => {
     const { addStockNegotiations } = setup();
 
     const mockStockNegotiationsFactory = (date: Date) => {
@@ -95,11 +95,11 @@ describe('Add stocks negotiations', () => {
         mockStockNegotiationsFactory(new Date(2022, 12, 2)),
       ]),
     ).rejects.toThrow(
-      new DomainError('stocks negotiations should have same date'),
+      new DomainError('stock negotiations should have same date'),
     );
   });
 
-  test('should throw domain error if stocks negotiations inserted do not have same currency than previous negotiations', async () => {
+  test('should throw domain error if stock negotiations inserted do not have same currency than previous negotiations', async () => {
     const {
       addStockNegotiations,
       mockStocksRepository,
@@ -134,7 +134,7 @@ describe('Add stocks negotiations', () => {
       ]),
     ).rejects.toThrow(
       new DomainError(
-        'stocks negotiations inserted do not have same currency than previous negotiations',
+        'stock negotiations inserted do not have same currency than previous negotiations',
       ),
     );
 
@@ -193,7 +193,7 @@ describe('Add stocks negotiations', () => {
     expect(mockStocksRepository.exists).toBeCalledWith(mockStock);
   });
 
-  test('should save stocks negotiations', async () => {
+  test('should save stock negotiations', async () => {
     const {
       addStockNegotiations,
       mockStocksNegotiationsRepository,

@@ -26,45 +26,45 @@ const AddStockNegotiations =
 
     await assertStockExists(stocksRepository)(stock);
 
-    const oldStocksNegotiations =
+    const oldStockNegotiations =
       await stocksNegotiationsRepository.findNegotiationsFromStock(stock);
-    const newStocksNegotiations = AddStockNegotiationsToList(
-      oldStocksNegotiations,
+    const newStockNegotiations = AddStockNegotiationsToList(
+      oldStockNegotiations,
       stockNegotiations,
     );
 
-    assertHaveSameCurrencyAfterInsertion(newStocksNegotiations);
-    AssertStocksNegotiationsBalanceIsNotNegative(newStocksNegotiations);
+    assertHaveSameCurrencyAfterInsertion(newStockNegotiations);
+    AssertStocksNegotiationsBalanceIsNotNegative(newStockNegotiations);
     await stocksNegotiationsRepository.saveStockNegotiations(
       stock,
-      newStocksNegotiations,
+      newStockNegotiations,
     );
   };
 
-const assertNotEmpty = (stocksNegotiations: StockNegotiation[]) => {
-  if (!stocksNegotiations.length) {
-    throw new DomainError('stocks negotiations should not be empty');
+const assertNotEmpty = (stockNegotiations: StockNegotiation[]) => {
+  if (!stockNegotiations.length) {
+    throw new DomainError('stock negotiations should not be empty');
   }
 };
 
-const assertHaveSameStock = (stocksNegotiations: StockNegotiation[]) => {
+const assertHaveSameStock = (stockNegotiations: StockNegotiation[]) => {
   const compareStocks = (stockA: Stock, stockB: Stock) =>
     JSON.stringify(stockA) == JSON.stringify(stockB);
-  const firstStock = stocksNegotiations[0].stock;
+  const firstStock = stockNegotiations[0].stock;
 
-  for (const stockNegotiation of stocksNegotiations)
+  for (const stockNegotiation of stockNegotiations)
     if (!compareStocks(firstStock, stockNegotiation.stock))
-      throw new DomainError('stocks negotiations should have same stock');
+      throw new DomainError('stock negotiations should have same stock');
 };
 
-const assertPriceIsPositive = (stocksNegotiations: StockNegotiation[]) => {
-  for (const stockNegotiation of stocksNegotiations)
+const assertPriceIsPositive = (stockNegotiations: StockNegotiation[]) => {
+  for (const stockNegotiation of stockNegotiations)
     if (stockNegotiation.price.value <= 0)
       throw new DomainError('stock negotiations prices should be positive');
 };
 
-const assertQuantityIsPositive = (stocksNegotiations: StockNegotiation[]) => {
-  for (const stockNegotiation of stocksNegotiations)
+const assertQuantityIsPositive = (stockNegotiations: StockNegotiation[]) => {
+  for (const stockNegotiation of stockNegotiations)
     if (stockNegotiation.quantity <= 0)
       throw new DomainError('stock negotiations quantities should be positive');
 };
@@ -76,34 +76,34 @@ const assertStockExists =
     if (!exists) throw new DomainError('stock does not exist');
   };
 
-const assertHaveSameCurrency = (stocksNegotiations: StockNegotiation[]) => {
-  const firstCode = stocksNegotiations[0].price.code;
+const assertHaveSameCurrency = (stockNegotiations: StockNegotiation[]) => {
+  const firstCode = stockNegotiations[0].price.code;
 
-  for (const stockNegotiation of stocksNegotiations)
+  for (const stockNegotiation of stockNegotiations)
     if (stockNegotiation.price.code !== firstCode)
-      throw new DomainError('stocks negotiations should have same currency');
+      throw new DomainError('stock negotiations should have same currency');
 };
 
-const assertHaveSameDate = (stocksNegotiations: StockNegotiation[]) => {
-  const firstDate = stocksNegotiations[0].date;
+const assertHaveSameDate = (stockNegotiations: StockNegotiation[]) => {
+  const firstDate = stockNegotiations[0].date;
 
-  for (const stockNegotiation of stocksNegotiations)
+  for (const stockNegotiation of stockNegotiations)
     if (firstDate.getTime() !== stockNegotiation.date.getTime())
-      throw new DomainError('stocks negotiations should have same date');
+      throw new DomainError('stock negotiations should have same date');
 };
 
 const assertHaveSameCurrencyAfterInsertion = (
-  stocksNegotiations: StockNegotiation[],
+  stockNegotiations: StockNegotiation[],
 ) => {
   try {
-    assertHaveSameCurrency(stocksNegotiations);
+    assertHaveSameCurrency(stockNegotiations);
   } catch (error) {
     if (
       error instanceof DomainError &&
-      error.message === 'stocks negotiations should have same currency'
+      error.message === 'stock negotiations should have same currency'
     )
       throw new DomainError(
-        'stocks negotiations inserted do not have same currency than previous negotiations',
+        'stock negotiations inserted do not have same currency than previous negotiations',
       );
   }
 };
