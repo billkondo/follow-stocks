@@ -42,9 +42,11 @@ class FIIsService implements FIIsRepository {
     return await this.fiisStorage.findAllFIIs();
   }
 
-  exists: (stock: Stock) => Promise<boolean>;
+  async exists(stock: Stock): Promise<boolean> {
+    return this.fiisStorage.exists(stock);
+  }
 
-  async search(tickerText: string) {
+  async search(tickerText: string): Promise<Stock[]> {
     return await this.fiisStorage.searchByTicker(tickerText);
   }
 

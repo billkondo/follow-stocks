@@ -1,5 +1,6 @@
 import { Database, Statement, Transaction } from 'better-sqlite3';
 import FII from 'domain/fii';
+import Stock from 'domain/stock';
 import FIIsStorage from 'main/repositories/fiis_storage';
 
 interface FIIModel {
@@ -12,6 +13,7 @@ class FIIsStorageSqlite implements FIIsStorage {
   insertManyFIIStatement: Transaction;
   findAllFIIsStatement: Statement;
   searchFIIsByTickerStatement: Statement;
+  findFIIByTickerStatement: Statement;
 
   constructor(db: Database) {
     this.insertFIIStatement = db.prepare(
@@ -30,6 +32,13 @@ class FIIsStorageSqlite implements FIIsStorage {
         SELECT ticker, name from fiis 
         WHERE ticker LIKE :tickerText 
         LIMIT 10
+      `,
+    );
+
+    this.findFIIByTickerStatement = db.prepare(
+      `
+        SELECT name, ticker from fiis
+        WHERE ticker=@ticker
       `,
     );
   }
@@ -61,6 +70,14 @@ class FIIsStorageSqlite implements FIIsStorage {
     }) as FIIModel[];
 
     return this.mapFIIsModelsToFIIs(docs);
+  }
+
+  async exists(stock: Stock): Promise<boolean> {
+    const docs = this.findFIIByTickerStatement.all({
+      ticker: stock.ticker,
+    });
+
+    return docs.length > 0;
   }
 
   mapFIIsModelsToFIIs(docs: FIIModel[]) {

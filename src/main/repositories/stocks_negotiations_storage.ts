@@ -11,6 +11,8 @@ interface StocksNegotiationsStorage {
     stock: Stock,
     date: Date,
   ) => Promise<StockNegotiation[]>;
+
+  findStockNegotiationsByStock: (stock: Stock) => Promise<StockNegotiation[]>;
 }
 
 export default StocksNegotiationsStorage;

@@ -20,7 +20,9 @@ class FIIsNegotiationsService implements StocksNegotiationsRepository {
     );
   }
 
-  findNegotiationsFromStock: (stock: Stock) => Promise<StockNegotiation[]>;
+  async findNegotiationsFromStock(stock: Stock): Promise<StockNegotiation[]> {
+    return this.fiisNegotiationsStorage.findStockNegotiationsByStock(stock);
+  }
 
   async findStockNegotiationsByDate(stock: Stock, date: Date) {
     return this.fiisNegotiationsStorage.findStockNegotiationsByDate(

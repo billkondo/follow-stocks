@@ -20,7 +20,8 @@ class FIIsNegotiationsStorageSqlite implements StocksNegotiationsStorage {
   deleteFIINegotiationsStatement: Statement;
   insertManyFIINegotiationStatement: Transaction;
   updateFIINegotiationsStatement: Transaction;
-  findFIINegotiationsOnDateStatement: Statement;
+  findFIINegotiationsByDateStatement: Statement;
+  findFIINegotiationsByStockStatement: Statement;
 
   constructor(db: Database) {
     this.insertFIINegotiationStatement = db.prepare(
@@ -51,15 +52,30 @@ class FIIsNegotiationsStorageSqlite implements StocksNegotiationsStorage {
       },
     );
 
-    this.findFIINegotiationsOnDateStatement = db.prepare(
+    const findFIINegotiationsByStatement = (whereClause: string) =>
       `
         SELECT fiis_negotiations.*, fiis.name as stock_name 
         FROM fiis_negotiations 
         LEFT JOIN fiis 
         ON fiis.ticker=fiis_negotiations.stock_ticker
-        WHERE date=@date 
-        AND stock_ticker=@stock_ticker
-      `,
+        WHERE ${whereClause}
+      `;
+
+    this.findFIINegotiationsByDateStatement = db.prepare(
+      findFIINegotiationsByStatement(
+        `
+          date=@date 
+          AND stock_ticker=@stock_ticker
+        `,
+      ),
+    );
+
+    this.findFIINegotiationsByStockStatement = db.prepare(
+      findFIINegotiationsByStatement(
+        `
+          stock_ticker=@stock_ticker
+        `,
+      ),
     );
   }
 
@@ -92,12 +108,23 @@ class FIIsNegotiationsStorageSqlite implements StocksNegotiationsStorage {
 
   async findStockNegotiationsByDate(stock: Stock, date: Date) {
     const docs: FIINegotiationModel[] =
-      this.findFIINegotiationsOnDateStatement.all({
+      this.findFIINegotiationsByDateStatement.all({
         date: date.toISOString(),
         stock_ticker: stock.ticker,
       });
 
-    return docs.map(this.mapFIINegotiationModeToStockNegotiation);
+    return docs.map(this.mapFIINegotiationModelToStockNegotiation);
+  }
+
+  async findStockNegotiationsByStock(
+    stock: Stock,
+  ): Promise<StockNegotiation[]> {
+    const docs: FIINegotiationModel[] =
+      this.findFIINegotiationsByStockStatement.all({
+        stock_ticker: stock.ticker,
+      });
+
+    return docs.map(this.mapFIINegotiationModelToStockNegotiation);
   }
 
   mapStockNegotiationToFIINegotiationModel(
@@ -116,7 +143,7 @@ class FIIsNegotiationsStorageSqlite implements StocksNegotiationsStorage {
     };
   }
 
-  mapFIINegotiationModeToStockNegotiation(
+  mapFIINegotiationModelToStockNegotiation(
     fiiNegotiationModel: FIINegotiationModel,
   ): StockNegotiation {
     const {
