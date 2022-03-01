@@ -34,7 +34,7 @@ describe('Add FII negotiations', () => {
   beforeEach(async () => {
     const fiisService = fiisServiceFactory();
 
-    await fiisService.saveStocks([hgreStock, xplgStock]);
+    await fiisService.save([hgreStock, xplgStock]);
   });
 
   test.each([

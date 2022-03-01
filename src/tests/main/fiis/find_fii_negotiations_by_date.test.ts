@@ -29,7 +29,7 @@ describe('Find FII negotiations by date', () => {
     const fiisService = fiisServiceFactory();
     const fiisNegotiationsService = fiisNegotiationsServiceFactory();
 
-    await fiisService.saveStocks([hgreStock, xplgStock]);
+    await fiisService.save([hgreStock, xplgStock]);
     await fiisNegotiationsService.saveStockNegotiations(hgreStock, [
       {
         date: new Date(2022, 12, 1),

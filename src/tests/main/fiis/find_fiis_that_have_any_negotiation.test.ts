@@ -25,7 +25,7 @@ describe('Find FIIs that have any negotiation', () => {
     const fiisService = fiisServiceFactory();
     const fiisNegotiationsService = fiisNegotiationsServiceFactory();
 
-    await fiisService.saveStocks([
+    await fiisService.save([
       xplgStock,
       hgreStock,
       { name: 'HGLG STOCK', ticker: 'HGLG11' },

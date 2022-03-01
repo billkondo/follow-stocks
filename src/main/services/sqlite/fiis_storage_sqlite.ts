@@ -14,6 +14,7 @@ class FIIsStorageSqlite implements FIIsStorage {
   findAllFIIsStatement: Statement;
   searchFIIsByTickerStatement: Statement;
   findFIIByTickerStatement: Statement;
+  countStocksStatement: Statement;
 
   constructor(db: Database) {
     this.insertFIIStatement = db.prepare(
@@ -39,6 +40,13 @@ class FIIsStorageSqlite implements FIIsStorage {
       `
         SELECT name, ticker from fiis
         WHERE ticker=@ticker
+      `,
+    );
+
+    this.countStocksStatement = db.prepare(
+      `
+        SELECT COUNT(name) as count
+        FROM fiis
       `,
     );
   }
@@ -78,6 +86,12 @@ class FIIsStorageSqlite implements FIIsStorage {
     });
 
     return docs.length > 0;
+  }
+
+  async count() {
+    const { count }: { count: number } = this.countStocksStatement.get();
+
+    return count;
   }
 
   mapFIIsModelsToFIIs(docs: FIIModel[]) {

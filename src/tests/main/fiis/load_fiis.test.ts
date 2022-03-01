@@ -1,15 +1,13 @@
-import FIIsService from 'main/services/fiis_service';
 import HttpService from 'main/services/http_service';
-import FIIsStorageSqlite from 'main/services/sqlite/fiis_storage_sqlite';
-import SqliteConnection from 'main/services/sqlite/sqlite_connection';
-import LoadFIIs from 'main/usecases/load_fiis';
+import LoadStocks from 'main/usecases/load_stocks';
+import useFIIs from 'tests/hooks/use_fiis';
 import useSqlite from 'tests/hooks/use_sqlite';
 
 jest.mock('main/services/http_service');
 
 describe('Load FIIs', () => {
   useSqlite();
-
+  const { fiisServiceFactory } = useFIIs();
   const MOCK_HTML = `
     <div id="items-wrapper">
       <div class="item">
@@ -33,15 +31,18 @@ describe('Load FIIs', () => {
     </div>
   `;
 
+  const setup = () => {
+    const fiisService = fiisServiceFactory();
+    const loadFIIs = LoadStocks(fiisService);
+
+    return { loadFIIs, fiisService };
+  };
+
   test('should load FIIs', async () => {
     (HttpService.get as jest.Mock).mockReturnValue({
       html: MOCK_HTML,
     });
-
-    const sqliteConnection = SqliteConnection.connect();
-    const fiisStorage = new FIIsStorageSqlite(sqliteConnection);
-    const fiisService = new FIIsService(fiisStorage);
-    const loadFIIs = LoadFIIs(fiisService);
+    const { loadFIIs, fiisService } = setup();
 
     await loadFIIs();
 

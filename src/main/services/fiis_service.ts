@@ -50,8 +50,18 @@ class FIIsService implements FIIsRepository {
     return await this.fiisStorage.searchByTicker(tickerText);
   }
 
-  async saveStocks(stocks: Stock[]) {
+  async save(stocks: Stock[]) {
     await this.fiisStorage.saveFIIs(stocks);
+  }
+
+  async load(): Promise<Stock[]> {
+    const response = await HttpService.get(this.FIIS_URL);
+
+    return this.extractFIIs(response.html);
+  }
+
+  async count(): Promise<number> {
+    return this.fiisStorage.count();
   }
 }
 
