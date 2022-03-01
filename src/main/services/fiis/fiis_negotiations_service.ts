@@ -32,7 +32,7 @@ class FIIsNegotiationsService implements StocksNegotiationsRepository {
   }
 
   async findStocksThatHaveAnyNegotiation(): Promise<Stock[]> {
-    return this.fiisNegotiationsStorage.findStocksThatHaveAnyNegotiation();
+    return this.fiisNegotiationsStorage.findStocksThatHaveAnyNegotiation('FII');
   }
 }
 

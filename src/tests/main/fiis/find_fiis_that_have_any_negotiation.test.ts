@@ -1,17 +1,26 @@
 import Stock from 'domain/stock';
 import compareStocks from 'domain/usecases/compare_stocks';
 import FindStocksThatHaveAnyNegotiation from 'main/usecases/find_stocks_that_have_any_negotiation';
-import useFIIs from 'tests/hooks/use_fiis';
 import useSqlite from 'tests/hooks/use_sqlite';
+import useStocks from 'tests/hooks/use_stocks';
 
 describe('Find FIIs that have any negotiation', () => {
   useSqlite();
-  const { fiisServiceFactory, fiisNegotiationsServiceFactory } = useFIIs();
-  const xplgStock: Stock = { name: 'XPLG STOCK', ticker: 'XPLG11' };
-  const hgreStock: Stock = { name: 'HGRE STOCK', ticker: 'HGRE11' };
+  const { stocksServiceFactory, stocksNegotiationsServiceFactory } =
+    useStocks();
+  const xplgStock: Stock = {
+    name: 'XPLG STOCK',
+    ticker: 'XPLG11',
+    type: 'FII',
+  };
+  const hgreStock: Stock = {
+    name: 'HGRE STOCK',
+    ticker: 'HGRE11',
+    type: 'FII',
+  };
 
   const setup = () => {
-    const fiisNegotiationService = fiisNegotiationsServiceFactory();
+    const fiisNegotiationService = stocksNegotiationsServiceFactory();
     const findFIIsThatHaveAnyNegotiation = FindStocksThatHaveAnyNegotiation(
       fiisNegotiationService,
     );
@@ -22,13 +31,13 @@ describe('Find FIIs that have any negotiation', () => {
   };
 
   beforeEach(async () => {
-    const fiisService = fiisServiceFactory();
-    const fiisNegotiationsService = fiisNegotiationsServiceFactory();
+    const fiisService = stocksServiceFactory();
+    const fiisNegotiationsService = stocksNegotiationsServiceFactory();
 
     await fiisService.save([
       xplgStock,
       hgreStock,
-      { name: 'HGLG STOCK', ticker: 'HGLG11' },
+      { name: 'HGLG STOCK', ticker: 'HGLG11', type: 'FII' },
     ]);
 
     await fiisNegotiationsService.saveStockNegotiations(xplgStock, [

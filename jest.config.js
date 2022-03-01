@@ -4,4 +4,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   moduleDirectories: ['node_modules', 'src'],
   maxWorkers: 1,
+  moduleNameMapper: {
+    '^@sqlite(.*)$': '<rootDir>/src/main/services/sqlite$1',
+  },
 };

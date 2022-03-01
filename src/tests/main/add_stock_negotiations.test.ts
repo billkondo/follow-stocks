@@ -46,9 +46,9 @@ describe('Add stock negotiations', () => {
 
     await expect(
       addStockNegotiations([
-        mockStockNegotiationsFactory({ name: 'A', ticker: 'A11' }),
-        mockStockNegotiationsFactory({ name: 'A', ticker: 'A11' }),
-        mockStockNegotiationsFactory({ name: 'B', ticker: 'B11' }),
+        mockStockNegotiationsFactory({ name: 'A', ticker: 'A11', type: 'FII' }),
+        mockStockNegotiationsFactory({ name: 'A', ticker: 'A11', type: 'FII' }),
+        mockStockNegotiationsFactory({ name: 'B', ticker: 'B11', type: 'FII' }),
       ]),
     ).rejects.toThrow(
       new DomainError('stock negotiations should have same stock'),

@@ -1,24 +1,27 @@
 import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
 import AddStockNegotiations from 'main/usecases/add_stock_negotiations';
-import useFIIs from 'tests/hooks/use_fiis';
 import useSqlite from 'tests/hooks/use_sqlite';
+import useStocks from 'tests/hooks/use_stocks';
 
 describe('Add FII negotiations', () => {
   useSqlite();
-  const { fiisServiceFactory, fiisNegotiationsServiceFactory } = useFIIs();
+  const { stocksServiceFactory, stocksNegotiationsServiceFactory } =
+    useStocks();
   const hgreStock: Stock = {
     name: 'HGRE Stock',
     ticker: 'HGRE11',
+    type: 'FII',
   };
   const xplgStock: Stock = {
     name: 'XPLG Stock',
     ticker: 'XPLG11',
+    type: 'FII',
   };
 
   const setup = () => {
-    const fiisService = fiisServiceFactory();
-    const fiisNegotiationsService = fiisNegotiationsServiceFactory();
+    const fiisService = stocksServiceFactory();
+    const fiisNegotiationsService = stocksNegotiationsServiceFactory();
     const addFIINegotiations = AddStockNegotiations({
       stocksNegotiationsRepository: fiisNegotiationsService,
       stocksRepository: fiisService,
@@ -32,7 +35,7 @@ describe('Add FII negotiations', () => {
   };
 
   beforeEach(async () => {
-    const fiisService = fiisServiceFactory();
+    const fiisService = stocksServiceFactory();
 
     await fiisService.save([hgreStock, xplgStock]);
   });

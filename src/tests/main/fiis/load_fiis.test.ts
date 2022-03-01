@@ -1,13 +1,13 @@
 import HttpService from 'main/services/http_service';
 import LoadStocks from 'main/usecases/load_stocks';
-import useFIIs from 'tests/hooks/use_fiis';
 import useSqlite from 'tests/hooks/use_sqlite';
+import useStocks from 'tests/hooks/use_stocks';
 
 jest.mock('main/services/http_service');
 
 describe('Load FIIs', () => {
   useSqlite();
-  const { fiisServiceFactory } = useFIIs();
+  const { stocksServiceFactory } = useStocks();
   const MOCK_HTML = `
     <div id="items-wrapper">
       <div class="item">
@@ -32,7 +32,7 @@ describe('Load FIIs', () => {
   `;
 
   const setup = () => {
-    const fiisService = fiisServiceFactory();
+    const fiisService = stocksServiceFactory();
     const loadFIIs = LoadStocks(fiisService);
 
     return { loadFIIs, fiisService };
@@ -46,10 +46,10 @@ describe('Load FIIs', () => {
 
     await loadFIIs();
 
-    expect(await fiisService.findFIIs()).toEqual([
-      { ticker: 'AFOF11', name: 'Alianza FOF' },
-      { ticker: 'HTMX11', name: 'Hotel Maxinvest' },
-      { ticker: 'VGIR11', name: 'Valora RE III' },
+    expect(await fiisService.findAll()).toEqual([
+      { ticker: 'AFOF11', name: 'Alianza FOF', type: 'FII' },
+      { ticker: 'HTMX11', name: 'Hotel Maxinvest', type: 'FII' },
+      { ticker: 'VGIR11', name: 'Valora RE III', type: 'FII' },
     ]);
   });
 });

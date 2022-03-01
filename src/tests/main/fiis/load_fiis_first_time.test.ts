@@ -1,13 +1,13 @@
 import HttpService from 'main/services/http_service';
 import LoadStocksFirstTime from 'main/usecases/load_stocks_first_time';
-import useFIIs from 'tests/hooks/use_fiis';
 import useSqlite from 'tests/hooks/use_sqlite';
+import useStocks from 'tests/hooks/use_stocks';
 
 jest.mock('main/services/http_service');
 
 describe('Load FIIs for the first time', () => {
   useSqlite();
-  const { fiisServiceFactory } = useFIIs();
+  const { stocksServiceFactory } = useStocks();
   const MOCK_HTML = `
     <div id="items-wrapper">
       <div class="item">
@@ -20,7 +20,7 @@ describe('Load FIIs for the first time', () => {
   `;
 
   const setup = () => {
-    const fiisService = fiisServiceFactory();
+    const fiisService = stocksServiceFactory();
     const loadFIIsFirstTime = LoadStocksFirstTime(fiisService);
 
     return { fiisService, loadFIIsFirstTime };
@@ -32,15 +32,17 @@ describe('Load FIIs for the first time', () => {
     const { fiisService, loadFIIsFirstTime } = setup();
 
     expect(await loadFIIsFirstTime()).toBeTruthy();
-    expect(await fiisService.findFIIs()).toEqual([
-      { name: 'XP Log', ticker: 'XPLG11' },
+    expect(await fiisService.findAll()).toEqual([
+      { name: 'XP Log', ticker: 'XPLG11', type: 'FII' },
     ]);
   });
 
   test('should not load FIIs when there is FII stored', async () => {
     const { fiisService, loadFIIsFirstTime } = setup();
 
-    await fiisService.saveFIIs([{ name: 'FII name', ticker: 'FII11' }]);
+    await fiisService.save([
+      { name: 'FII name', ticker: 'FII11', type: 'FII' },
+    ]);
     expect(await loadFIIsFirstTime()).toBeFalsy();
   });
 });

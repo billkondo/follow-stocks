@@ -1,14 +1,14 @@
 import Stock from 'domain/stock';
 import SearchStocksByTicker from 'main/usecases/search_stocks_by_ticker';
-import useFIIs from 'tests/hooks/use_fiis';
 import useSqlite from 'tests/hooks/use_sqlite';
+import useStocks from 'tests/hooks/use_stocks';
 
 describe('Search FIIs by ticker', () => {
   useSqlite();
-  const { fiisServiceFactory } = useFIIs();
+  const { stocksServiceFactory } = useStocks();
 
   const setup = () => {
-    const fiisService = fiisServiceFactory();
+    const fiisService = stocksServiceFactory();
     const searchFIIsByTicker = SearchStocksByTicker(fiisService);
 
     return {
@@ -17,28 +17,34 @@ describe('Search FIIs by ticker', () => {
   };
 
   beforeEach(async () => {
-    const fiisService = fiisServiceFactory();
+    const fiisService = stocksServiceFactory();
 
     await fiisService.save([
       {
         name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
         ticker: 'HGRE11',
+        type: 'FII',
       },
       {
         name: 'CSHG RENDA URBANA - FDO INV IMOB - FII',
         ticker: 'HGRU11',
+
+        type: 'FII',
       },
       {
         name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
         ticker: 'HGLG11',
+        type: 'FII',
       },
       {
         name: 'XP CREDITO IMOBILIÁRIO - FDO INV IMOB',
         ticker: 'XPCI11',
+        type: 'FII',
       },
       {
         name: 'XP LOG FDO INV IMOB - FII',
         ticker: 'XPLG11',
+        type: 'FII',
       },
     ]);
   });
@@ -50,14 +56,17 @@ describe('Search FIIs by ticker', () => {
         {
           name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
           ticker: 'HGRE11',
+          type: 'FII',
         },
         {
           name: 'CSHG RENDA URBANA - FDO INV IMOB - FII',
           ticker: 'HGRU11',
+          type: 'FII',
         },
         {
           name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
           ticker: 'HGLG11',
+          type: 'FII',
         },
       ],
     ],
@@ -67,10 +76,12 @@ describe('Search FIIs by ticker', () => {
         {
           name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
           ticker: 'HGLG11',
+          type: 'FII',
         },
         {
           name: 'XP LOG FDO INV IMOB - FII',
           ticker: 'XPLG11',
+          type: 'FII',
         },
       ],
     ],
@@ -80,10 +91,12 @@ describe('Search FIIs by ticker', () => {
         {
           name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
           ticker: 'HGLG11',
+          type: 'FII',
         },
         {
           name: 'XP LOG FDO INV IMOB - FII',
           ticker: 'XPLG11',
+          type: 'FII',
         },
       ],
     ],
@@ -93,10 +106,12 @@ describe('Search FIIs by ticker', () => {
         {
           name: 'XP CREDITO IMOBILIÁRIO - FDO INV IMOB',
           ticker: 'XPCI11',
+          type: 'FII',
         },
         {
           name: 'XP LOG FDO INV IMOB - FII',
           ticker: 'XPLG11',
+          type: 'FII',
         },
       ],
     ],
@@ -106,22 +121,27 @@ describe('Search FIIs by ticker', () => {
         {
           name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
           ticker: 'HGRE11',
+          type: 'FII',
         },
         {
           name: 'CSHG RENDA URBANA - FDO INV IMOB - FII',
           ticker: 'HGRU11',
+          type: 'FII',
         },
         {
           name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
           ticker: 'HGLG11',
+          type: 'FII',
         },
         {
           name: 'XP CREDITO IMOBILIÁRIO - FDO INV IMOB',
           ticker: 'XPCI11',
+          type: 'FII',
         },
         {
           name: 'XP LOG FDO INV IMOB - FII',
           ticker: 'XPLG11',
+          type: 'FII',
         },
       ],
     ],

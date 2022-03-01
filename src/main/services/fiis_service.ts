@@ -1,15 +1,14 @@
-import FII from 'domain/fii';
 import Stock from 'domain/stock';
-import FIIsRepository from 'main/repositories/fiis_repository';
-import FIIsStorage from 'main/repositories/fiis_storage';
+import StocksRepository from 'main/repositories/stocks_repository';
+import StocksStorage from 'main/repositories/stocks_storage';
 import NodeHtmlParser from 'node-html-parser';
 import HttpService from './http_service';
 
-class FIIsService implements FIIsRepository {
+class FIIsService implements StocksRepository {
   FIIS_URL = 'https://fiis.com.br/lista-de-fundos-imobiliarios';
-  fiisStorage: FIIsStorage;
+  fiisStorage: StocksStorage;
 
-  constructor(fiisStorage: FIIsStorage) {
+  constructor(fiisStorage: StocksStorage) {
     this.fiisStorage = fiisStorage;
   }
 
@@ -25,21 +24,9 @@ class FIIsService implements FIIsRepository {
           ({
             ticker: fii[0].trim(),
             name: fii[1].trim(),
-          } as FII),
+            type: 'FII',
+          } as Stock),
       );
-  }
-
-  async fetchFIIs() {
-    const response = await HttpService.get(this.FIIS_URL);
-    return this.extractFIIs(response.html);
-  }
-
-  async saveFIIs(fiis: FII[]) {
-    await this.fiisStorage.saveFIIs(fiis);
-  }
-
-  async findFIIs(): Promise<FII[]> {
-    return await this.fiisStorage.findAllFIIs();
   }
 
   async exists(stock: Stock): Promise<boolean> {
@@ -47,11 +34,11 @@ class FIIsService implements FIIsRepository {
   }
 
   async search(tickerText: string): Promise<Stock[]> {
-    return await this.fiisStorage.searchByTicker(tickerText);
+    return await this.fiisStorage.searchByTickerAndType(tickerText, 'FII');
   }
 
   async save(stocks: Stock[]) {
-    await this.fiisStorage.saveFIIs(stocks);
+    await this.fiisStorage.save(stocks);
   }
 
   async load(): Promise<Stock[]> {
@@ -61,7 +48,11 @@ class FIIsService implements FIIsRepository {
   }
 
   async count(): Promise<number> {
-    return this.fiisStorage.count();
+    return this.fiisStorage.countByType('FII');
+  }
+
+  async findAll(): Promise<Stock[]> {
+    return this.fiisStorage.findAllByType('FII');
   }
 }
 

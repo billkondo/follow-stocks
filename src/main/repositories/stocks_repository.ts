@@ -10,6 +10,8 @@ interface StocksRepository {
   load: () => Promise<Stock[]>;
 
   count: () => Promise<number>;
+
+  findAll: () => Promise<Stock[]>;
 }
 
 export default StocksRepository;

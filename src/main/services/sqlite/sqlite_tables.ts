@@ -1,11 +1,11 @@
 import { Database } from 'better-sqlite3';
-import FIIsNegotiationsStorageSqlite from './fiis_negotiations_storage_sqlite';
-import FIIsStorageSqlite from './fiis_storage_sqlite';
+import StocksNegotiationsStorageSqlite from './stocks_negotiations_storage_sqlite';
+import StocksStorageSqlite from './stocks_storage_sqlite';
 
 class SqliteTables {
   static createTables(db: Database) {
-    FIIsStorageSqlite.createFIIsTable(db);
-    FIIsNegotiationsStorageSqlite.createFIIsNegotiationsTable(db);
+    StocksStorageSqlite.createStocksTable(db);
+    StocksNegotiationsStorageSqlite.createStocksNegotiationsTable(db);
   }
 }
 

@@ -1,23 +1,26 @@
 import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
 import FindStockNegotiationsByDate from 'main/usecases/find_stock_negotiations_by_date';
-import useFIIs from 'tests/hooks/use_fiis';
 import useSqlite from 'tests/hooks/use_sqlite';
+import useStocks from 'tests/hooks/use_stocks';
 
 describe('Find FII negotiations by date', () => {
   useSqlite();
-  const { fiisServiceFactory, fiisNegotiationsServiceFactory } = useFIIs();
+  const { stocksServiceFactory, stocksNegotiationsServiceFactory } =
+    useStocks();
   const hgreStock: Stock = {
     name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
     ticker: 'HGRE11',
+    type: 'FII',
   };
   const xplgStock: Stock = {
     name: 'XP LOG FDO INV IMOB - FII',
     ticker: 'XPLG11',
+    type: 'FII',
   };
 
   const setup = () => {
-    const fiisNegotiationsRepository = fiisNegotiationsServiceFactory();
+    const fiisNegotiationsRepository = stocksNegotiationsServiceFactory();
     const findFIINegotiationsByDate = FindStockNegotiationsByDate(
       fiisNegotiationsRepository,
     );
@@ -26,8 +29,8 @@ describe('Find FII negotiations by date', () => {
   };
 
   beforeEach(async () => {
-    const fiisService = fiisServiceFactory();
-    const fiisNegotiationsService = fiisNegotiationsServiceFactory();
+    const fiisService = stocksServiceFactory();
+    const fiisNegotiationsService = stocksNegotiationsServiceFactory();
 
     await fiisService.save([hgreStock, xplgStock]);
     await fiisNegotiationsService.saveStockNegotiations(hgreStock, [
