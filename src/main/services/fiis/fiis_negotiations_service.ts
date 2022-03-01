@@ -30,6 +30,10 @@ class FIIsNegotiationsService implements StocksNegotiationsRepository {
       date,
     );
   }
+
+  async findStocksThatHaveAnyNegotiation(): Promise<Stock[]> {
+    return this.fiisNegotiationsStorage.findStocksThatHaveAnyNegotiation();
+  }
 }
 
 export default FIIsNegotiationsService;

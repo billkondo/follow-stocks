@@ -13,6 +13,8 @@ interface StocksNegotiationsRepository {
     stock: Stock,
     date: Date,
   ) => Promise<StockNegotiation[]>;
+
+  findStocksThatHaveAnyNegotiation: () => Promise<Stock[]>;
 }
 
 export default StocksNegotiationsRepository;

@@ -4,6 +4,8 @@ import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
 import StockNegotiationType from 'domain/stock_negotiation_type';
 import StocksNegotiationsStorage from 'main/repositories/stocks_negotiations_storage';
+import mapFIISqliteModelToFII from 'main/services/sqlite/mappers/map_fii_sqlite_model_to_fii';
+import FIISqliteModel from 'main/services/sqlite/models/fii_sqlite_model';
 
 interface FIINegotiationModel {
   date: string;
@@ -22,6 +24,7 @@ class FIIsNegotiationsStorageSqlite implements StocksNegotiationsStorage {
   updateFIINegotiationsStatement: Transaction;
   findFIINegotiationsByDateStatement: Statement;
   findFIINegotiationsByStockStatement: Statement;
+  findStocksThatHaveAnyNegotiationStatement: Statement;
 
   constructor(db: Database) {
     this.insertFIINegotiationStatement = db.prepare(
@@ -77,6 +80,16 @@ class FIIsNegotiationsStorageSqlite implements StocksNegotiationsStorage {
         `,
       ),
     );
+
+    this.findStocksThatHaveAnyNegotiationStatement = db.prepare(
+      `
+        SELECT fiis.name as name, fiis.ticker as ticker
+        FROM fiis
+        INNER JOIN fiis_negotiations
+        ON fiis_negotiations.stock_ticker=fiis.ticker
+        GROUP BY name, ticker
+      `,
+    );
   }
 
   static createFIIsNegotiationsTable(db: Database) {
@@ -125,6 +138,13 @@ class FIIsNegotiationsStorageSqlite implements StocksNegotiationsStorage {
       });
 
     return docs.map(this.mapFIINegotiationModelToStockNegotiation);
+  }
+
+  async findStocksThatHaveAnyNegotiation(): Promise<Stock[]> {
+    const docs: FIISqliteModel[] =
+      this.findStocksThatHaveAnyNegotiationStatement.all();
+
+    return docs.map(mapFIISqliteModelToFII);
   }
 
   mapStockNegotiationToFIINegotiationModel(

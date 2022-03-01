@@ -13,6 +13,8 @@ interface StocksNegotiationsStorage {
   ) => Promise<StockNegotiation[]>;
 
   findStockNegotiationsByStock: (stock: Stock) => Promise<StockNegotiation[]>;
+
+  findStocksThatHaveAnyNegotiation: () => Promise<Stock[]>;
 }
 
 export default StocksNegotiationsStorage;
