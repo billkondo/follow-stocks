@@ -1,14 +1,14 @@
+import StocksNegotiationsService from '@services/stocks/stocks_negotiations_service';
+import StocksService from '@services/stocks/stocks_service';
 import StocksNegotiationsStorageSqlite from '@sqlite/stocks_negotiations_storage_sqlite';
 import StocksStorageSqlite from '@sqlite/stocks_storage_sqlite';
-import FIIsNegotiationsService from 'main/services/fiis/fiis_negotiations_service';
-import FIIsService from 'main/services/fiis_service';
 import SqliteConnection from 'main/services/sqlite/sqlite_connection';
 
 const useStocks = () => {
   const stocksServiceFactory = () => {
     const sqliteConnection = SqliteConnection.connect();
     const stocksStorage = new StocksStorageSqlite(sqliteConnection);
-    const stocksService = new FIIsService(stocksStorage);
+    const stocksService = new StocksService(stocksStorage);
 
     return stocksService;
   };
@@ -18,7 +18,7 @@ const useStocks = () => {
     const stocksNegotiationsStorage = new StocksNegotiationsStorageSqlite(
       sqliteConnection,
     );
-    const stocksNegotiationsService = new FIIsNegotiationsService(
+    const stocksNegotiationsService = new StocksNegotiationsService(
       stocksNegotiationsStorage,
     );
 

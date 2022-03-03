@@ -8,18 +8,18 @@ describe('Search FIIs by ticker', () => {
   const { stocksServiceFactory } = useStocks();
 
   const setup = () => {
-    const fiisService = stocksServiceFactory();
-    const searchFIIsByTicker = SearchStocksByTicker(fiisService);
+    const stocksService = stocksServiceFactory();
+    const searchStocksByTicker = SearchStocksByTicker(stocksService);
 
     return {
-      searchFIIsByTicker,
+      searchStocksByTicker,
     };
   };
 
   beforeEach(async () => {
-    const fiisService = stocksServiceFactory();
+    const stocksService = stocksServiceFactory();
 
-    await fiisService.save([
+    await stocksService.save([
       {
         name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
         ticker: 'HGRE11',
@@ -148,9 +148,11 @@ describe('Search FIIs by ticker', () => {
   ])(
     'should search FIIs by ticker text',
     async (searchText: string, expectedStocks: Stock[]) => {
-      const { searchFIIsByTicker } = setup();
+      const { searchStocksByTicker } = setup();
 
-      expect(await searchFIIsByTicker(searchText)).toEqual(expectedStocks);
+      expect(await searchStocksByTicker(searchText, 'FII')).toEqual(
+        expectedStocks,
+      );
     },
   );
 });

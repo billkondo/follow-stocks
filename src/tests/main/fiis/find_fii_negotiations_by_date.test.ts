@@ -20,20 +20,20 @@ describe('Find FII negotiations by date', () => {
   };
 
   const setup = () => {
-    const fiisNegotiationsRepository = stocksNegotiationsServiceFactory();
-    const findFIINegotiationsByDate = FindStockNegotiationsByDate(
-      fiisNegotiationsRepository,
+    const stocksNegotiationsService = stocksNegotiationsServiceFactory();
+    const findStockNegotiationsByDate = FindStockNegotiationsByDate(
+      stocksNegotiationsService,
     );
 
-    return { findFIINegotiationsByDate };
+    return { findStockNegotiationsByDate };
   };
 
   beforeEach(async () => {
-    const fiisService = stocksServiceFactory();
-    const fiisNegotiationsService = stocksNegotiationsServiceFactory();
+    const stocksService = stocksServiceFactory();
+    const stocksNegotiationsService = stocksNegotiationsServiceFactory();
 
-    await fiisService.save([hgreStock, xplgStock]);
-    await fiisNegotiationsService.saveStockNegotiations(hgreStock, [
+    await stocksService.save([hgreStock, xplgStock]);
+    await stocksNegotiationsService.saveStockNegotiations(hgreStock, [
       {
         date: new Date(2022, 12, 1),
         price: { code: 'BRL', value: 120 },
@@ -56,7 +56,7 @@ describe('Find FII negotiations by date', () => {
         type: 'BUY',
       },
     ]);
-    await fiisNegotiationsService.saveStockNegotiations(xplgStock, [
+    await stocksNegotiationsService.saveStockNegotiations(xplgStock, [
       {
         date: new Date(2021, 12, 1),
         price: { code: 'BRL', value: 50 },
@@ -150,9 +150,9 @@ describe('Find FII negotiations by date', () => {
       stock: Stock,
       expectedStockNegotiations: StockNegotiation[],
     ) => {
-      const { findFIINegotiationsByDate } = setup();
+      const { findStockNegotiationsByDate } = setup();
 
-      await expect(findFIINegotiationsByDate(stock, date)).resolves.toEqual(
+      await expect(findStockNegotiationsByDate(stock, date)).resolves.toEqual(
         expectedStockNegotiations,
       );
     },

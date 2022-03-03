@@ -20,13 +20,13 @@ describe('Find FIIs that have any negotiation', () => {
   };
 
   const setup = () => {
-    const fiisNegotiationService = stocksNegotiationsServiceFactory();
-    const findFIIsThatHaveAnyNegotiation = FindStocksThatHaveAnyNegotiation(
-      fiisNegotiationService,
+    const stocksNegotiationsService = stocksNegotiationsServiceFactory();
+    const findStocksThatHaveAnyNegotiation = FindStocksThatHaveAnyNegotiation(
+      stocksNegotiationsService,
     );
 
     return {
-      findFIIsThatHaveAnyNegotiation,
+      findStocksThatHaveAnyNegotiation,
     };
   };
 
@@ -69,8 +69,8 @@ describe('Find FIIs that have any negotiation', () => {
   });
 
   test('should find FIIs that have any negotiation', async () => {
-    const { findFIIsThatHaveAnyNegotiation } = setup();
-    const fiis = await findFIIsThatHaveAnyNegotiation();
+    const { findStocksThatHaveAnyNegotiation } = setup();
+    const fiis = await findStocksThatHaveAnyNegotiation('FII');
 
     expect(fiis.sort(compareStocks)).toEqual(
       [xplgStock, hgreStock].sort(compareStocks),

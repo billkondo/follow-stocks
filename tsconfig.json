@@ -13,7 +13,8 @@
     "jsx": "react-jsx",
     "paths": {
       "@sqlite/*": ["main/services/sqlite/*"],
-      "@components/*": ["renderer/components/*"]
+      "@components/*": ["renderer/components/*"],
+      "@services/*": ["main/services/*"],
     }
   },
   "include": ["src"]

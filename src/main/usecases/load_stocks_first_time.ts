@@ -1,15 +1,17 @@
+import StockType from 'domain/stock_type';
 import StocksRepository from 'main/repositories/stocks_repository';
 import LoadStocks from './load_stocks';
 
 const LoadStocksFirstTime =
-  (stocksRepository: StocksRepository) => async (): Promise<boolean> => {
-    const stocksCount = await stocksRepository.count();
+  (stocksRepository: StocksRepository) =>
+  async (type: StockType): Promise<boolean> => {
+    const stocksCount = await stocksRepository.count(type);
     const hasAnyStock = stocksCount > 0;
 
     if (hasAnyStock) return false;
 
     const loadStocks = LoadStocks(stocksRepository);
-    await loadStocks();
+    await loadStocks(type);
 
     return true;
   };

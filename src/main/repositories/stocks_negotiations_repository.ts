@@ -1,5 +1,6 @@
 import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
+import StockType from 'domain/stock_type';
 
 interface StocksNegotiationsRepository {
   saveStockNegotiations: (
@@ -14,7 +15,7 @@ interface StocksNegotiationsRepository {
     date: Date,
   ) => Promise<StockNegotiation[]>;
 
-  findStocksThatHaveAnyNegotiation: () => Promise<Stock[]>;
+  findStocksThatHaveAnyNegotiation: (type: StockType) => Promise<Stock[]>;
 }
 
 export default StocksNegotiationsRepository;

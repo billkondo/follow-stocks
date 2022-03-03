@@ -1,17 +1,18 @@
 import Stock from 'domain/stock';
+import StockType from 'domain/stock_type';
 
 interface StocksRepository {
   exists: (stock: Stock) => Promise<boolean>;
 
-  search: (tickerText: string) => Promise<Stock[]>;
-
   save: (stocks: Stock[]) => Promise<void>;
 
-  load: () => Promise<Stock[]>;
+  search: (tickerText: string, type: StockType) => Promise<Stock[]>;
 
-  count: () => Promise<number>;
+  load: (type: StockType) => Promise<Stock[]>;
 
-  findAll: () => Promise<Stock[]>;
+  count: (type: StockType) => Promise<number>;
+
+  findAll: (type: StockType) => Promise<Stock[]>;
 }
 
 export default StocksRepository;

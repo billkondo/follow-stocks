@@ -1,9 +1,11 @@
+import StockType from 'domain/stock_type';
 import StocksRepository from 'main/repositories/stocks_repository';
 
-const LoadStocks = (stocksRepository: StocksRepository) => async () => {
-  const stocks = await stocksRepository.load();
+const LoadStocks =
+  (stocksRepository: StocksRepository) => async (type: StockType) => {
+    const stocks = await stocksRepository.load(type);
 
-  await stocksRepository.save(stocks);
-};
+    await stocksRepository.save(stocks);
+  };
 
 export default LoadStocks;

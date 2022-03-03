@@ -32,21 +32,21 @@ describe('Load FIIs', () => {
   `;
 
   const setup = () => {
-    const fiisService = stocksServiceFactory();
-    const loadFIIs = LoadStocks(fiisService);
+    const stocksService = stocksServiceFactory();
+    const loadStocks = LoadStocks(stocksService);
 
-    return { loadFIIs, fiisService };
+    return { loadStocks, stocksService };
   };
 
   test('should load FIIs', async () => {
     (HttpService.get as jest.Mock).mockReturnValue({
       html: MOCK_HTML,
     });
-    const { loadFIIs, fiisService } = setup();
+    const { loadStocks, stocksService } = setup();
 
-    await loadFIIs();
+    await loadStocks('FII');
 
-    expect(await fiisService.findAll()).toEqual([
+    expect(await stocksService.findAll('FII')).toEqual([
       { ticker: 'AFOF11', name: 'Alianza FOF', type: 'FII' },
       { ticker: 'HTMX11', name: 'Hotel Maxinvest', type: 'FII' },
       { ticker: 'VGIR11', name: 'Valora RE III', type: 'FII' },

@@ -20,24 +20,24 @@ describe('Add FII negotiations', () => {
   };
 
   const setup = () => {
-    const fiisService = stocksServiceFactory();
-    const fiisNegotiationsService = stocksNegotiationsServiceFactory();
-    const addFIINegotiations = AddStockNegotiations({
-      stocksNegotiationsRepository: fiisNegotiationsService,
-      stocksRepository: fiisService,
+    const stocksService = stocksServiceFactory();
+    const stocksNegotiationsService = stocksNegotiationsServiceFactory();
+    const addStockNegotiations = AddStockNegotiations({
+      stocksNegotiationsRepository: stocksNegotiationsService,
+      stocksRepository: stocksService,
     });
 
     return {
-      addFIINegotiations,
-      fiisService,
-      fiisNegotiationsService,
+      addStockNegotiations,
+      stocksService,
+      stocksNegotiationsService,
     };
   };
 
   beforeEach(async () => {
-    const fiisService = stocksServiceFactory();
+    const stocksService = stocksServiceFactory();
 
-    await fiisService.save([hgreStock, xplgStock]);
+    await stocksService.save([hgreStock, xplgStock]);
   });
 
   test.each([
@@ -247,16 +247,16 @@ describe('Add FII negotiations', () => {
       previousFIINegotiations: StockNegotiation[],
       expectedFIINegotiations: StockNegotiation[],
     ) => {
-      const { addFIINegotiations, fiisNegotiationsService } = setup();
+      const { addStockNegotiations, stocksNegotiationsService } = setup();
 
-      await fiisNegotiationsService.saveStockNegotiations(
+      await stocksNegotiationsService.saveStockNegotiations(
         stock,
         previousFIINegotiations,
       );
-      await addFIINegotiations(fiiNegotiations);
+      await addStockNegotiations(fiiNegotiations);
 
       await expect(
-        fiisNegotiationsService.findNegotiationsFromStock(stock),
+        stocksNegotiationsService.findNegotiationsFromStock(stock),
       ).resolves.toEqual(expectedFIINegotiations);
     },
   );
