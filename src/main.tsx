@@ -1,12 +1,18 @@
-import App from 'App';
-import * as React from 'react';
+import '@fontsource/varela-round';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import * as ReactDOM from 'react-dom';
+import App from 'renderer/App';
+import 'renderer/assets/styles.scss';
+import theme from 'renderer/theme/theme';
 
 const render = () => {
   ReactDOM.render(
-    <React.Fragment>
-      <App />
-    </React.Fragment>,
+    <>
+      <ThemeProvider theme={theme()}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </>,
     document.getElementById('root'),
   );
 };

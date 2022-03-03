@@ -6,5 +6,6 @@ module.exports = {
   maxWorkers: 1,
   moduleNameMapper: {
     '^@sqlite(.*)$': '<rootDir>/src/main/services/sqlite$1',
+    '^@components(.*)$': '<rootDir>/src/renderer/components$1',
   },
 };

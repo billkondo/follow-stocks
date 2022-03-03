@@ -7,6 +7,15 @@ rules.push({
   use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
 });
 
+rules.push({
+  test: /\.scss$/,
+  use: [
+    { loader: 'style-loader' },
+    { loader: 'css-loader' },
+    { loader: 'sass-loader' },
+  ],
+});
+
 module.exports = {
   module: {
     rules,
@@ -15,5 +24,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
     modules: ['node_modules', path.join(__dirname, 'src')],
+    alias: {
+      '@components': path.join(__dirname, 'src/renderer/components'),
+    },
   },
 };

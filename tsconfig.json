@@ -12,7 +12,8 @@
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "paths": {
-      "@sqlite/*": ["main/services/sqlite/*"]
+      "@sqlite/*": ["main/services/sqlite/*"],
+      "@components/*": ["renderer/components/*"]
     }
   },
   "include": ["src"]
