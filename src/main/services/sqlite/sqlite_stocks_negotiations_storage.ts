@@ -2,13 +2,13 @@ import { Database, Statement, Transaction } from 'better-sqlite3';
 import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
 import StockType from 'domain/stock_type';
-import StocksNegotiationsStorage from 'main/repositories/stocks_negotiations_storage';
+import StocksNegotiationsStorage from 'main/storage/stocks_negotiations_storage';
 import mapStockModelToStock from './mappers/map_stock_model_to_stock';
 import mapStockNegotiationModelToStockNegotiation from './mappers/map_stock_negotiation_model_to_stock_negotiation';
 import mapStockNegotiationToStockNegotiationModel from './mappers/map_stock_negotiation_to_stock_negotiation_model';
-import StockNegotiationSqliteModel from './models/stock_negotiation_sqlite_model';
+import SqliteStockNegotiationModel from './models/sqlite_stock_negotiation_model';
 
-class StocksNegotiationsStorageSqlite implements StocksNegotiationsStorage {
+class SqliteStocksNegotiationsStorage implements StocksNegotiationsStorage {
   insertStockNegotiationStatement: Statement;
   insertManyStockNegotiationsStatement: Transaction;
 
@@ -29,7 +29,7 @@ class StocksNegotiationsStorageSqlite implements StocksNegotiationsStorage {
     );
 
     this.insertManyStockNegotiationsStatement = db.transaction(
-      (stocksNegotiations: StocksNegotiationsStorageSqlite[]) => {
+      (stocksNegotiations: SqliteStockNegotiationModel[]) => {
         for (const stockNegotiation of stocksNegotiations)
           this.insertStockNegotiationStatement.run(stockNegotiation);
       },
@@ -43,7 +43,7 @@ class StocksNegotiationsStorageSqlite implements StocksNegotiationsStorage {
     );
 
     this.updateStockNegotiationsStatement = db.transaction(
-      (stock: Stock, stockNegotiations: StockNegotiationSqliteModel[]) => {
+      (stock: Stock, stockNegotiations: SqliteStockNegotiationModel[]) => {
         const { ticker } = stock;
         this.deleteStockNegotiationsStatement.run({ stock_ticker: ticker });
         this.insertManyStockNegotiationsStatement(stockNegotiations);
@@ -120,7 +120,7 @@ class StocksNegotiationsStorageSqlite implements StocksNegotiationsStorage {
     date: Date,
   ): Promise<StockNegotiation[]> {
     const { ticker } = stock;
-    const docs: StockNegotiationSqliteModel[] =
+    const docs: SqliteStockNegotiationModel[] =
       this.findStockNegotiationsByDateStatement.all({
         date: date.toISOString(),
         stock_ticker: ticker,
@@ -133,7 +133,7 @@ class StocksNegotiationsStorageSqlite implements StocksNegotiationsStorage {
     stock: Stock,
   ): Promise<StockNegotiation[]> {
     const { ticker } = stock;
-    const docs: StockNegotiationSqliteModel[] =
+    const docs: SqliteStockNegotiationModel[] =
       this.findStockNegotiationsByStockStatement.all({ stock_ticker: ticker });
 
     return docs.map(mapStockNegotiationModelToStockNegotiation);
@@ -146,4 +146,4 @@ class StocksNegotiationsStorageSqlite implements StocksNegotiationsStorage {
   }
 }
 
-export default StocksNegotiationsStorageSqlite;
+export default SqliteStocksNegotiationsStorage;

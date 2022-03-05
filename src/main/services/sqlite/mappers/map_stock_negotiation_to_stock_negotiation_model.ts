@@ -1,9 +1,9 @@
-import StockNegotiationSqliteModel from '@sqlite/models/stock_negotiation_sqlite_model';
+import SqliteStockNegotiationModel from '@sqlite/models/sqlite_stock_negotiation_model';
 import StockNegotiation from 'domain/stock_negotiation';
 
 const mapStockNegotiationToStockNegotiationModel = (
   stockNegotiation: StockNegotiation,
-): StockNegotiationSqliteModel => {
+): SqliteStockNegotiationModel => {
   const { price, date, quantity, stock, type } = stockNegotiation;
 
   return {

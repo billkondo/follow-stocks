@@ -2,7 +2,7 @@ import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
 import StockType from 'domain/stock_type';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
-import StocksNegotiationsStorage from 'main/repositories/stocks_negotiations_storage';
+import StocksNegotiationsStorage from 'main/storage/stocks_negotiations_storage';
 
 class StocksNegotiationsService implements StocksNegotiationsRepository {
   stocksNegotiationsStorage: StocksNegotiationsStorage;

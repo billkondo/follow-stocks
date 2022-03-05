@@ -1,11 +1,11 @@
 import { Database, Statement, Transaction } from 'better-sqlite3';
 import Stock from 'domain/stock';
 import StockType from 'domain/stock_type';
-import StocksStorage from 'main/repositories/stocks_storage';
+import StocksStorage from 'main/storage/stocks_storage';
 import mapStockModelToStock from './mappers/map_stock_model_to_stock';
-import StockSqliteModel from './models/stock_sqlite_model';
+import SqliteStockModel from './models/sqlite_stock_model';
 
-class StocksStorageSqlite implements StocksStorage {
+class SqliteStocksStorage implements StocksStorage {
   insertStockStatement: Statement;
   insertManyStocksStatement: Transaction;
 
@@ -25,7 +25,7 @@ class StocksStorageSqlite implements StocksStorage {
     );
 
     this.insertManyStocksStatement = db.transaction(
-      (stocks: StockSqliteModel[]) => {
+      (stocks: SqliteStockModel[]) => {
         for (const stock of stocks) this.insertStockStatement.run(stock);
       },
     );
@@ -78,7 +78,7 @@ class StocksStorageSqlite implements StocksStorage {
     tickerText: string,
     type: StockType,
   ): Promise<Stock[]> {
-    const docs: StockSqliteModel[] =
+    const docs: SqliteStockModel[] =
       this.searchStocksByTickerAndTypeStatement.all({
         tickerText: `%${tickerText.toUpperCase()}%`,
         type,
@@ -117,4 +117,4 @@ class StocksStorageSqlite implements StocksStorage {
   }
 }
 
-export default StocksStorageSqlite;
+export default SqliteStocksStorage;

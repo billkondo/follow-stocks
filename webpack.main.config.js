@@ -12,5 +12,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
     modules: ['node_modules', path.join(__dirname, 'src')],
+    alias: {
+      '@services': path.join(__dirname, 'src/main/services'),
+      '@sqlite': path.join(__dirname, 'src/main/services/sqlite'),
+    },
   },
 };

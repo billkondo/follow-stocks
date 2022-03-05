@@ -2,7 +2,7 @@ import PriceCode from 'domain/price_code';
 import StockNegotiationType from 'domain/stock_negotiation_type';
 import StockType from 'domain/stock_type';
 
-interface StockNegotiationSqliteModel {
+interface SqliteStockNegotiationModel {
   date: string;
   quantity: number;
   price_value: number;
@@ -13,4 +13,4 @@ interface StockNegotiationSqliteModel {
   type: StockNegotiationType;
 }
 
-export default StockNegotiationSqliteModel;
+export default SqliteStockNegotiationModel;

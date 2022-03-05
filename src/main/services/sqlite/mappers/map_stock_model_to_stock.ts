@@ -1,7 +1,7 @@
-import StockSqliteModel from '@sqlite/models/stock_sqlite_model';
+import SqliteStockModel from '@sqlite/models/sqlite_stock_model';
 import Stock from 'domain/stock';
 
-const mapStockModelToStock = (stock: StockSqliteModel): Stock => {
+const mapStockModelToStock = (stock: SqliteStockModel): Stock => {
   const { name, ticker, type } = stock;
 
   return {

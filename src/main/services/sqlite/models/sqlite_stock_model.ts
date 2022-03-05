@@ -1,9 +1,9 @@
 import StockType from 'domain/stock_type';
 
-interface StockSqliteModel {
+interface SqliteStockModel {
   name: string;
   ticker: string;
   type: StockType;
 }
 
-export default StockSqliteModel;
+export default SqliteStockModel;
