@@ -9,4 +9,5 @@ module.exports = {
     '^@components(.*)$': '<rootDir>/src/renderer/components$1',
     '^@services(.*)$': '<rootDir>/src/main/services$1',
   },
+  setupFilesAfterEnv: ['<rootDir>/src/tests/setup.ts'],
 };

@@ -3,8 +3,6 @@ import LoadStocks from 'main/usecases/load_stocks';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';
 
-jest.mock('main/services/http_service');
-
 describe('Load FIIs', () => {
   useSqlite();
   const { stocksServiceFactory } = useStocks();

@@ -26,4 +26,4 @@
  * ```
  */
 
-import './main';
+import './renderer/index';
