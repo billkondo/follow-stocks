@@ -108,6 +108,7 @@
     "@mui/icons-material": "^5.4.4",
     "@mui/material": "^5.4.4",
     "@tabler/icons": "^1.54.0",
+    "async-mutex": "^0.3.2",
     "better-sqlite3": "^7.5.0",
     "bignumber.js": "^9.0.2",
     "electron-squirrel-startup": "^1.0.0",

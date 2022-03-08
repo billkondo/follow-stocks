@@ -2,10 +2,13 @@ import DomainError from 'domain/domain_error';
 import Price from 'domain/price';
 import PriceCode from 'domain/price_code';
 import Stock from 'domain/stock';
+import StockInvested from 'domain/stock_invested';
 import StockNegotiation from 'domain/stock_negotiation';
 import { mock } from 'jest-mock-extended';
+import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
 import StocksRepository from 'main/repositories/stocks_repository';
+import UnitOfWorkRepository from 'main/repositories/unit_of_work_repository';
 import AddStockNegotiations from 'main/usecases/add_stock_negotiations';
 
 describe('Add stock negotiations', () => {
@@ -13,16 +16,27 @@ describe('Add stock negotiations', () => {
     const mockStocksNegotiationsRepository =
       mock<StocksNegotiationsRepository>();
     const mockStocksRepository = mock<StocksRepository>();
+    const mockStocksInvestedRepository = mock<StocksInvestedRepository>();
+    const mockUnitOfWorkRepository = mock<UnitOfWorkRepository>();
+
+    mockUnitOfWorkRepository.work.mockImplementation(
+      async (callback: () => void) => {
+        return callback();
+      },
+    );
 
     const addStockNegotiations = AddStockNegotiations({
       stocksNegotiationsRepository: mockStocksNegotiationsRepository,
       stocksRepository: mockStocksRepository,
+      stocksInvestedRepository: mockStocksInvestedRepository,
+      unitOfWorkRepository: mockUnitOfWorkRepository,
     });
 
     return {
       addStockNegotiations,
       mockStocksRepository,
       mockStocksNegotiationsRepository,
+      mockStocksInvestedRepository,
     };
   };
 
@@ -193,11 +207,12 @@ describe('Add stock negotiations', () => {
     expect(mockStocksRepository.exists).toBeCalledWith(mockStock);
   });
 
-  test('should save stock negotiations', async () => {
+  test('should save stock negotiations and stock invested', async () => {
     const {
       addStockNegotiations,
       mockStocksNegotiationsRepository,
       mockStocksRepository,
+      mockStocksInvestedRepository,
     } = setup();
     const mockStock = mock<Stock>();
     const mockStocksNegotiations: StockNegotiation[] = [
@@ -251,5 +266,19 @@ describe('Add stock negotiations', () => {
       ...mockStocksNegotiations,
       ...mockNewStocksNegotiations,
     ]);
+    expect(mockStocksInvestedRepository.saveStockInvested).toHaveBeenCalledWith(
+      {
+        averagePrice: {
+          value: 112.5,
+          code: 'USD',
+        },
+        quantity: 20,
+        stock: mockStock,
+        totalInvested: {
+          code: 'USD',
+          value: 2250,
+        },
+      } as StockInvested,
+    );
   });
 });

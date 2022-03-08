@@ -1,8 +1,10 @@
 import DomainError from 'domain/domain_error';
 import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
+import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
 import StocksRepository from 'main/repositories/stocks_repository';
+import UnitOfWorkRepository from 'main/repositories/unit_of_work_repository';
 import AddStockNegotiationsToList from './add_stock_negotiations_to_list';
 import AssertStocksNegotiationsBalanceIsNotNegative from './assert_stocks_negotiations_balance_is_not_negative';
 
@@ -10,9 +12,13 @@ const AddStockNegotiations =
   ({
     stocksRepository,
     stocksNegotiationsRepository,
+    stocksInvestedRepository,
+    unitOfWorkRepository,
   }: {
     stocksRepository: StocksRepository;
     stocksNegotiationsRepository: StocksNegotiationsRepository;
+    stocksInvestedRepository: StocksInvestedRepository;
+    unitOfWorkRepository: UnitOfWorkRepository;
   }) =>
   async (stockNegotiations: StockNegotiation[]) => {
     assertNotEmpty(stockNegotiations);
@@ -34,11 +40,17 @@ const AddStockNegotiations =
     );
 
     assertHaveSameCurrencyAfterInsertion(newStockNegotiations);
-    AssertStocksNegotiationsBalanceIsNotNegative(newStockNegotiations);
-    await stocksNegotiationsRepository.saveStockNegotiations(
-      stock,
-      newStockNegotiations,
-    );
+    const stockInvested =
+      AssertStocksNegotiationsBalanceIsNotNegative(newStockNegotiations);
+
+    await unitOfWorkRepository.work(async () => {
+      await stocksNegotiationsRepository.saveStockNegotiations(
+        stock,
+        newStockNegotiations,
+      );
+
+      await stocksInvestedRepository.saveStockInvested(stockInvested);
+    });
   };
 
 const assertNotEmpty = (stockNegotiations: StockNegotiation[]) => {
