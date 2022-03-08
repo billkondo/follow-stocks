@@ -1,4 +1,5 @@
 import DomainError from 'domain/domain_error';
+import StockInvested from 'domain/stock_invested';
 import StockNegotiation from 'domain/stock_negotiation';
 import GenerateAveragePricesFromStocksNegotiations from './generate_average_prices_from_stocks_negotiations';
 
@@ -8,17 +9,19 @@ const AssertStocksNegotiationsBalanceIsNotNegative = (
   const generateAveragePricesFromStocksNegotiations =
     GenerateAveragePricesFromStocksNegotiations(stocksNegotiations);
   let data = generateAveragePricesFromStocksNegotiations.next();
+  let lastStockInvested: StockInvested;
 
   do {
-    const { totalQuantity } = data.value as {
-      totalQuantity: number;
-    };
+    lastStockInvested = data.value as StockInvested;
+    const { quantity } = lastStockInvested;
 
-    if (totalQuantity < 0)
+    if (quantity < 0)
       throw new DomainError('total quantity should be greater than zero');
 
     data = generateAveragePricesFromStocksNegotiations.next();
   } while (!data.done);
+
+  return lastStockInvested;
 };
 
 export default AssertStocksNegotiationsBalanceIsNotNegative;

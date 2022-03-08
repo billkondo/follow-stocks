@@ -30,4 +30,54 @@ describe('Assert stocks negotiations balance is not negative', () => {
       ]),
     ).toThrow(new DomainError('total quantity should be greater than zero'));
   });
+
+  test('should return stock invested data', () => {
+    const mockStock = mock<Stock>();
+
+    expect(
+      AssertStocksNegotiationsBalanceIsNotNegative([
+        {
+          date: new Date(2022, 12, 1),
+          price: {
+            code: 'BRL',
+            value: 100,
+          },
+          quantity: 20,
+          stock: mockStock,
+          type: 'BUY',
+        },
+        {
+          date: new Date(2022, 12, 4),
+          price: {
+            code: 'BRL',
+            value: 150,
+          },
+          quantity: 10,
+          stock: mockStock,
+          type: 'BUY',
+        },
+        {
+          date: new Date(2022, 12, 7),
+          price: {
+            code: 'BRL',
+            value: 120,
+          },
+          quantity: 8,
+          stock: mockStock,
+          type: 'SELL',
+        },
+      ]),
+    ).toEqual({
+      stock: mockStock,
+      quantity: 22,
+      totalInvested: {
+        value: 2566.67,
+        code: 'BRL',
+      },
+      averagePrice: {
+        value: 116.67,
+        code: 'BRL',
+      },
+    });
+  });
 });

@@ -1,9 +1,27 @@
 import Stock from 'domain/stock';
+import StockInvested from 'domain/stock_invested';
 import StockNegotiation from 'domain/stock_negotiation';
 import { mock } from 'jest-mock-extended';
 import GenerateAveragePricesFromStocksNegotiations from 'main/usecases/generate_average_prices_from_stocks_negotiations';
 
 describe('Generate average prices from stocks negotiations', () => {
+  const runTest = (
+    stockNegotiations: StockNegotiation[],
+    expectedStocksInvested: StockInvested[],
+  ) => {
+    const generateAveragePricesFromStocksNegotiations =
+      GenerateAveragePricesFromStocksNegotiations(stockNegotiations);
+
+    for (const expectedValue of expectedStocksInvested)
+      expect(generateAveragePricesFromStocksNegotiations.next().value).toEqual(
+        expectedValue,
+      );
+
+    expect(
+      generateAveragePricesFromStocksNegotiations.next().done,
+    ).toBeTruthy();
+  };
+
   test('should generate average price, total invested and total quantity', () => {
     const mockStock = mock<Stock>();
     const mockStocksNegotiations: StockNegotiation[] = [
@@ -98,66 +116,118 @@ describe('Generate average prices from stocks negotiations', () => {
         type: 'BUY',
       },
     ];
-
-    const generateAveragePricesFromStocksNegotiations =
-      GenerateAveragePricesFromStocksNegotiations(mockStocksNegotiations);
-
-    const expectedValues = [
+    const expectedValues: StockInvested[] = [
       {
-        totalQuantity: 4,
-        averagePrice: 23.33,
-        totalInvested: 93.32,
+        stock: mockStock,
+        quantity: 4,
+        averagePrice: {
+          value: 23.33,
+          code: 'BRL',
+        },
+        totalInvested: {
+          value: 93.32,
+          code: 'BRL',
+        },
       },
       {
-        totalQuantity: 0,
-        averagePrice: 23.33,
-        totalInvested: 0,
+        stock: mockStock,
+        quantity: 0,
+        averagePrice: {
+          value: 0,
+          code: 'BRL',
+        },
+        totalInvested: {
+          value: 0,
+          code: 'BRL',
+        },
       },
       {
-        totalQuantity: 100,
-        averagePrice: 24.46,
-        totalInvested: 2446.0,
+        stock: mockStock,
+        quantity: 100,
+        averagePrice: {
+          value: 24.46,
+          code: 'BRL',
+        },
+        totalInvested: {
+          value: 2446.0,
+          code: 'BRL',
+        },
       },
       {
-        totalQuantity: 0,
-        averagePrice: 24.46,
-        totalInvested: 0,
+        stock: mockStock,
+        quantity: 0,
+        averagePrice: {
+          value: 0,
+          code: 'BRL',
+        },
+        totalInvested: {
+          value: 0,
+          code: 'BRL',
+        },
       },
       {
-        totalQuantity: 52,
-        averagePrice: 25.81,
-        totalInvested: 1342.12,
+        stock: mockStock,
+        quantity: 52,
+        averagePrice: {
+          value: 25.81,
+          code: 'BRL',
+        },
+        totalInvested: {
+          value: 1342.12,
+          code: 'BRL',
+        },
       },
       {
-        totalQuantity: 85,
-        averagePrice: 26.24,
-        totalInvested: 2230.48,
+        stock: mockStock,
+        quantity: 85,
+        averagePrice: {
+          value: 26.24,
+          code: 'BRL',
+        },
+        totalInvested: {
+          value: 2230.48,
+          code: 'BRL',
+        },
       },
       {
-        totalQuantity: 117,
-        averagePrice: 26.43,
-        totalInvested: 3092.24,
+        stock: mockStock,
+        quantity: 117,
+        averagePrice: {
+          value: 26.43,
+          code: 'BRL',
+        },
+        totalInvested: {
+          value: 3092.24,
+          code: 'BRL',
+        },
       },
       {
-        totalQuantity: 69,
-        averagePrice: 26.43,
-        totalInvested: 1823.63,
+        stock: mockStock,
+        quantity: 69,
+        averagePrice: {
+          value: 26.43,
+          code: 'BRL',
+        },
+        totalInvested: {
+          value: 1823.63,
+          code: 'BRL',
+        },
       },
       {
-        totalQuantity: 83,
-        averagePrice: 25.35,
-        totalInvested: 2104.05,
+        stock: mockStock,
+        quantity: 83,
+        averagePrice: {
+          value: 25.35,
+          code: 'BRL',
+        },
+        totalInvested: {
+          value: 2104.05,
+          code: 'BRL',
+        },
       },
     ];
 
-    for (const expectedValue of expectedValues)
-      expect(generateAveragePricesFromStocksNegotiations.next().value).toEqual(
-        expectedValue,
-      );
-
-    expect(
-      generateAveragePricesFromStocksNegotiations.next().done,
-    ).toBeTruthy();
+    runTest(mockStocksNegotiations, expectedValues);
   });
 
   describe('should deal with floating precision', () => {
@@ -189,40 +259,130 @@ describe('Generate average prices from stocks negotiations', () => {
           value: 0.4,
           code: 'BRL',
         },
-        quantity: 2,
+        quantity: 1,
         stock: mockStock,
         type: 'SELL',
       },
     ];
-
-    const expectedValues = [
+    const expectedValues: StockInvested[] = [
       {
-        totalInvested: 0.1,
-        averagePrice: 0.1,
-        totalQuantity: 1,
+        stock: mockStock,
+        totalInvested: { value: 0.1, code: 'BRL' },
+        averagePrice: { value: 0.1, code: 'BRL' },
+        quantity: 1,
       },
       {
-        totalInvested: 0.3,
-        averagePrice: 0.15,
-        totalQuantity: 2,
+        stock: mockStock,
+        totalInvested: { value: 0.3, code: 'BRL' },
+        averagePrice: { value: 0.15, code: 'BRL' },
+        quantity: 2,
       },
       {
-        totalInvested: 0,
-        averagePrice: 0.15,
-        totalQuantity: 0,
+        stock: mockStock,
+        totalInvested: { value: 0.15, code: 'BRL' },
+        averagePrice: { value: 0.15, code: 'BRL' },
+        quantity: 1,
       },
     ];
 
-    const generateAveragePricesFromStocksNegotiations =
-      GenerateAveragePricesFromStocksNegotiations(mockStocksNegotiations);
+    runTest(mockStocksNegotiations, expectedValues);
+  });
 
-    for (const expectedValue of expectedValues)
-      expect(generateAveragePricesFromStocksNegotiations.next().value).toEqual(
-        expectedValue,
-      );
+  test('should reset average price if all stocks are sold', () => {
+    const mockStock = mock<Stock>();
+    const mockStocksNegotiations: StockNegotiation[] = [
+      {
+        date: new Date(2022, 12, 1),
+        price: {
+          code: 'USD',
+          value: 120,
+        },
+        quantity: 0.5,
+        stock: mockStock,
+        type: 'BUY',
+      },
+      {
+        date: new Date(2022, 12, 2),
+        price: {
+          code: 'USD',
+          value: 125,
+        },
+        quantity: 0.25,
+        stock: mockStock,
+        type: 'SELL',
+      },
+      {
+        date: new Date(2022, 12, 3),
+        price: {
+          code: 'USD',
+          value: 140,
+        },
+        quantity: 0.25,
+        stock: mockStock,
+        type: 'SELL',
+      },
+      {
+        date: new Date(2022, 12, 1),
+        price: {
+          code: 'USD',
+          value: 100,
+        },
+        quantity: 0.5,
+        stock: mockStock,
+        type: 'BUY',
+      },
+    ];
+    const expectedValues: StockInvested[] = [
+      {
+        averagePrice: {
+          code: 'USD',
+          value: 120,
+        },
+        quantity: 0.5,
+        stock: mockStock,
+        totalInvested: {
+          code: 'USD',
+          value: 60,
+        },
+      },
+      {
+        averagePrice: {
+          code: 'USD',
+          value: 120,
+        },
+        quantity: 0.25,
+        stock: mockStock,
+        totalInvested: {
+          code: 'USD',
+          value: 30,
+        },
+      },
+      {
+        averagePrice: {
+          code: 'USD',
+          value: 0,
+        },
+        quantity: 0,
+        stock: mockStock,
+        totalInvested: {
+          code: 'USD',
+          value: 0,
+        },
+      },
+      {
+        averagePrice: {
+          code: 'USD',
+          value: 100,
+        },
+        quantity: 0.5,
+        stock: mockStock,
+        totalInvested: {
+          code: 'USD',
+          value: 50,
+        },
+      },
+    ];
 
-    expect(
-      generateAveragePricesFromStocksNegotiations.next().done,
-    ).toBeTruthy();
+    runTest(mockStocksNegotiations, expectedValues);
   });
 });
