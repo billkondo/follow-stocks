@@ -4,6 +4,8 @@ interface StocksInvestedStorage {
   saveStockInvested: (stockInvested: StockInvested) => Promise<void>;
 
   findStockInvestedByStockTicker: (ticker: string) => Promise<StockInvested>;
+
+  findAllStocksInvested: () => Promise<StockInvested[]>;
 }
 
 export default StocksInvestedStorage;
