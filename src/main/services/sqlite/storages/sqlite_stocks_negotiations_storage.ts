@@ -1,12 +1,11 @@
+import SqliteStockMapper from '@sqlite/mappers/sqlite_stock_mapper';
+import SqliteStockNegotiationMapper from '@sqlite/mappers/sqlite_stock_negotiation_mapper';
+import SqliteStockNegotiationModel from '@sqlite/models/sqlite_stock_negotiation_model';
 import { Database, Statement, Transaction } from 'better-sqlite3';
 import Stock from 'domain/stock';
 import StockNegotiation from 'domain/stock_negotiation';
 import StockType from 'domain/stock_type';
 import StocksNegotiationsStorage from 'main/storage/stocks_negotiations_storage';
-import mapStockModelToStock from './mappers/map_stock_model_to_stock';
-import mapStockNegotiationModelToStockNegotiation from './mappers/map_stock_negotiation_model_to_stock_negotiation';
-import mapStockNegotiationToStockNegotiationModel from './mappers/map_stock_negotiation_to_stock_negotiation_model';
-import SqliteStockNegotiationModel from './models/sqlite_stock_negotiation_model';
 
 class SqliteStocksNegotiationsStorage implements StocksNegotiationsStorage {
   insertStockNegotiationStatement: Statement;
@@ -108,9 +107,7 @@ class SqliteStocksNegotiationsStorage implements StocksNegotiationsStorage {
     stock: Stock,
     stockNegotiations: StockNegotiation[],
   ) {
-    const models = stockNegotiations.map(
-      mapStockNegotiationToStockNegotiationModel,
-    );
+    const models = stockNegotiations.map(SqliteStockNegotiationMapper.toModel);
 
     return this.updateStockNegotiationsStatement(stock, models);
   }
@@ -126,7 +123,7 @@ class SqliteStocksNegotiationsStorage implements StocksNegotiationsStorage {
         stock_ticker: ticker,
       });
 
-    return docs.map(mapStockNegotiationModelToStockNegotiation);
+    return docs.map(SqliteStockNegotiationMapper.fromModel);
   }
 
   async findStockNegotiationsByStock(
@@ -136,13 +133,13 @@ class SqliteStocksNegotiationsStorage implements StocksNegotiationsStorage {
     const docs: SqliteStockNegotiationModel[] =
       this.findStockNegotiationsByStockStatement.all({ stock_ticker: ticker });
 
-    return docs.map(mapStockNegotiationModelToStockNegotiation);
+    return docs.map(SqliteStockNegotiationMapper.fromModel);
   }
 
   async findStocksThatHaveAnyNegotiation(type: StockType): Promise<Stock[]> {
     const docs = this.findStocksThatHaveAnyNegotiationStatement.all({ type });
 
-    return docs.map(mapStockModelToStock);
+    return docs.map(SqliteStockMapper.fromModel);
   }
 }
 

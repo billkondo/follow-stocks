@@ -1,9 +1,9 @@
+import SqliteStockMapper from '@sqlite/mappers/sqlite_stock_mapper';
+import SqliteStockModel from '@sqlite/models/sqlite_stock_model';
 import { Database, Statement, Transaction } from 'better-sqlite3';
 import Stock from 'domain/stock';
 import StockType from 'domain/stock_type';
 import StocksStorage from 'main/storage/stocks_storage';
-import mapStockModelToStock from './mappers/map_stock_model_to_stock';
-import SqliteStockModel from './models/sqlite_stock_model';
 
 class SqliteStocksStorage implements StocksStorage {
   insertStockStatement: Statement;
@@ -84,7 +84,7 @@ class SqliteStocksStorage implements StocksStorage {
         type,
       });
 
-    return docs.map(mapStockModelToStock);
+    return docs.map(SqliteStockMapper.fromModel);
   }
 
   async exists(stock: Stock): Promise<boolean> {
@@ -105,7 +105,7 @@ class SqliteStocksStorage implements StocksStorage {
   }
 
   async save(stocks: Stock[]) {
-    const models = stocks.map(mapStockModelToStock);
+    const models = stocks.map(SqliteStockMapper.toModel);
 
     await this.insertManyStocksStatement(models);
   }
@@ -113,7 +113,7 @@ class SqliteStocksStorage implements StocksStorage {
   async findAllByType(type: 'FII'): Promise<Stock[]> {
     const docs = this.findStocksByTypeStatement.all({ type });
 
-    return docs.map(mapStockModelToStock);
+    return docs.map(SqliteStockMapper.fromModel);
   }
 }
 

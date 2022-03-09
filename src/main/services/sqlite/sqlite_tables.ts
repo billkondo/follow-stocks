@@ -1,7 +1,7 @@
 import { Database } from 'better-sqlite3';
-import SqliteStocksInvestedStorage from './sqlite_stocks_invested_storage';
-import SqliteStocksNegotiationsStorage from './sqlite_stocks_negotiations_storage';
-import SqliteStocksStorage from './sqlite_stocks_storage';
+import SqliteStocksInvestedStorage from './storages/sqlite_stocks_invested_storage';
+import SqliteStocksNegotiationsStorage from './storages/sqlite_stocks_negotiations_storage';
+import SqliteStocksStorage from './storages/sqlite_stocks_storage';
 
 class SqliteTables {
   static createTables(db: Database) {

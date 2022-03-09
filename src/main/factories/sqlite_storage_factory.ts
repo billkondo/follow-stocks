@@ -1,5 +1,5 @@
-import SqliteStocksNegotiationsStorage from '@sqlite/sqlite_stocks_negotiations_storage';
-import SqliteStocksStorage from '@sqlite/sqlite_stocks_storage';
+import SqliteStocksNegotiationsStorage from '@sqlite/storages/sqlite_stocks_negotiations_storage';
+import SqliteStocksStorage from '@sqlite/storages/sqlite_stocks_storage';
 import { Database } from 'better-sqlite3';
 import Storage from 'main/storage/storage';
 
