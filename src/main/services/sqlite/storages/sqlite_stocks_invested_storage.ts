@@ -42,7 +42,7 @@ class SqliteStocksInvestedStorage implements StocksInvestedStorage {
     db.prepare(
       `
         CREATE TABLE IF NOT EXISTS stocks_invested (
-          quantity INT,
+          quantity DECIMAL,
           total_invested DECIMAL,
           average_price DECIMAL, 
           price_code CHAR,

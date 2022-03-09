@@ -91,10 +91,10 @@ class SqliteStocksNegotiationsStorage implements StocksNegotiationsStorage {
     db.prepare(
       `
         CREATE TABLE IF NOT EXISTS stocks_negotiations (
-          quantity INT, 
+          quantity DECIMAL, 
           date DATE, 
           type CHAR, 
-          price_value INT, 
+          price_value DECIMAL, 
           price_code CHAR,
           stock_ticker VARCHAR,
           FOREIGN KEY (stock_ticker) REFERENCES stocks (ticker) ON UPDATE CASCADE
