@@ -71,11 +71,11 @@ describe('Assert stocks negotiations balance is not negative', () => {
       stock: mockStock,
       quantity: 22,
       totalInvested: {
-        value: 2566.67,
+        value: 2566.6667,
         code: 'BRL',
       },
       averagePrice: {
-        value: 116.67,
+        value: 116.6667,
         code: 'BRL',
       },
     });

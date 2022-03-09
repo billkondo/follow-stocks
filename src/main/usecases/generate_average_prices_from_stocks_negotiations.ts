@@ -32,11 +32,11 @@ function* GenerateAveragePricesFromStocksNegotiations(
       stock,
       quantity: parseFloat(totalQuantity.toString()),
       totalInvested: {
-        value: parseFloat(totalInvested.toFixed(2)),
+        value: parseFloat(totalInvested.toFixed(4)),
         code: price.code,
       },
       averagePrice: {
-        value: parseFloat(averagePrice.toFixed(2)),
+        value: parseFloat(averagePrice.toFixed(4)),
         code: price.code,
       },
     } as StockInvested;

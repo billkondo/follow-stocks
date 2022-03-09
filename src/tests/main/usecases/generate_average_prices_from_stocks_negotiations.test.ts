@@ -181,7 +181,7 @@ describe('Generate average prices from stocks negotiations', () => {
         stock: mockStock,
         quantity: 85,
         averagePrice: {
-          value: 26.24,
+          value: 26.2409,
           code: 'BRL',
         },
         totalInvested: {
@@ -193,7 +193,7 @@ describe('Generate average prices from stocks negotiations', () => {
         stock: mockStock,
         quantity: 117,
         averagePrice: {
-          value: 26.43,
+          value: 26.4294,
           code: 'BRL',
         },
         totalInvested: {
@@ -205,11 +205,11 @@ describe('Generate average prices from stocks negotiations', () => {
         stock: mockStock,
         quantity: 69,
         averagePrice: {
-          value: 26.43,
+          value: 26.4294,
           code: 'BRL',
         },
         totalInvested: {
-          value: 1823.63,
+          value: 1823.6287,
           code: 'BRL',
         },
       },
@@ -221,7 +221,7 @@ describe('Generate average prices from stocks negotiations', () => {
           code: 'BRL',
         },
         totalInvested: {
-          value: 2104.05,
+          value: 2104.0487,
           code: 'BRL',
         },
       },

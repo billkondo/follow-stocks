@@ -171,8 +171,8 @@ describe('Add FII negotiations', () => {
       {
         quantity: 70,
         stock: hgreStock,
-        totalInvested: { value: 9378.57, code: 'BRL' },
-        averagePrice: { value: 133.98, code: 'BRL' },
+        totalInvested: { value: 9378.5714, code: 'BRL' },
+        averagePrice: { value: 133.9796, code: 'BRL' },
       } as StockInvested,
     ],
     [
@@ -435,5 +435,83 @@ describe('Add FII negotiations', () => {
         },
       } as StockInvested);
     }
+  });
+
+  test('should handle decimal quantities', async () => {
+    const { addStockNegotiations, stocksInvestedService } = setup();
+
+    await addStockNegotiations([
+      {
+        date: new Date(2022, 12, 1),
+        price: {
+          code: 'BRL',
+          value: 200,
+        },
+        quantity: 0.3333,
+        stock: xplgStock,
+        type: 'BUY',
+      },
+      {
+        date: new Date(2022, 12, 1),
+        price: {
+          code: 'BRL',
+          value: 205,
+        },
+        quantity: 0.7777,
+        stock: xplgStock,
+        type: 'BUY',
+      },
+    ]);
+    await expect(
+      stocksInvestedService.findStockInvestedByStockTicker(xplgStock.ticker),
+    ).resolves.toEqual({
+      quantity: 1.111,
+      stock: xplgStock,
+      totalInvested: {
+        code: 'BRL',
+        value: 226.0885,
+      },
+      averagePrice: {
+        code: 'BRL',
+        value: 203.5,
+      },
+    } as StockInvested);
+
+    await addStockNegotiations([
+      {
+        date: new Date(2022, 12, 2),
+        price: {
+          code: 'BRL',
+          value: 243.23,
+        },
+        quantity: 0.5673,
+        stock: xplgStock,
+        type: 'SELL',
+      },
+      {
+        date: new Date(2022, 12, 2),
+        price: {
+          code: 'BRL',
+          value: 245.25,
+        },
+        quantity: 0.5437,
+        stock: xplgStock,
+        type: 'SELL',
+      },
+    ]);
+    await expect(
+      stocksInvestedService.findStockInvestedByStockTicker(xplgStock.ticker),
+    ).resolves.toEqual({
+      averagePrice: {
+        code: 'BRL',
+        value: 0,
+      },
+      quantity: 0,
+      stock: xplgStock,
+      totalInvested: {
+        code: 'BRL',
+        value: 0,
+      },
+    } as StockInvested);
   });
 });
