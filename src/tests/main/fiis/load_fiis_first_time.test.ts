@@ -19,28 +19,28 @@ describe('Load FIIs for the first time', () => {
 
   const setup = () => {
     const stocksService = stocksServiceFactory();
-    const loadStocksFirsTime = LoadStocksFirstTime(stocksService);
+    const loadStocksFirstTime = LoadStocksFirstTime(stocksService);
 
-    return { stocksService, loadStocksFirsTime };
+    return { stocksService, loadStocksFirstTime };
   };
 
   test('should load FIIs when there is not FII stored', async () => {
     (HttpService.get as jest.Mock).mockReturnValue({ html: MOCK_HTML });
 
-    const { stocksService, loadStocksFirsTime } = setup();
+    const { stocksService, loadStocksFirstTime } = setup();
 
-    expect(await loadStocksFirsTime('FII')).toBeTruthy();
+    expect(await loadStocksFirstTime('FII')).toBeTruthy();
     expect(await stocksService.findAll('FII')).toEqual([
       { name: 'XP Log', ticker: 'XPLG11', type: 'FII' },
     ]);
   });
 
   test('should not load FIIs when there is FII stored', async () => {
-    const { stocksService, loadStocksFirsTime } = setup();
+    const { stocksService, loadStocksFirstTime } = setup();
 
     await stocksService.save([
       { name: 'FII name', ticker: 'FII11', type: 'FII' },
     ]);
-    expect(await loadStocksFirsTime('FII')).toBeFalsy();
+    expect(await loadStocksFirstTime('FII')).toBeFalsy();
   });
 });
