@@ -1,3 +1,4 @@
+import Stock from 'domain/stock';
 import StockInvested from 'domain/stock_invested';
 import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
 import StocksInvestedStorage from 'main/storage/stocks_invested_storage';
@@ -15,6 +16,13 @@ class StocksInvestedService implements StocksInvestedRepository {
 
   async findStockInvestedByStockTicker(ticker: string): Promise<StockInvested> {
     return this.stocksInvestedStorage.findStockInvestedByStockTicker(ticker);
+  }
+
+  async findStocksInvested(): Promise<Stock[]> {
+    const stocksInvested =
+      await this.stocksInvestedStorage.findAllStocksInvested();
+
+    return stocksInvested.map((stockInvested) => stockInvested.stock);
   }
 }
 

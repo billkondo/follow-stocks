@@ -5,7 +5,7 @@ import StockQuotation from 'domain/stock_quotation';
 import LoadStockQuotation from 'main/usecases/load_stock_quotation';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';
-import MOCK_STOCK_QUOTATION_HTML from '../mocks/mock_stock_quotation_html';
+import MOCK_STOCK_QUOTATION_HTML from 'tests/main/mocks/mock_stock_quotation_html';
 
 describe('Load FII quotation', () => {
   useSqlite();
