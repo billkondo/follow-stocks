@@ -1,6 +1,7 @@
 import SqliteStockQuotationMapper from '@sqlite/mappers/sqlite_stock_quotation_mapper';
 import SqliteStockQuotationModel from '@sqlite/models/sqlite_stock_quotation_model';
 import { Database, Statement } from 'better-sqlite3';
+import Stock from 'domain/stock';
 import StockQuotation from 'domain/stock_quotation';
 import StocksQuotationsStorage from 'main/storage/stocks_quotations_storage';
 
@@ -8,6 +9,7 @@ class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {
   insertStockQuotationStatement: Statement;
 
   findAllStocksQuotationsStatement: Statement;
+  findStockQuotationByStockStatement: Statement;
 
   constructor(db: Database) {
     this.insertStockQuotationStatement = db.prepare(
@@ -20,13 +22,22 @@ class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {
       `,
     );
 
-    this.findAllStocksQuotationsStatement = db.prepare(
-      `
+    const findStatement = (whereClause = '') => {
+      const WHERE = whereClause ? `WHERE ${whereClause}` : '';
+
+      return `
         SELECT stocks_quotations.*, stocks.name as stock_name, stocks.type as stock_type
         FROM stocks_quotations
         LEFT JOIN stocks 
         ON stocks.ticker=stocks_quotations.stock_ticker
-      `,
+        ${WHERE}
+      `;
+    };
+
+    this.findAllStocksQuotationsStatement = db.prepare(findStatement());
+
+    this.findStockQuotationByStockStatement = db.prepare(
+      findStatement('stock_ticker=@stock_ticker'),
     );
   }
 
@@ -54,6 +65,15 @@ class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {
       this.findAllStocksQuotationsStatement.all();
 
     return docs.map(SqliteStockQuotationMapper.fromModel);
+  }
+
+  async find(stock: Stock): Promise<StockQuotation> {
+    const doc: SqliteStockQuotationModel =
+      this.findStockQuotationByStockStatement.get({
+        stock_ticker: stock.ticker,
+      });
+
+    return SqliteStockQuotationMapper.fromModel(doc);
   }
 }
 
