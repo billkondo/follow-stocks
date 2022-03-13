@@ -1,4 +1,5 @@
 import HttpService from '@services/http_service';
+import { STOCKS_RATE_LIMIT_MS } from 'config/rate_limit';
 import HttpResponse from 'domain/http_response';
 import Stock from 'domain/stock';
 import StockQuotation from 'domain/stock_quotation';
@@ -24,6 +25,9 @@ describe('Load FII quotation', () => {
   };
 
   beforeEach(async () => {
+    (HttpService.get as jest.Mock).mockClear();
+    (Date.now as jest.Mock).mockClear();
+
     const stocksService = stocksServiceFactory();
 
     await stocksService.save([hgreStock]);
@@ -34,6 +38,7 @@ describe('Load FII quotation', () => {
       html: MOCK_STOCK_QUOTATION_HTML,
       status: 200,
     } as HttpResponse);
+    (Date.now as jest.Mock).mockReturnValue(new Date(2022, 12, 2).getTime());
     const { loadStockQuotation, stocksQuotationsService } = setup();
     const stockQuotation: StockQuotation = {
       quotation: {
@@ -41,6 +46,7 @@ describe('Load FII quotation', () => {
         value: 256.43,
       },
       stock: hgreStock,
+      updatedAt: new Date(2022, 12, 2),
     };
 
     await expect(loadStockQuotation(hgreStock)).resolves.toEqual(
@@ -123,4 +129,26 @@ describe('Load FII quotation', () => {
       );
     },
   );
+
+  test('should not load stock quotation if it is in rate limit', async () => {
+    const { loadStockQuotation, stocksQuotationsService } = setup();
+    const currentDateTime = new Date(2022, 12, 1).getTime();
+    const updatedAtTime = currentDateTime - STOCKS_RATE_LIMIT_MS + 50;
+    const stockQuotation: StockQuotation = {
+      quotation: { code: 'BRL', value: 245 },
+      stock: hgreStock,
+      updatedAt: new Date(updatedAtTime),
+    };
+
+    (Date.now as jest.Mock).mockReturnValue(currentDateTime);
+
+    await stocksQuotationsService.saveStockQuotation(stockQuotation);
+    await expect(loadStockQuotation(hgreStock)).resolves.toEqual(
+      stockQuotation,
+    );
+    await expect(
+      stocksQuotationsService.findStockQuotation(hgreStock),
+    ).resolves.toEqual(stockQuotation);
+    expect(HttpService.get).not.toBeCalled();
+  });
 });

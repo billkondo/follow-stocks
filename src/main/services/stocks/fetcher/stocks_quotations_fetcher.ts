@@ -20,6 +20,7 @@ class StocksQuotationsFetcher {
         code: currency,
         value: price,
       },
+      updatedAt: new Date(Date.now()),
     };
   }
 }

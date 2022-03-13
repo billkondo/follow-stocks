@@ -21,6 +21,10 @@ describe('Stocks quotations service', () => {
     return { stocksQuotationsService };
   };
 
+  beforeEach(() => {
+    (Date.now as jest.Mock).mockReturnValue(new Date(2022, 1, 12).getTime());
+  });
+
   test('should fetch stock quotation', async () => {
     const { stocksQuotationsService } = setup();
     (HttpService.get as jest.Mock).mockReturnValue({
@@ -38,6 +42,7 @@ describe('Stocks quotations service', () => {
         value: 256.43,
       },
       stock: xplgStock,
+      updatedAt: new Date(2022, 1, 12),
     } as StockQuotation);
 
     expect(HttpService.get).toBeCalledWith(

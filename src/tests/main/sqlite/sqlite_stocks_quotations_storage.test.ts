@@ -37,6 +37,7 @@ describe('Sqlite stocks quotations storage', () => {
         value: 125,
       },
       stock: xplgStock,
+      updatedAt: new Date(2022, 12, 1),
     };
 
     await stocksQuotationStorage.save(stockQuotation);
@@ -53,6 +54,7 @@ describe('Sqlite stocks quotations storage', () => {
         value: 250,
       },
       stock: xplgStock,
+      updatedAt: new Date(2022, 12, 1),
     };
 
     await stocksQuotationStorage.save({
@@ -61,6 +63,7 @@ describe('Sqlite stocks quotations storage', () => {
         value: 125,
       },
       stock: xplgStock,
+      updatedAt: new Date(2022, 12, 1),
     });
     await stocksQuotationStorage.save(stockQuotation);
 

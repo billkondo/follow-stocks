@@ -37,6 +37,7 @@ describe('Load quotations from FIIs invested', () => {
       html: MOCK_STOCK_QUOTATION_HTML,
       status: 200,
     } as HttpResponse);
+    (Date.now as jest.Mock).mockReturnValue(new Date(2022, 12, 1).getTime());
 
     const {
       loadQuotationsFromStocksInvested,
@@ -86,6 +87,7 @@ describe('Load quotations from FIIs invested', () => {
             code: 'BRL',
             value: 256.43,
           },
+          updatedAt: new Date(2022, 12, 1),
         } as StockQuotation);
       }),
     );

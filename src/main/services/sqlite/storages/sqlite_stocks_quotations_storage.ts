@@ -14,11 +14,12 @@ class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {
   constructor(db: Database) {
     this.insertStockQuotationStatement = db.prepare(
       `
-        INSERT INTO stocks_quotations (stock_ticker, quotation_value, quotation_code)
-        VALUES (@stock_ticker, @quotation_value, @quotation_code)
+        INSERT INTO stocks_quotations (stock_ticker, quotation_value, quotation_code, updated_at)
+        VALUES (@stock_ticker, @quotation_value, @quotation_code, @updated_at)
         ON CONFLICT(stock_ticker) DO UPDATE SET
           quotation_value=excluded.quotation_value,
-          quotation_code=excluded.quotation_code
+          quotation_code=excluded.quotation_code,
+          updated_at=excluded.updated_at
       `,
     );
 
@@ -47,6 +48,7 @@ class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {
         CREATE TABLE IF NOT EXISTS stocks_quotations (
           quotation_value DECIMAL, 
           quotation_code DECIMAL,
+          updated_at DATE,
           stock_ticker VARCHAR UNIQUE,
           FOREIGN KEY (stock_ticker) REFERENCES stocks (ticker) ON UPDATE CASCADE
         )
@@ -72,6 +74,8 @@ class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {
       this.findStockQuotationByStockStatement.get({
         stock_ticker: stock.ticker,
       });
+
+    if (!doc) return null;
 
     return SqliteStockQuotationMapper.fromModel(doc);
   }

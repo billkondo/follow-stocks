@@ -3,7 +3,7 @@ import StockQuotation from 'domain/stock_quotation';
 
 class SqliteStockQuotationMapper {
   static toModel(stockQuotation: StockQuotation): SqliteStockQuotationModel {
-    const { quotation, stock } = stockQuotation;
+    const { quotation, stock, updatedAt } = stockQuotation;
 
     return {
       quotation_code: quotation.code,
@@ -11,6 +11,7 @@ class SqliteStockQuotationMapper {
       stock_name: stock.name,
       stock_ticker: stock.ticker,
       stock_type: stock.type,
+      updated_at: updatedAt.toISOString(),
     };
   }
 
@@ -21,6 +22,7 @@ class SqliteStockQuotationMapper {
       stock_name,
       stock_ticker,
       stock_type,
+      updated_at,
     } = stockQuotation;
 
     return {
@@ -33,6 +35,7 @@ class SqliteStockQuotationMapper {
         ticker: stock_ticker,
         type: stock_type,
       },
+      updatedAt: new Date(updated_at),
     };
   }
 }

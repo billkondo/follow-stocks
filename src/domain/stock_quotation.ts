@@ -4,6 +4,7 @@ import Stock from './stock';
 interface StockQuotation {
   stock: Stock;
   quotation: Price;
+  updatedAt: Date;
 }
 
 export default StockQuotation;

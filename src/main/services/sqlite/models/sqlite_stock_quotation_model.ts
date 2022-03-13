@@ -7,6 +7,7 @@ interface SqliteStockQuotationModel {
   stock_type: StockType;
   quotation_value: number;
   quotation_code: PriceCode;
+  updated_at: string;
 }
 
 export default SqliteStockQuotationModel;
