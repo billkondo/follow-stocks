@@ -1,4 +1,5 @@
 import StocksInvestedService from '@services/stocks/stocks_invested_service';
+import StocksInvestedWithQuotationsService from '@services/stocks/stocks_invested_with_quotations_service';
 import StocksNegotiationsService from '@services/stocks/stocks_negotiations_service';
 import StocksQuotationsService from '@services/stocks/stocks_quotations_service';
 import StocksService from '@services/stocks/stocks_service';
@@ -53,11 +54,20 @@ const useStocks = () => {
     return stocksQuotationsService;
   };
 
+  const stocksInvestedWithQuotationsServiceFactory = () => {
+    const sqliteConnection = SqliteConnection.connect();
+    const stocksInvestedWithQuotationsService =
+      new StocksInvestedWithQuotationsService(sqliteConnection);
+
+    return stocksInvestedWithQuotationsService;
+  };
+
   return {
     stocksServiceFactory,
     stocksNegotiationsServiceFactory,
     stocksInvestedServiceFactory,
     stocksQuotationsServiceFactory,
+    stocksInvestedWithQuotationsServiceFactory,
   };
 };
 
