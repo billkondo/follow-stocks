@@ -1,10 +1,10 @@
 import { Divider, List, Typography, useTheme } from '@mui/material';
 import { FC } from 'react';
-import MenuData from './menu_data';
+import { MenuGroup } from './menu_types';
 import NavItem from './NavItem';
 
 interface IProps {
-  item: MenuData;
+  item: MenuGroup;
 }
 
 const NavGroup: FC<IProps> = ({ item }) => {
@@ -37,7 +37,7 @@ const NavGroup: FC<IProps> = ({ item }) => {
         }
       >
         {item.children.map((child) => (
-          <NavItem key={child.id} item={child} />
+          <NavItem key={child.id} item={child} level={1} />
         ))}
       </List>
 
