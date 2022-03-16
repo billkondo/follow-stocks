@@ -1,7 +1,8 @@
 import { IconBuilding } from '@tabler/icons';
-import MenuData from './menu_data';
+import AppRoutes from 'renderer/config/app_routes';
+import { MenuGroup } from './menu_types';
 
-const menuItems: MenuData[] = [
+const menuItems: MenuGroup[] = [
   {
     id: 'STOCKS',
     title: 'Stocks',
@@ -12,7 +13,7 @@ const menuItems: MenuData[] = [
         title: 'FIIs',
         type: 'ITEM',
         icon: <IconBuilding stroke={1.5} size="1.3rem" />,
-        children: [],
+        url: AppRoutes.STOCKS_FIIS,
       },
     ],
   },
