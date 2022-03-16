@@ -1,3 +1,6 @@
+# Development Sqlite
+database_dev.db
+
 # Logs
 logs
 *.log
