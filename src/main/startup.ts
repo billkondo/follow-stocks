@@ -12,10 +12,14 @@ const startup = () => {
   const storage = sqliteStorageFactory(sqliteConnection);
   const repositories = serviceRepositoriesFactory(storage);
 
-  const { stocks } = repositories;
-  const stocksHandlers = StocksHandlers(stocks);
+  const { stocks, stocksInvestedWithQuotations } = repositories;
+  const stocksHandlers = StocksHandlers({
+    stocksRepository: stocks,
+    stocksInvestedWithQuotationsRepository: stocksInvestedWithQuotations,
+  });
 
   ipcMain.handle('stocks:load', stocksHandlers.load);
+  ipcMain.handle('stocks:listInvested', stocksHandlers.listInvested);
 };
 
 export default startup;
