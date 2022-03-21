@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import delayed from 'utils/delayed';
 import sleep from 'utils/sleep';
 
