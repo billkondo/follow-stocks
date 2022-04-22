@@ -85,12 +85,7 @@ const NegotiationsNewOneAutocomplete: FC<Props> = ({
             ...params.InputProps,
             endAdornment: (
               <>
-                {loading && open && (
-                  <CircularProgress
-                    data-testid="autocomplete-loading"
-                    size={20}
-                  />
-                )}
+                {loading && open && <CircularProgress size={20} />}
                 {params.InputProps.endAdornment}
               </>
             ),

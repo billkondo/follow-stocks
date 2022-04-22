@@ -61,7 +61,7 @@ describe('Stocks autocomplete', () => {
       stock,
     ] as Stock[]);
 
-    await waitFor(() => screen.getByTestId('autocomplete-loading'));
+    await waitFor(() => screen.getByRole('progressbar'));
     await waitFor(() => {
       screen.getByRole('option', { name: /RECT11/ });
       screen.getByRole('option', { name: /RECR11/ });
@@ -70,7 +70,7 @@ describe('Stocks autocomplete', () => {
     mockSearchStocksByTicker.mockResolvedValue([stock] as Stock[]);
 
     await user.type(input, 'CR');
-    await waitFor(() => screen.getByTestId('autocomplete-loading'));
+    await waitFor(() => screen.getByRole('progressbar'));
     await waitFor(() => {
       screen.getByRole('option', { name: /RECR11/ });
     });
