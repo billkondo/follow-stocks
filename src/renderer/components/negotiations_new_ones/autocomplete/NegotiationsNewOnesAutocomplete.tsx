@@ -63,6 +63,11 @@ const NegotiationsNewOneAutocomplete: FC<Props> = ({
       onChange={(_, newStock) => setStock(newStock as Stock)}
       noOptionsText="No stocks were found"
       PaperComponent={(props) => <Paper {...props} elevation={8} />}
+      isOptionEqualToValue={(option, value) => {
+        if (!value) return false;
+
+        return option.ticker === value.ticker;
+      }}
       renderOption={(props, option) => (
         <Box component="li" {...props}>
           <Typography variant="body1">

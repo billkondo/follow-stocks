@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Stock from 'domain/stock';
 import NegotiationsNewOnesAutocomplete from './NegotiationsNewOnesAutocomplete';
@@ -12,7 +12,7 @@ describe('Stocks autocomplete', () => {
       searchStocksByTicker: mockSearchStocksByTicker,
     } as never;
 
-    render(
+    const { rerender } = render(
       <NegotiationsNewOnesAutocomplete
         stock={null}
         setStock={mockSetStock}
@@ -21,9 +21,15 @@ describe('Stocks autocomplete', () => {
     );
 
     const user = userEvent.setup();
-    const autocomplete = screen.getByLabelText('Which stock was negotiated?');
+    const input = screen.getByLabelText('Which stock was negotiated?');
 
-    return { user, autocomplete, mockSearchStocksByTicker, mockSetStock };
+    return {
+      input,
+      rerender,
+      user,
+      mockSearchStocksByTicker,
+      mockSetStock,
+    };
   };
 
   beforeEach(() => {
@@ -35,53 +41,57 @@ describe('Stocks autocomplete', () => {
   });
 
   test('should autocomplete and select stock', async () => {
-    const { user, autocomplete, mockSearchStocksByTicker, mockSetStock } =
+    const { input, rerender, user, mockSearchStocksByTicker, mockSetStock } =
       setup();
+    const stock: Stock = {
+      name: 'RECR Stock',
+      ticker: 'RECR11',
+      type: 'FII',
+    };
 
-    await user.type(autocomplete, 'RE');
+    await user.type(input, 'RE');
     expect(mockSetStock).not.toHaveBeenCalled();
 
-    mockSearchStocksByTicker.mockReturnValue([
+    mockSearchStocksByTicker.mockResolvedValue([
       {
         name: 'RECT Stock',
         ticker: 'RECT11',
         type: 'FII',
       },
-      {
-        name: 'RECR Stock',
-        ticker: 'RECR11',
-        type: 'FII',
-      },
+      stock,
     ] as Stock[]);
 
     await waitFor(() => screen.getByTestId('autocomplete-loading'));
     await waitFor(() => {
-      screen.getByText(/RECT11/);
-      screen.getByText(/RECR11/);
+      screen.getByRole('option', { name: /RECT11/ });
+      screen.getByRole('option', { name: /RECR11/ });
     });
 
-    await user.type(autocomplete, 'CR');
-    expect(mockSetStock).not.toHaveBeenCalled();
+    mockSearchStocksByTicker.mockResolvedValue([stock] as Stock[]);
 
-    mockSearchStocksByTicker.mockReturnValue([
-      {
-        name: 'RECR Stock',
-        ticker: 'RECR11',
-        type: 'FII',
-      },
-    ] as Stock[]);
-
+    await user.type(input, 'CR');
     await waitFor(() => screen.getByTestId('autocomplete-loading'));
     await waitFor(() => {
-      screen.getByText(/RECR11/);
+      screen.getByRole('option', { name: /RECR11/ });
     });
 
-    await user.click(screen.getByText(/RECR11/));
-    expect(autocomplete).toHaveValue('RECR11');
-    expect(mockSetStock).toHaveBeenCalledWith({
-      name: 'RECR Stock',
-      ticker: 'RECR11',
-      type: 'FII',
+    fireEvent.click(screen.getByRole('option', { name: /RECR11/ }));
+    await waitFor(() => {
+      expect(input).toHaveValue('RECR11');
+      expect(mockSetStock).toHaveBeenCalledWith(stock);
+    });
+
+    rerender(
+      <NegotiationsNewOnesAutocomplete
+        setStock={mockSetStock}
+        stock={stock}
+        stockType="FII"
+      />,
+    );
+
+    await user.click(input);
+    await waitFor(() => {
+      screen.getByRole('option', { name: /RECR11/, selected: true });
     });
   });
 
@@ -94,12 +104,11 @@ describe('Stocks autocomplete', () => {
   });
 
   test('should show message that no stocks were found', async () => {
-    const { user, autocomplete, mockSearchStocksByTicker } = setup();
+    const { user, input, mockSearchStocksByTicker } = setup();
 
-    mockSearchStocksByTicker.mockReturnValue([]);
+    mockSearchStocksByTicker.mockResolvedValue([]);
 
-    await user.type(autocomplete, 'REC');
-
+    await user.type(input, 'REC');
     await waitFor(() => {
       screen.getByText(/No stocks were found/);
     });
