@@ -1,7 +1,7 @@
 import Stock from '@entities/stock/stock';
 import StockType from '@entities/stock/stock_type';
+import StocksRepository from '@repositories/stocks_repository';
 import { mock } from 'jest-mock-extended';
-import StocksRepository from 'main/repositories/stocks_repository';
 import SearchStocksByTicker from 'main/usecases/search_stocks_by_ticker';
 
 describe('Search stocks by ticker', () => {

@@ -1,7 +1,7 @@
 import Stock from '@entities/stock/stock';
 import StockType from '@entities/stock/stock_type';
+import EventsRepository from '@repositories/events_repository';
 import { mock } from 'jest-mock-extended';
-import EventsRepository from 'main/repositories/events_repository';
 import FindStocksThatHaveAnyEvent from 'main/usecases/find_stocks_that_have_any_event';
 
 describe('Find stocks that have any event', () => {

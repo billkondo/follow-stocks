@@ -1,10 +1,10 @@
 import Event from '@entities/event/event';
 import Stock from '@entities/stock/stock';
 import DomainError from '@errors/domain_error';
-import EventsRepository from 'main/repositories/events_repository';
-import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
-import StocksRepository from 'main/repositories/stocks_repository';
-import UnitOfWorkRepository from 'main/repositories/unit_of_work_repository';
+import EventsRepository from '@repositories/events_repository';
+import StocksInvestedRepository from '@repositories/stocks_invested_repository';
+import StocksRepository from '@repositories/stocks_repository';
+import UnitOfWorkRepository from '@repositories/unit_of_work_repository';
 import AddEventsToList from './add_events_to_list';
 import AssertEventsBalanceIsNotNegative from './assert_events_balance_is_not_negative';
 

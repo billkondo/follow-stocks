@@ -1,5 +1,5 @@
-import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
-import StocksQuotationsRepository from 'main/repositories/stocks_quotations_repository';
+import StocksInvestedRepository from '@repositories/stocks_invested_repository';
+import StocksQuotationsRepository from '@repositories/stocks_quotations_repository';
 import LoadStockQuotation from './load_stock_quotation';
 
 const LoadQuotationsFromStocksInvested =

@@ -1,6 +1,6 @@
 import Stock from '@entities/stock/stock';
 import StockType from '@entities/stock/stock_type';
-import EventsRepository from 'main/repositories/events_repository';
+import EventsRepository from '@repositories/events_repository';
 
 const FindStocksThatHaveAnyEvent =
   (eventsRepository: EventsRepository) =>

@@ -1,6 +1,6 @@
 import StockType from '@entities/stock/stock_type';
 import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
-import StocksInvestedWithQuotationsRepository from 'main/repositories/stocks_invested_wtih_quotations_repository';
+import StocksInvestedWithQuotationsRepository from '@repositories/stocks_invested_wtih_quotations_repository';
 
 const ListStocksInvested =
   (stocksInvestedWithQuotation: StocksInvestedWithQuotationsRepository) =>

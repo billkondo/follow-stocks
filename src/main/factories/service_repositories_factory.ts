@@ -1,8 +1,8 @@
+import Repositories from '@repositories/repositories';
 import EventsService from '@services/stocks/events_service';
 import StocksInvestedWithQuotationsService from '@services/stocks/stocks_invested_with_quotations_service';
 import StocksService from '@services/stocks/stocks_service';
 import SqliteConnection from '@sqlite/sqlite_connection';
-import Repositories from 'main/repositories/repositories';
 import Storage from 'main/storage/storage';
 
 const serviceRepositoriesFactory = (storage: Storage): Repositories => {

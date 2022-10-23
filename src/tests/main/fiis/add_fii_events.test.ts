@@ -1,8 +1,8 @@
 import Event from '@entities/event/event';
 import Stock from '@entities/stock/stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
+import StocksInvestedRepository from '@repositories/stocks_invested_repository';
 import { mock } from 'jest-mock-extended';
-import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
 import AddEvents from 'main/usecases/add_events';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';

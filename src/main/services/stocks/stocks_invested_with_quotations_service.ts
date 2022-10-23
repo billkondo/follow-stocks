@@ -1,10 +1,10 @@
 import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
+import StocksInvestedWithQuotationsRepository from '@repositories/stocks_invested_wtih_quotations_repository';
 import SqliteStockInvestedMapper from '@sqlite/mappers/sqlite_stock_invested_mapper';
 import SqliteStockQuotationMapper from '@sqlite/mappers/sqlite_stock_quotation_mapper';
 import SqliteStockInvestedModel from '@sqlite/models/sqlite_stock_invested_model';
 import SqliteStockQuotationModel from '@sqlite/models/sqlite_stock_quotation_model';
 import { Database, Statement } from 'better-sqlite3';
-import StocksInvestedWithQuotationsRepository from 'main/repositories/stocks_invested_wtih_quotations_repository';
 
 type SqliteStockInvestedWithQuotationModel = SqliteStockInvestedModel &
   SqliteStockQuotationModel;

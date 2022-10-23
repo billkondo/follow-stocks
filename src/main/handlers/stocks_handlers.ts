@@ -1,8 +1,8 @@
 import StockType from '@entities/stock/stock_type';
 import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
+import StocksInvestedWithQuotationsRepository from '@repositories/stocks_invested_wtih_quotations_repository';
+import StocksRepository from '@repositories/stocks_repository';
 import { IpcMainInvokeEvent } from 'electron';
-import StocksInvestedWithQuotationsRepository from 'main/repositories/stocks_invested_wtih_quotations_repository';
-import StocksRepository from 'main/repositories/stocks_repository';
 import ListStocksInvested from 'main/usecases/list_stocks_invested';
 import LoadStocksFirstTime from 'main/usecases/load_stocks_first_time';
 

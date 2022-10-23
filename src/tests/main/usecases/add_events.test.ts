@@ -4,11 +4,11 @@ import PriceCode from '@entities/price/price_code';
 import Stock from '@entities/stock/stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import DomainError from '@errors/domain_error';
+import EventsRepository from '@repositories/events_repository';
+import StocksInvestedRepository from '@repositories/stocks_invested_repository';
+import StocksRepository from '@repositories/stocks_repository';
+import UnitOfWorkRepository from '@repositories/unit_of_work_repository';
 import { mock } from 'jest-mock-extended';
-import EventsRepository from 'main/repositories/events_repository';
-import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
-import StocksRepository from 'main/repositories/stocks_repository';
-import UnitOfWorkRepository from 'main/repositories/unit_of_work_repository';
 import AddEvents from 'main/usecases/add_events';
 
 describe('Add events', () => {

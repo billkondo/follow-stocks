@@ -1,6 +1,6 @@
 import Stock from '@entities/stock/stock';
 import StockQuotation from '@entities/stock_quotation';
-import StocksQuotationsRepository from 'main/repositories/stocks_quotations_repository';
+import StocksQuotationsRepository from '@repositories/stocks_quotations_repository';
 import StocksQuotationsStorage from 'main/storage/stocks_quotations_storage';
 import StocksQuotationsFetcher from './fetcher/stocks_quotations_fetcher';
 
