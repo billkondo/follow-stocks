@@ -1,4 +1,4 @@
-import StockType from 'domain/entities/stock/stock_type';
+import StockType from '@entities/stock/stock_type';
 
 interface SqliteStockModel {
   name: string;

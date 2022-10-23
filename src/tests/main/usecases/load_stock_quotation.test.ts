@@ -1,5 +1,5 @@
-import Stock from 'domain/entities/stock/stock';
-import StockQuotation from 'domain/entities/stock_quotation';
+import Stock from '@entities/stock/stock';
+import StockQuotation from '@entities/stock_quotation';
 import { mock } from 'jest-mock-extended';
 import StocksQuotationsRepository from 'main/repositories/stocks_quotations_repository';
 import LoadStockQuotation from 'main/usecases/load_stock_quotation';

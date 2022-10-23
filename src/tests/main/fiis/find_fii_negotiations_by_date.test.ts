@@ -1,5 +1,5 @@
-import Stock from 'domain/entities/stock/stock';
-import StockNegotiation from 'domain/entities/stock_negotiation/stock_negotiation';
+import Stock from '@entities/stock/stock';
+import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
 import FindStockNegotiationsByDate from 'main/usecases/find_stock_negotiations_by_date';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';

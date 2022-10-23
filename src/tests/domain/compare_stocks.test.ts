@@ -1,4 +1,4 @@
-import Stock from 'domain/entities/stock/stock';
+import Stock from '@entities/stock/stock';
 import compareStocks from 'domain/usecases/compare_stocks';
 
 describe('Compare stocks', () => {

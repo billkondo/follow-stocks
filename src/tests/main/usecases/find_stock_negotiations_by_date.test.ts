@@ -1,5 +1,5 @@
-import Stock from 'domain/entities/stock/stock';
-import StockNegotiation from 'domain/entities/stock_negotiation/stock_negotiation';
+import Stock from '@entities/stock/stock';
+import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
 import { mock } from 'jest-mock-extended';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
 import FindStocksNegotiationsByDate from 'main/usecases/find_stock_negotiations_by_date';

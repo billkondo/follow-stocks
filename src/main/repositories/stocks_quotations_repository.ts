@@ -1,5 +1,5 @@
-import Stock from 'domain/entities/stock/stock';
-import StockQuotation from 'domain/entities/stock_quotation';
+import Stock from '@entities/stock/stock';
+import StockQuotation from '@entities/stock_quotation';
 
 interface StocksQuotationsRepository {
   loadStockQuotation: (stock: Stock) => Promise<StockQuotation>;

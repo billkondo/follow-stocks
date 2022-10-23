@@ -1,5 +1,5 @@
-import StockType from 'domain/entities/stock/stock_type';
-import StockInvestedWithQuotation from 'domain/entities/stock_invested/stock_invested_with_quotation';
+import StockType from '@entities/stock/stock_type';
+import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
 import { FC, useState } from 'react';
 import Status from 'renderer/domain/status';
 import useComponentWillMount from 'renderer/hooks/use_component_will_mount';

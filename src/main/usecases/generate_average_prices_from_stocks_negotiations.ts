@@ -1,6 +1,6 @@
+import StockInvested from '@entities/stock_invested/stock_invested';
+import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
 import BigNumber from 'bignumber.js';
-import StockInvested from 'domain/entities/stock_invested/stock_invested';
-import StockNegotiation from 'domain/entities/stock_negotiation/stock_negotiation';
 
 function* GenerateAveragePricesFromStocksNegotiations(
   stocksNegotiations: StockNegotiation[],

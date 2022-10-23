@@ -1,5 +1,5 @@
-import Stock from 'domain/entities/stock/stock';
-import StockInvested from 'domain/entities/stock_invested/stock_invested';
+import Stock from '@entities/stock/stock';
+import StockInvested from '@entities/stock_invested/stock_invested';
 import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
 import StocksInvestedStorage from 'main/storage/stocks_invested_storage';
 

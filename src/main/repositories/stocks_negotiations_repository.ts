@@ -1,6 +1,6 @@
-import Stock from 'domain/entities/stock/stock';
-import StockType from 'domain/entities/stock/stock_type';
-import StockNegotiation from 'domain/entities/stock_negotiation/stock_negotiation';
+import Stock from '@entities/stock/stock';
+import StockType from '@entities/stock/stock_type';
+import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
 
 interface StocksNegotiationsRepository {
   saveStockNegotiations: (

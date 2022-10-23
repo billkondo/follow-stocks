@@ -1,6 +1,6 @@
+import Stock from '@entities/stock/stock';
+import StockType from '@entities/stock/stock_type';
 import HttpService from '@services/http_service';
-import Stock from 'domain/entities/stock/stock';
-import StockType from 'domain/entities/stock/stock_type';
 import NotImplementedError from 'domain/errors/not_implemented_error';
 import NodeHtmlParser from 'node-html-parser';
 

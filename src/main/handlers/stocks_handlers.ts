@@ -1,5 +1,5 @@
-import StockType from 'domain/entities/stock/stock_type';
-import StockInvestedWithQuotation from 'domain/entities/stock_invested/stock_invested_with_quotation';
+import StockType from '@entities/stock/stock_type';
+import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
 import { IpcMainInvokeEvent } from 'electron';
 import StocksInvestedWithQuotationsRepository from 'main/repositories/stocks_invested_wtih_quotations_repository';
 import StocksRepository from 'main/repositories/stocks_repository';

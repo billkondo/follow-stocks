@@ -1,5 +1,5 @@
+import Stock from '@entities/stock/stock';
 import SqliteStockModel from '@sqlite/models/sqlite_stock_model';
-import Stock from 'domain/entities/stock/stock';
 
 class SqliteStockMapper {
   static toModel(stock: Stock): SqliteStockModel {

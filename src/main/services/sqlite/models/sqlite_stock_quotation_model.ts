@@ -1,5 +1,5 @@
-import PriceCode from 'domain/entities/price/price_code';
-import StockType from 'domain/entities/stock/stock_type';
+import PriceCode from '@entities/price/price_code';
+import StockType from '@entities/stock/stock_type';
 
 interface SqliteStockQuotationModel {
   stock_name: string;

@@ -1,6 +1,6 @@
-import Price from 'domain/entities/price/price';
-import Stock from 'domain/entities/stock/stock';
-import StockNegotiation from 'domain/entities/stock_negotiation/stock_negotiation';
+import Price from '@entities/price/price';
+import Stock from '@entities/stock/stock';
+import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
 import { mock } from 'jest-mock-extended';
 import AddStockNegotiationsToList from 'main/usecases/add_stock_negotiations_to_list';
 

@@ -1,5 +1,5 @@
+import HttpResponse from '@entities/http_response';
 import HttpService from '@services/http_service';
-import HttpResponse from 'domain/entities/http_response';
 
 const useMockHttpService = () => {
   const expectedURLs: { [key: string]: string } = {

@@ -1,6 +1,6 @@
-import PriceCode from 'domain/entities/price/price_code';
-import StockType from 'domain/entities/stock/stock_type';
-import StockNegotiationType from 'domain/entities/stock_negotiation/stock_negotiation_type';
+import PriceCode from '@entities/price/price_code';
+import StockType from '@entities/stock/stock_type';
+import StockNegotiationType from '@entities/stock_negotiation/stock_negotiation_type';
 
 interface SqliteStockNegotiationModel {
   date: string;

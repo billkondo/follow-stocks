@@ -1,5 +1,5 @@
+import StockType from '@entities/stock/stock_type';
 import { Grid } from '@mui/material';
-import StockType from 'domain/entities/stock/stock_type';
 import { FC } from 'react';
 import StocksInvestedProvider from 'renderer/stocks/stocks_invested_provider';
 import StocksInvestedCard from './card/StocksInvestedCard';
