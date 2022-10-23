@@ -1,5 +1,5 @@
-import Stock from 'domain/stock';
-import StockQuotation from 'domain/stock_quotation';
+import Stock from 'domain/entities/stock/stock';
+import StockQuotation from 'domain/entities/stock_quotation';
 import StocksQuotationsRepository from 'main/repositories/stocks_quotations_repository';
 import StocksQuotationsStorage from 'main/storage/stocks_quotations_storage';
 import StocksQuotationsFetcher from './fetcher/stocks_quotations_fetcher';

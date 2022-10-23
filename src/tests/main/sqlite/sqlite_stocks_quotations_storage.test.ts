@@ -1,7 +1,7 @@
 import SqliteConnection from '@sqlite/sqlite_connection';
 import SqliteStocksQuotationsStorage from '@sqlite/storages/sqlite_stocks_quotations_storage';
-import Stock from 'domain/stock';
-import StockQuotation from 'domain/stock_quotation';
+import Stock from 'domain/entities/stock/stock';
+import StockQuotation from 'domain/entities/stock_quotation';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';
 

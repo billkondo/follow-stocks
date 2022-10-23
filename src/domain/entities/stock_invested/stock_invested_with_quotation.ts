@@ -1,4 +1,4 @@
-import Price from './price';
+import Price from 'domain/entities/price/price';
 import StockInvested from './stock_invested';
 
 type StockInvestedWithQuotation = StockInvested & {

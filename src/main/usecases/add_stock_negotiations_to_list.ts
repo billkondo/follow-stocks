@@ -1,4 +1,4 @@
-import StockNegotiation from 'domain/stock_negotiation';
+import StockNegotiation from 'domain/entities/stock_negotiation/stock_negotiation';
 
 const AddStockNegotiationsToList = (
   stockNegotiations: StockNegotiation[],

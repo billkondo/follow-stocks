@@ -1,4 +1,4 @@
-import Stock from 'domain/stock';
+import Stock from 'domain/entities/stock/stock';
 import SearchStocksByTicker from 'main/usecases/search_stocks_by_ticker';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';

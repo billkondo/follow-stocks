@@ -1,5 +1,5 @@
 import SqliteStockNegotiationModel from '@sqlite/models/sqlite_stock_negotiation_model';
-import StockNegotiation from 'domain/stock_negotiation';
+import StockNegotiation from 'domain/entities/stock_negotiation/stock_negotiation';
 
 class SqliteStockNegotiationMapper {
   static toModel(

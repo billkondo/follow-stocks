@@ -1,5 +1,5 @@
-import PriceCode from 'domain/price_code';
-import StockType from 'domain/stock_type';
+import PriceCode from 'domain/entities/price/price_code';
+import StockType from 'domain/entities/stock/stock_type';
 
 interface SqliteStockInvestedModel {
   quantity: number;

@@ -1,5 +1,5 @@
-import DomainError from 'domain/domain_error';
-import Stock from 'domain/stock';
+import Stock from 'domain/entities/stock/stock';
+import DomainError from 'domain/errors/domain_error';
 import { mock } from 'jest-mock-extended';
 import AssertStocksNegotiationsBalanceIsNotNegative from 'main/usecases/assert_stocks_negotiations_balance_is_not_negative';
 

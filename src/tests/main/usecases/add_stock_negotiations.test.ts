@@ -1,9 +1,9 @@
-import DomainError from 'domain/domain_error';
-import Price from 'domain/price';
-import PriceCode from 'domain/price_code';
-import Stock from 'domain/stock';
-import StockInvested from 'domain/stock_invested';
-import StockNegotiation from 'domain/stock_negotiation';
+import Price from 'domain/entities/price/price';
+import PriceCode from 'domain/entities/price/price_code';
+import Stock from 'domain/entities/stock/stock';
+import StockInvested from 'domain/entities/stock_invested/stock_invested';
+import StockNegotiation from 'domain/entities/stock_negotiation/stock_negotiation';
+import DomainError from 'domain/errors/domain_error';
 import { mock } from 'jest-mock-extended';
 import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';

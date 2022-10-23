@@ -1,5 +1,5 @@
-import Stock from 'domain/stock';
-import StockType from 'domain/stock_type';
+import Stock from 'domain/entities/stock/stock';
+import StockType from 'domain/entities/stock/stock_type';
 
 interface StocksRepository {
   exists: (stock: Stock) => Promise<boolean>;

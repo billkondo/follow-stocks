@@ -1,4 +1,4 @@
-import Stock from 'domain/stock';
+import Stock from 'domain/entities/stock/stock';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
 
 const FindStockNegotiationsByDate =

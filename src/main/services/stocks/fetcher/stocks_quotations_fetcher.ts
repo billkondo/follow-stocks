@@ -1,7 +1,7 @@
 import HttpService from '@services/http_service';
-import PriceCode from 'domain/price_code';
-import Stock from 'domain/stock';
-import StockQuotation from 'domain/stock_quotation';
+import PriceCode from 'domain/entities/price/price_code';
+import Stock from 'domain/entities/stock/stock';
+import StockQuotation from 'domain/entities/stock_quotation';
 import NodeHtmlParser, { HTMLElement } from 'node-html-parser';
 import parsePrice from 'utils/parse_price';
 

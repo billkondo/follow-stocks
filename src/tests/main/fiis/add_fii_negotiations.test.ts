@@ -1,6 +1,6 @@
-import Stock from 'domain/stock';
-import StockInvested from 'domain/stock_invested';
-import StockNegotiation from 'domain/stock_negotiation';
+import Stock from 'domain/entities/stock/stock';
+import StockInvested from 'domain/entities/stock_invested/stock_invested';
+import StockNegotiation from 'domain/entities/stock_negotiation/stock_negotiation';
 import { mock } from 'jest-mock-extended';
 import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
 import AddStockNegotiations from 'main/usecases/add_stock_negotiations';

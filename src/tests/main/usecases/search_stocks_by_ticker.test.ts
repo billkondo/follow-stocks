@@ -1,5 +1,5 @@
-import Stock from 'domain/stock';
-import StockType from 'domain/stock_type';
+import Stock from 'domain/entities/stock/stock';
+import StockType from 'domain/entities/stock/stock_type';
 import { mock } from 'jest-mock-extended';
 import StocksRepository from 'main/repositories/stocks_repository';
 import SearchStocksByTicker from 'main/usecases/search_stocks_by_ticker';

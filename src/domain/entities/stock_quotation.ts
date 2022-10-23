@@ -1,5 +1,5 @@
-import Price from './price';
-import Stock from './stock';
+import Price from './price/price';
+import Stock from './stock/stock';
 
 interface StockQuotation {
   stock: Stock;

@@ -1,4 +1,4 @@
-import StockType from 'domain/stock_type';
+import StockType from 'domain/entities/stock/stock_type';
 import StocksRepository from 'main/repositories/stocks_repository';
 
 const LoadStocks =

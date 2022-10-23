@@ -1,13 +1,13 @@
-import Price from './price';
-import Stock from './stock';
+import Price from 'domain/entities/price/price';
+import Stock from 'domain/entities/stock/stock';
 import StockNegotiationType from './stock_negotiation_type';
 
 interface StockNegotiation {
+  date: Date;
   type: StockNegotiationType;
+  stock: Stock;
   price: Price;
   quantity: number;
-  stock: Stock;
-  date: Date;
 }
 
 export default StockNegotiation;

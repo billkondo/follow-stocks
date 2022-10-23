@@ -1,5 +1,5 @@
-import Stock from 'domain/stock';
-import StockType from 'domain/stock_type';
+import Stock from 'domain/entities/stock/stock';
+import StockType from 'domain/entities/stock/stock_type';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
 
 const FindStocksThatHaveAnyNegotiation =

@@ -1,4 +1,4 @@
-import Stock from 'domain/stock';
+import Stock from 'domain/entities/stock/stock';
 import compareStocks from 'domain/usecases/compare_stocks';
 import FindStocksThatHaveAnyNegotiation from 'main/usecases/find_stocks_that_have_any_negotiation';
 import useSqlite from 'tests/hooks/use_sqlite';

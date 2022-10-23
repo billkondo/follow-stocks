@@ -1,4 +1,4 @@
-import HttpResponse from 'domain/http_response';
+import HttpResponse from 'domain/entities/http_response';
 import { net } from 'electron';
 
 class HttpService {
