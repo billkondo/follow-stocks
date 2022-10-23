@@ -1,13 +1,12 @@
+import Event from '@entities/event/event';
 import Stock from '@entities/stock/stock';
-import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
-import FindStockNegotiationsByDate from 'main/usecases/find_stock_negotiations_by_date';
+import FindEventsByDate from 'main/usecases/find_events_by_date';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';
 
-describe('Find FII negotiations by date', () => {
+describe('Find FII events by date', () => {
   useSqlite();
-  const { stocksServiceFactory, stocksNegotiationsServiceFactory } =
-    useStocks();
+  const { stocksServiceFactory, eventsServiceFactory } = useStocks();
   const hgreStock: Stock = {
     name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
     ticker: 'HGRE11',
@@ -20,20 +19,18 @@ describe('Find FII negotiations by date', () => {
   };
 
   const setup = () => {
-    const stocksNegotiationsService = stocksNegotiationsServiceFactory();
-    const findStockNegotiationsByDate = FindStockNegotiationsByDate(
-      stocksNegotiationsService,
-    );
+    const eventsService = eventsServiceFactory();
+    const findEventsByDate = FindEventsByDate(eventsService);
 
-    return { findStockNegotiationsByDate };
+    return { findEventsByDate };
   };
 
   beforeEach(async () => {
     const stocksService = stocksServiceFactory();
-    const stocksNegotiationsService = stocksNegotiationsServiceFactory();
+    const eventsService = eventsServiceFactory();
 
     await stocksService.save([hgreStock, xplgStock]);
-    await stocksNegotiationsService.saveStockNegotiations(hgreStock, [
+    await eventsService.saveEvents(hgreStock, [
       {
         date: new Date(2022, 12, 1),
         price: { code: 'BRL', value: 120 },
@@ -56,7 +53,7 @@ describe('Find FII negotiations by date', () => {
         type: 'BUY',
       },
     ]);
-    await stocksNegotiationsService.saveStockNegotiations(xplgStock, [
+    await eventsService.saveEvents(xplgStock, [
       {
         date: new Date(2021, 12, 1),
         price: { code: 'BRL', value: 50 },
@@ -144,16 +141,12 @@ describe('Find FII negotiations by date', () => {
       ],
     ],
   ])(
-    'should find FII negotiations on given date',
-    async (
-      date: Date,
-      stock: Stock,
-      expectedStockNegotiations: StockNegotiation[],
-    ) => {
-      const { findStockNegotiationsByDate } = setup();
+    'should find FII events on given date',
+    async (date: Date, stock: Stock, expectedEvents: Event[]) => {
+      const { findEventsByDate } = setup();
 
-      await expect(findStockNegotiationsByDate(stock, date)).resolves.toEqual(
-        expectedStockNegotiations,
+      await expect(findEventsByDate(stock, date)).resolves.toEqual(
+        expectedEvents,
       );
     },
   );

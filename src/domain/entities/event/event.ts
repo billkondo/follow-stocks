@@ -1,13 +1,13 @@
 import Price from '@entities/price/price';
 import Stock from '@entities/stock/stock';
-import StockNegotiationType from './stock_negotiation_type';
+import EventType from './event_type';
 
-interface StockNegotiation {
+interface Event {
   date: Date;
-  type: StockNegotiationType;
+  type: EventType;
   stock: Stock;
   price: Price;
   quantity: number;
 }
 
-export default StockNegotiation;
+export default Event;

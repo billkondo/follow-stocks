@@ -1,8 +1,8 @@
+import EventType from '@entities/event/event_type';
 import PriceCode from '@entities/price/price_code';
 import StockType from '@entities/stock/stock_type';
-import StockNegotiationType from '@entities/stock_negotiation/stock_negotiation_type';
 
-interface SqliteStockNegotiationModel {
+interface SqliteEventModel {
   date: string;
   quantity: number;
   price_value: number;
@@ -10,7 +10,7 @@ interface SqliteStockNegotiationModel {
   stock_ticker: string;
   stock_name: string;
   stock_type: StockType;
-  type: StockNegotiationType;
+  type: EventType;
 }
 
-export default SqliteStockNegotiationModel;
+export default SqliteEventModel;

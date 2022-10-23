@@ -1,11 +1,9 @@
-import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
-import SqliteStockNegotiationModel from '@sqlite/models/sqlite_stock_negotiation_model';
+import Event from '@entities/event/event';
+import SqliteEventModel from '@services/sqlite/models/sqlite_event_model';
 
-class SqliteStockNegotiationMapper {
-  static toModel(
-    stockNegotiation: StockNegotiation,
-  ): SqliteStockNegotiationModel {
-    const { price, date, quantity, stock, type } = stockNegotiation;
+class SqliteEventMapper {
+  static toModel(event: Event): SqliteEventModel {
+    const { price, date, quantity, stock, type } = event;
 
     return {
       date: date.toISOString(),
@@ -19,9 +17,7 @@ class SqliteStockNegotiationMapper {
     };
   }
 
-  static fromModel(
-    stockNegotiation: SqliteStockNegotiationModel,
-  ): StockNegotiation {
+  static fromModel(event: SqliteEventModel): Event {
     const {
       date,
       price_code,
@@ -31,7 +27,7 @@ class SqliteStockNegotiationMapper {
       stock_ticker,
       stock_type,
       type,
-    } = stockNegotiation;
+    } = event;
 
     return {
       date: new Date(date),
@@ -50,4 +46,4 @@ class SqliteStockNegotiationMapper {
   }
 }
 
-export default SqliteStockNegotiationMapper;
+export default SqliteEventMapper;

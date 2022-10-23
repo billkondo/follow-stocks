@@ -16,7 +16,7 @@ const stocksTexts: { [key in StockType]: string } = {
   SUBSCRIPTION: 'Subscriptions',
 };
 
-const StocksNegotiationsByTypePage: FC<IProps> = ({ type }) => {
+const EventsByTypePage: FC<IProps> = ({ type }) => {
   return (
     <StocksInvestedProvider type={type}>
       <Grid container>
@@ -28,4 +28,4 @@ const StocksNegotiationsByTypePage: FC<IProps> = ({ type }) => {
   );
 };
 
-export default StocksNegotiationsByTypePage;
+export default EventsByTypePage;

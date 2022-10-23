@@ -1,13 +1,12 @@
 import Stock from '@entities/stock/stock';
 import compareStocksInAscendingOrderByTicker from 'domain/usecases/compare_stocks_in_ascending_order_by_ticker';
-import FindStocksThatHaveAnyNegotiation from 'main/usecases/find_stocks_that_have_any_negotiation';
+import FindStocksThatHaveAnyEvent from 'main/usecases/find_stocks_that_have_any_event';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';
 
-describe('Find FIIs that have any negotiation', () => {
+describe('Find FIIs that have any event', () => {
   useSqlite();
-  const { stocksServiceFactory, stocksNegotiationsServiceFactory } =
-    useStocks();
+  const { stocksServiceFactory, eventsServiceFactory } = useStocks();
   const xplgStock: Stock = {
     name: 'XPLG STOCK',
     ticker: 'XPLG11',
@@ -20,19 +19,18 @@ describe('Find FIIs that have any negotiation', () => {
   };
 
   const setup = () => {
-    const stocksNegotiationsService = stocksNegotiationsServiceFactory();
-    const findStocksThatHaveAnyNegotiation = FindStocksThatHaveAnyNegotiation(
-      stocksNegotiationsService,
-    );
+    const eventsService = eventsServiceFactory();
+    const findStocksThatHaveAnyEvent =
+      FindStocksThatHaveAnyEvent(eventsService);
 
     return {
-      findStocksThatHaveAnyNegotiation,
+      findStocksThatHaveAnyEvent,
     };
   };
 
   beforeEach(async () => {
     const fiisService = stocksServiceFactory();
-    const fiisNegotiationsService = stocksNegotiationsServiceFactory();
+    const fiisEventsService = eventsServiceFactory();
 
     await fiisService.save([
       xplgStock,
@@ -40,7 +38,7 @@ describe('Find FIIs that have any negotiation', () => {
       { name: 'HGLG STOCK', ticker: 'HGLG11', type: 'FII' },
     ]);
 
-    await fiisNegotiationsService.saveStockNegotiations(xplgStock, [
+    await fiisEventsService.saveEvents(xplgStock, [
       {
         stock: xplgStock,
         date: new Date(2022, 12, 1),
@@ -57,7 +55,7 @@ describe('Find FIIs that have any negotiation', () => {
       },
     ]);
 
-    await fiisNegotiationsService.saveStockNegotiations(hgreStock, [
+    await fiisEventsService.saveEvents(hgreStock, [
       {
         stock: hgreStock,
         date: new Date(2022, 12, 1),
@@ -68,9 +66,9 @@ describe('Find FIIs that have any negotiation', () => {
     ]);
   });
 
-  test('should find FIIs that have any negotiation', async () => {
-    const { findStocksThatHaveAnyNegotiation } = setup();
-    const fiis = await findStocksThatHaveAnyNegotiation('FII');
+  test('should find FIIs that have any event', async () => {
+    const { findStocksThatHaveAnyEvent } = setup();
+    const fiis = await findStocksThatHaveAnyEvent('FII');
 
     expect(fiis.sort(compareStocksInAscendingOrderByTicker)).toEqual(
       [xplgStock, hgreStock].sort(compareStocksInAscendingOrderByTicker),

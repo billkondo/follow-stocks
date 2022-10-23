@@ -1,10 +1,10 @@
+import SqliteEventsStorage from '@services/sqlite/storages/sqlite_events_storage';
+import EventsService from '@services/stocks/events_service';
 import StocksInvestedService from '@services/stocks/stocks_invested_service';
 import StocksInvestedWithQuotationsService from '@services/stocks/stocks_invested_with_quotations_service';
-import StocksNegotiationsService from '@services/stocks/stocks_negotiations_service';
 import StocksQuotationsService from '@services/stocks/stocks_quotations_service';
 import StocksService from '@services/stocks/stocks_service';
 import SqliteStocksInvestedStorage from '@sqlite/storages/sqlite_stocks_invested_storage';
-import SqliteStocksNegotiationsStorage from '@sqlite/storages/sqlite_stocks_negotiations_storage';
 import SqliteStocksQuotationsStorage from '@sqlite/storages/sqlite_stocks_quotations_storage';
 import SqliteStocksStorage from '@sqlite/storages/sqlite_stocks_storage';
 import SqliteConnection from 'main/services/sqlite/sqlite_connection';
@@ -18,16 +18,12 @@ const useStocks = () => {
     return stocksService;
   };
 
-  const stocksNegotiationsServiceFactory = () => {
+  const eventsServiceFactory = () => {
     const sqliteConnection = SqliteConnection.connect();
-    const stocksNegotiationsStorage = new SqliteStocksNegotiationsStorage(
-      sqliteConnection,
-    );
-    const stocksNegotiationsService = new StocksNegotiationsService(
-      stocksNegotiationsStorage,
-    );
+    const eventsStorage = new SqliteEventsStorage(sqliteConnection);
+    const eventsService = new EventsService(eventsStorage);
 
-    return stocksNegotiationsService;
+    return eventsService;
   };
 
   const stocksInvestedServiceFactory = () => {
@@ -64,7 +60,7 @@ const useStocks = () => {
 
   return {
     stocksServiceFactory,
-    stocksNegotiationsServiceFactory,
+    eventsServiceFactory,
     stocksInvestedServiceFactory,
     stocksQuotationsServiceFactory,
     stocksInvestedWithQuotationsServiceFactory,

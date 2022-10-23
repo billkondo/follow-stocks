@@ -1,4 +1,4 @@
-import SqliteStocksNegotiationsStorage from '@sqlite/storages/sqlite_stocks_negotiations_storage';
+import SqliteEventsStorage from '@services/sqlite/storages/sqlite_events_storage';
 import SqliteStocksStorage from '@sqlite/storages/sqlite_stocks_storage';
 import { Database } from 'better-sqlite3';
 import Storage from 'main/storage/storage';
@@ -6,7 +6,7 @@ import Storage from 'main/storage/storage';
 const sqliteStorageFactory = (db: Database): Storage => {
   return {
     stocks: new SqliteStocksStorage(db),
-    stocksNegotiations: new SqliteStocksNegotiationsStorage(db),
+    events: new SqliteEventsStorage(db),
   };
 };
 

@@ -1,12 +1,12 @@
 import Stock from '@entities/stock/stock';
 import DomainError from '@errors/domain_error';
 import { mock } from 'jest-mock-extended';
-import AssertStocksNegotiationsBalanceIsNotNegative from 'main/usecases/assert_stocks_negotiations_balance_is_not_negative';
+import AssertEventsBalanceIsNotNegative from 'main/usecases/assert_events_balance_is_not_negative';
 
-describe('Assert stocks negotiations balance is not negative', () => {
+describe('Assert events balance is not negative', () => {
   test('should throw domain error if quantity becomes negative', () => {
     expect(() =>
-      AssertStocksNegotiationsBalanceIsNotNegative([
+      AssertEventsBalanceIsNotNegative([
         {
           date: new Date(2022, 12, 1),
           price: {
@@ -35,7 +35,7 @@ describe('Assert stocks negotiations balance is not negative', () => {
     const mockStock = mock<Stock>();
 
     expect(
-      AssertStocksNegotiationsBalanceIsNotNegative([
+      AssertEventsBalanceIsNotNegative([
         {
           date: new Date(2022, 12, 1),
           price: {

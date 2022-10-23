@@ -1,16 +1,14 @@
+import Event from '@entities/event/event';
 import StockInvested from '@entities/stock_invested/stock_invested';
-import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
 import BigNumber from 'bignumber.js';
 
-function* GenerateAveragePricesFromStocksNegotiations(
-  stocksNegotiations: StockNegotiation[],
-) {
+function* GenerateAveragePricesFromEvents(events: Event[]) {
   let totalInvested = new BigNumber(0);
   let totalQuantity = new BigNumber(0);
   let averagePrice = new BigNumber(0);
 
-  for (const stockNegotiation of stocksNegotiations) {
-    const { stock, price, quantity, type } = stockNegotiation;
+  for (const event of events) {
+    const { stock, price, quantity, type } = event;
 
     if (type === 'BUY') {
       totalInvested = totalInvested.plus(
@@ -43,4 +41,4 @@ function* GenerateAveragePricesFromStocksNegotiations(
   }
 }
 
-export default GenerateAveragePricesFromStocksNegotiations;
+export default GenerateAveragePricesFromEvents;

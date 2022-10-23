@@ -1,18 +1,18 @@
+import Event from '@entities/event/event';
 import Stock from '@entities/stock/stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
-import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
 import { mock } from 'jest-mock-extended';
 import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
-import AddStockNegotiations from 'main/usecases/add_stock_negotiations';
+import AddEvents from 'main/usecases/add_events';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';
 import useUnitOfWork from 'tests/hooks/use_unit_of_work';
 
-describe('Add FII negotiations', () => {
+describe('Add FII events', () => {
   useSqlite();
   const {
     stocksServiceFactory,
-    stocksNegotiationsServiceFactory,
+    eventsServiceFactory,
     stocksInvestedServiceFactory,
   } = useStocks();
   const { unitOfWorkServiceFactory } = useUnitOfWork();
@@ -34,20 +34,20 @@ describe('Add FII negotiations', () => {
 
   const setup = () => {
     const stocksService = stocksServiceFactory();
-    const stocksNegotiationsService = stocksNegotiationsServiceFactory();
+    const eventsService = eventsServiceFactory();
     const stocksInvestedService = stocksInvestedServiceFactory();
     const unitOfWork = unitOfWorkServiceFactory();
-    const addStockNegotiations = AddStockNegotiations({
-      stocksNegotiationsRepository: stocksNegotiationsService,
+    const addEvents = AddEvents({
+      eventsRepository: eventsService,
       stocksRepository: stocksService,
       stocksInvestedRepository: stocksInvestedService,
       unitOfWorkRepository: unitOfWork,
     });
 
     return {
-      addStockNegotiations,
+      addEvents,
       stocksService,
-      stocksNegotiationsService,
+      eventsService,
       stocksInvestedService,
       unitOfWork,
     };
@@ -271,45 +271,38 @@ describe('Add FII negotiations', () => {
       } as StockInvested,
     ],
   ])(
-    'should add FII negotiations',
+    'should add FII events',
     async (
       stock: Stock,
-      fiiNegotiations: StockNegotiation[],
-      previousFIINegotiations: StockNegotiation[],
-      expectedFIINegotiations: StockNegotiation[],
+      fiiEvents: Event[],
+      previousFIIEvents: Event[],
+      expectedFIIEvents: Event[],
       expectedStockInvested: StockInvested,
     ) => {
-      const {
-        addStockNegotiations,
-        stocksNegotiationsService,
-        stocksInvestedService,
-      } = setup();
+      const { addEvents, eventsService, stocksInvestedService } = setup();
 
-      await stocksNegotiationsService.saveStockNegotiations(
-        stock,
-        previousFIINegotiations,
+      await eventsService.saveEvents(stock, previousFIIEvents);
+      await addEvents(fiiEvents);
+
+      await expect(eventsService.findEventsByStock(stock)).resolves.toEqual(
+        expectedFIIEvents,
       );
-      await addStockNegotiations(fiiNegotiations);
-
-      await expect(
-        stocksNegotiationsService.findNegotiationsFromStock(stock),
-      ).resolves.toEqual(expectedFIINegotiations);
       await expect(
         stocksInvestedService.findStockInvestedByStockTicker(stock.ticker),
       ).resolves.toEqual(expectedStockInvested);
     },
   );
 
-  test('should not modify stocks negotiations when stock invested save fails', async () => {
-    const { stocksNegotiationsService, stocksService, unitOfWork } = setup();
+  test('should not modify events when stock invested save fails', async () => {
+    const { eventsService, stocksService, unitOfWork } = setup();
     const mockStocksInvestedRepository = mock<StocksInvestedRepository>();
-    const addStockNegotiations = AddStockNegotiations({
+    const addEvents = AddEvents({
       stocksInvestedRepository: mockStocksInvestedRepository,
-      stocksNegotiationsRepository: stocksNegotiationsService,
+      eventsRepository: eventsService,
       stocksRepository: stocksService,
       unitOfWorkRepository: unitOfWork,
     });
-    const previousStockNegotiations: StockNegotiation[] = [
+    const previousEvents: Event[] = [
       {
         date: new Date(2022, 11, 28),
         price: {
@@ -336,17 +329,14 @@ describe('Add FII negotiations', () => {
       new Error('Mock Error'),
     );
 
-    await stocksNegotiationsService.saveStockNegotiations(
-      hgreStock,
-      previousStockNegotiations,
+    await eventsService.saveEvents(hgreStock, previousEvents);
+
+    await expect(eventsService.findEventsByStock(hgreStock)).resolves.toEqual(
+      previousEvents,
     );
 
     await expect(
-      stocksNegotiationsService.findNegotiationsFromStock(hgreStock),
-    ).resolves.toEqual(previousStockNegotiations);
-
-    await expect(
-      addStockNegotiations([
+      addEvents([
         {
           date: new Date(2022, 12, 1),
           price: {
@@ -360,20 +350,16 @@ describe('Add FII negotiations', () => {
       ]),
     ).rejects.toThrow(new Error('Mock Error'));
 
-    await expect(
-      stocksNegotiationsService.findNegotiationsFromStock(hgreStock),
-    ).resolves.toEqual(previousStockNegotiations);
+    await expect(eventsService.findEventsByStock(hgreStock)).resolves.toEqual(
+      previousEvents,
+    );
   });
 
-  test('should add multiple negotiations concurrently', async () => {
-    const {
-      addStockNegotiations,
-      stocksNegotiationsService,
-      stocksInvestedService,
-    } = setup();
+  test('should add multiple events concurrently', async () => {
+    const { addEvents, eventsService, stocksInvestedService } = setup();
 
-    const stockNegotiationsFactory = (stock: Stock) => {
-      const stockNegotiations: StockNegotiation[] = [
+    const EventsFactory = (stock: Stock) => {
+      const Events: Event[] = [
         {
           date: new Date(2022, 12, 1),
           price: {
@@ -406,19 +392,19 @@ describe('Add FII negotiations', () => {
         },
       ];
 
-      return stockNegotiations;
+      return Events;
     };
 
     await Promise.all([
-      addStockNegotiations(stockNegotiationsFactory(xplgStock)),
-      addStockNegotiations(stockNegotiationsFactory(hgreStock)),
-      addStockNegotiations(stockNegotiationsFactory(vinoStock)),
+      addEvents(EventsFactory(xplgStock)),
+      addEvents(EventsFactory(hgreStock)),
+      addEvents(EventsFactory(vinoStock)),
     ]);
 
     for (const stock of [xplgStock, hgreStock, vinoStock]) {
-      await expect(
-        stocksNegotiationsService.findNegotiationsFromStock(stock),
-      ).resolves.toEqual(stockNegotiationsFactory(stock));
+      await expect(eventsService.findEventsByStock(stock)).resolves.toEqual(
+        EventsFactory(stock),
+      );
 
       await expect(
         stocksInvestedService.findStockInvestedByStockTicker(stock.ticker),
@@ -438,9 +424,9 @@ describe('Add FII negotiations', () => {
   });
 
   test('should handle decimal quantities', async () => {
-    const { addStockNegotiations, stocksInvestedService } = setup();
+    const { addEvents, stocksInvestedService } = setup();
 
-    await addStockNegotiations([
+    await addEvents([
       {
         date: new Date(2022, 12, 1),
         price: {
@@ -477,7 +463,7 @@ describe('Add FII negotiations', () => {
       },
     } as StockInvested);
 
-    await addStockNegotiations([
+    await addEvents([
       {
         date: new Date(2022, 12, 2),
         price: {

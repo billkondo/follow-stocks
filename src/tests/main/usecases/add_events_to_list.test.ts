@@ -1,14 +1,14 @@
+import Event from '@entities/event/event';
 import Price from '@entities/price/price';
 import Stock from '@entities/stock/stock';
-import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
 import { mock } from 'jest-mock-extended';
-import AddStockNegotiationsToList from 'main/usecases/add_stock_negotiations_to_list';
+import AddEventsToList from 'main/usecases/add_events_to_list';
 
-describe('Add stock negotiations to list', () => {
-  test('should add stock negotiations', () => {
+describe('Add events to list', () => {
+  test('should add events', () => {
     const mockStock = mock<Stock>();
     const mockPrice = mock<Price>();
-    const mockStocksNegotiations: StockNegotiation[] = [
+    const mockEvents: Event[] = [
       {
         date: new Date(2022, 12, 1),
         stock: mockStock,
@@ -25,20 +25,17 @@ describe('Add stock negotiations to list', () => {
       },
     ];
 
-    const stocksNegotiationsAfterInsertion = AddStockNegotiationsToList(
-      mockStocksNegotiations,
-      [
-        {
-          date: new Date(2022, 12, 2),
-          stock: mockStock,
-          price: mockPrice,
-          quantity: 10,
-          type: 'BUY',
-        },
-      ],
-    );
+    const eventsAfterInsertion = AddEventsToList(mockEvents, [
+      {
+        date: new Date(2022, 12, 2),
+        stock: mockStock,
+        price: mockPrice,
+        quantity: 10,
+        type: 'BUY',
+      },
+    ]);
 
-    expect(stocksNegotiationsAfterInsertion).toEqual([
+    expect(eventsAfterInsertion).toEqual([
       {
         date: new Date(2022, 12, 1),
         stock: mockStock,
@@ -63,10 +60,10 @@ describe('Add stock negotiations to list', () => {
     ]);
   });
 
-  test('should remove buys and sells that have same new inserted negotiations date', () => {
+  test('should remove buys and sells that have same inserted events date', () => {
     const mockStock = mock<Stock>();
     const mockPrice = mock<Price>();
-    const mockStocksNegotiations: StockNegotiation[] = [
+    const mockEvents: Event[] = [
       {
         date: new Date(2022, 12, 1),
         stock: mockStock,
@@ -90,20 +87,17 @@ describe('Add stock negotiations to list', () => {
       },
     ];
 
-    const stocksNegotiationsAfterInsertion = AddStockNegotiationsToList(
-      mockStocksNegotiations,
-      [
-        {
-          date: new Date(2022, 12, 3),
-          stock: mockStock,
-          price: mockPrice,
-          quantity: 10,
-          type: 'BUY',
-        },
-      ],
-    );
+    const eventsAfterInsertion = AddEventsToList(mockEvents, [
+      {
+        date: new Date(2022, 12, 3),
+        stock: mockStock,
+        price: mockPrice,
+        quantity: 10,
+        type: 'BUY',
+      },
+    ]);
 
-    expect(stocksNegotiationsAfterInsertion).toEqual([
+    expect(eventsAfterInsertion).toEqual([
       {
         date: new Date(2022, 12, 1),
         stock: mockStock,

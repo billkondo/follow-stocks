@@ -1,30 +1,28 @@
+import Event from '@entities/event/event';
 import Stock from '@entities/stock/stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
-import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
 import { mock } from 'jest-mock-extended';
-import GenerateAveragePricesFromStocksNegotiations from 'main/usecases/generate_average_prices_from_stocks_negotiations';
+import GenerateAveragePricesFromEvents from 'main/usecases/generate_average_prices_from_events';
 
-describe('Generate average prices from stocks negotiations', () => {
+describe('Generate average prices from events', () => {
   const runTest = (
-    stockNegotiations: StockNegotiation[],
+    events: Event[],
     expectedStocksInvested: StockInvested[],
   ) => {
-    const generateAveragePricesFromStocksNegotiations =
-      GenerateAveragePricesFromStocksNegotiations(stockNegotiations);
+    const generateAveragePricesFromEvents =
+      GenerateAveragePricesFromEvents(events);
 
     for (const expectedValue of expectedStocksInvested)
-      expect(generateAveragePricesFromStocksNegotiations.next().value).toEqual(
+      expect(generateAveragePricesFromEvents.next().value).toEqual(
         expectedValue,
       );
 
-    expect(
-      generateAveragePricesFromStocksNegotiations.next().done,
-    ).toBeTruthy();
+    expect(generateAveragePricesFromEvents.next().done).toBeTruthy();
   };
 
   test('should generate average price, total invested and total quantity', () => {
     const mockStock = mock<Stock>();
-    const mockStocksNegotiations: StockNegotiation[] = [
+    const mockEvents: Event[] = [
       {
         date: new Date(2019, 7, 22),
         price: {
@@ -227,12 +225,12 @@ describe('Generate average prices from stocks negotiations', () => {
       },
     ];
 
-    runTest(mockStocksNegotiations, expectedValues);
+    runTest(mockEvents, expectedValues);
   });
 
   describe('should deal with floating precision', () => {
     const mockStock = mock<Stock>();
-    const mockStocksNegotiations: StockNegotiation[] = [
+    const mockEvents: Event[] = [
       {
         date: new Date(2022, 12, 1),
         price: {
@@ -285,12 +283,12 @@ describe('Generate average prices from stocks negotiations', () => {
       },
     ];
 
-    runTest(mockStocksNegotiations, expectedValues);
+    runTest(mockEvents, expectedValues);
   });
 
   test('should reset average price if all stocks are sold', () => {
     const mockStock = mock<Stock>();
-    const mockStocksNegotiations: StockNegotiation[] = [
+    const mockEvents: Event[] = [
       {
         date: new Date(2022, 12, 1),
         price: {
@@ -383,6 +381,6 @@ describe('Generate average prices from stocks negotiations', () => {
       },
     ];
 
-    runTest(mockStocksNegotiations, expectedValues);
+    runTest(mockEvents, expectedValues);
   });
 });
