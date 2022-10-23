@@ -1,5 +1,5 @@
-import Price from '../price/price';
-import Stock from '../stock/stock';
+import Price from '@entities/price/price';
+import Stock from '@entities/stock/stock';
 
 type StockInvested = {
   stock: Stock;
