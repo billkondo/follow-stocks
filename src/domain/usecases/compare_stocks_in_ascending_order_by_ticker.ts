@@ -1,10 +1,13 @@
 import Stock from '@entities/stock/stock';
 
-const compareStocks = (stockA: Stock, stockB: Stock) => {
+const compareStocksInAscendingOrderByTicker = (
+  stockA: Stock,
+  stockB: Stock,
+) => {
   if (stockA.ticker < stockB.ticker) return -1;
   if (stockA.ticker > stockB.ticker) return 1;
 
   return 0;
 };
 
-export default compareStocks;
+export default compareStocksInAscendingOrderByTicker;

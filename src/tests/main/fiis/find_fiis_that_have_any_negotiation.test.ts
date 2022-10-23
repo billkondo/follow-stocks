@@ -1,5 +1,5 @@
 import Stock from '@entities/stock/stock';
-import compareStocks from 'domain/usecases/compare_stocks';
+import compareStocksInAscendingOrderByTicker from 'domain/usecases/compare_stocks_in_ascending_order_by_ticker';
 import FindStocksThatHaveAnyNegotiation from 'main/usecases/find_stocks_that_have_any_negotiation';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';
@@ -72,8 +72,8 @@ describe('Find FIIs that have any negotiation', () => {
     const { findStocksThatHaveAnyNegotiation } = setup();
     const fiis = await findStocksThatHaveAnyNegotiation('FII');
 
-    expect(fiis.sort(compareStocks)).toEqual(
-      [xplgStock, hgreStock].sort(compareStocks),
+    expect(fiis.sort(compareStocksInAscendingOrderByTicker)).toEqual(
+      [xplgStock, hgreStock].sort(compareStocksInAscendingOrderByTicker),
     );
   });
 });
