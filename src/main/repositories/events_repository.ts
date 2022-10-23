@@ -7,7 +7,7 @@ interface EventsRepository {
 
   findEventsByStock: (stock: Stock) => Promise<Event[]>;
 
-  findEventsByDate: (stock: Stock, date: Date) => Promise<Event[]>;
+  findEventsByStockAndDate: (stock: Stock, date: Date) => Promise<Event[]>;
 
   findStocksThatHaveAnyEvent: (type: StockType) => Promise<Stock[]>;
 }

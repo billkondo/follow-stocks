@@ -5,7 +5,7 @@ import StockType from '@entities/stock/stock_type';
 interface EventsStorage {
   saveEvents: (stock: Stock, events: Event[]) => Promise<void>;
 
-  findEventsByDate: (stock: Stock, date: Date) => Promise<Event[]>;
+  findEventsByStockAndDate: (stock: Stock, date: Date) => Promise<Event[]>;
 
   findEventsByStock: (stock: Stock) => Promise<Event[]>;
 

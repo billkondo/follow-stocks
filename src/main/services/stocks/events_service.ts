@@ -19,8 +19,8 @@ class EventsService implements EventsRepository {
     return this.eventsStorage.findEventsByStock(stock);
   }
 
-  findEventsByDate(stock: Stock, date: Date): Promise<Event[]> {
-    return this.eventsStorage.findEventsByDate(stock, date);
+  findEventsByStockAndDate(stock: Stock, date: Date): Promise<Event[]> {
+    return this.eventsStorage.findEventsByStockAndDate(stock, date);
   }
 
   findStocksThatHaveAnyEvent(type: StockType): Promise<Stock[]> {

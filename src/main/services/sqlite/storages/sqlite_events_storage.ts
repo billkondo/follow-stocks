@@ -15,8 +15,8 @@ class SqliteEventsStorage implements EventsStorage {
 
   updateEventsStatement: Transaction;
 
-  findEventsByDateStatement: Statement;
   findEventsByStockStatement: Statement;
+  findEventsByStockAndDateStatement: Statement;
   findStocksThatHaveAnyEventStatement: Statement;
 
   constructor(db: Database) {
@@ -57,7 +57,7 @@ class SqliteEventsStorage implements EventsStorage {
         WHERE ${whereClause}
       `;
 
-    this.findEventsByDateStatement = db.prepare(
+    this.findEventsByStockAndDateStatement = db.prepare(
       findEventsByStatement(
         `
             date=@date 
@@ -108,12 +108,14 @@ class SqliteEventsStorage implements EventsStorage {
     return this.updateEventsStatement(stock, models);
   }
 
-  async findEventsByDate(stock: Stock, date: Date): Promise<Event[]> {
+  async findEventsByStockAndDate(stock: Stock, date: Date): Promise<Event[]> {
     const { ticker } = stock;
-    const docs: SqliteEventModel[] = this.findEventsByDateStatement.all({
-      date: date.toISOString(),
-      stock_ticker: ticker,
-    });
+    const docs: SqliteEventModel[] = this.findEventsByStockAndDateStatement.all(
+      {
+        date: date.toISOString(),
+        stock_ticker: ticker,
+      },
+    );
 
     return docs.map(SqliteEventMapper.fromModel);
   }

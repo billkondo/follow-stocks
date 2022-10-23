@@ -1,10 +1,10 @@
 import Event from '@entities/event/event';
 import Stock from '@entities/stock/stock';
-import FindEventsByDate from 'main/usecases/find_events_by_date';
+import FindEventsByStockAndDate from 'main/usecases/find_events_by_stock_and_date';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';
 
-describe('Find FII events by date', () => {
+describe('Find FII events by stock and date', () => {
   useSqlite();
   const { stocksServiceFactory, eventsServiceFactory } = useStocks();
   const hgreStock: Stock = {
@@ -20,9 +20,9 @@ describe('Find FII events by date', () => {
 
   const setup = () => {
     const eventsService = eventsServiceFactory();
-    const findEventsByDate = FindEventsByDate(eventsService);
+    const findEventsByStockAndDate = FindEventsByStockAndDate(eventsService);
 
-    return { findEventsByDate };
+    return { findEventsByStockAndDate };
   };
 
   beforeEach(async () => {
@@ -143,9 +143,9 @@ describe('Find FII events by date', () => {
   ])(
     'should find FII events on given date',
     async (date: Date, stock: Stock, expectedEvents: Event[]) => {
-      const { findEventsByDate } = setup();
+      const { findEventsByStockAndDate } = setup();
 
-      await expect(findEventsByDate(stock, date)).resolves.toEqual(
+      await expect(findEventsByStockAndDate(stock, date)).resolves.toEqual(
         expectedEvents,
       );
     },
