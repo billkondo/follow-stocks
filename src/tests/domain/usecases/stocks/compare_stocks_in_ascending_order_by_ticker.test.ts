@@ -1,5 +1,5 @@
 import Stock from '@entities/stock/stock';
-import compareStocksInAscendingOrderByTicker from 'domain/usecases/compare_stocks_in_ascending_order_by_ticker';
+import compareStocksInAscendingOrderByTicker from 'domain/usecases/stock/compare_stocks_in_ascending_order_by_ticker';
 
 describe('Compare stocks in ascending order by ticker', () => {
   test('should sort stocks in ascending order by ticker', () => {
