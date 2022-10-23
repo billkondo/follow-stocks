@@ -1,6 +1,6 @@
 import StockInvested from '@entities/stock_invested/stock_invested';
 import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
-import DomainError from 'domain/errors/domain_error';
+import DomainError from '@errors/domain_error';
 import GenerateAveragePricesFromStocksNegotiations from './generate_average_prices_from_stocks_negotiations';
 
 const AssertStocksNegotiationsBalanceIsNotNegative = (

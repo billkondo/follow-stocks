@@ -1,6 +1,6 @@
 import Stock from '@entities/stock/stock';
 import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
-import DomainError from 'domain/errors/domain_error';
+import DomainError from '@errors/domain_error';
 import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
 import StocksRepository from 'main/repositories/stocks_repository';

@@ -14,8 +14,9 @@
     "paths": {
       "@components/*": ["renderer/components/*"],
       "@entities/*": ["domain/entities/*"],
-      "@sqlite/*": ["main/services/sqlite/*"],
+      "@errors/*": ["domain/errors/*"],
       "@services/*": ["main/services/*"],
+      "@sqlite/*": ["main/services/sqlite/*"],
     }
   },
   "include": ["src"]

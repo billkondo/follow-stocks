@@ -1,7 +1,7 @@
 import Stock from '@entities/stock/stock';
 import StockType from '@entities/stock/stock_type';
+import NotImplementedError from '@errors/not_implemented_error';
 import HttpService from '@services/http_service';
-import NotImplementedError from 'domain/errors/not_implemented_error';
 import NodeHtmlParser from 'node-html-parser';
 
 const StocksFetcher: { [key in StockType]: () => Promise<Stock[]> } = {

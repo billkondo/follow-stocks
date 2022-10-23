@@ -3,7 +3,7 @@ import PriceCode from '@entities/price/price_code';
 import Stock from '@entities/stock/stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import StockNegotiation from '@entities/stock_negotiation/stock_negotiation';
-import DomainError from 'domain/errors/domain_error';
+import DomainError from '@errors/domain_error';
 import { mock } from 'jest-mock-extended';
 import StocksInvestedRepository from 'main/repositories/stocks_invested_repository';
 import StocksNegotiationsRepository from 'main/repositories/stocks_negotiations_repository';
