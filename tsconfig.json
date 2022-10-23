@@ -18,6 +18,7 @@
       "@repositories/*": ["domain/repositories/*"],
       "@services/*": ["main/services/*"],
       "@sqlite/*": ["main/services/sqlite/*"],
+      "@usecases/*": ["domain/usecases/*"],
     }
   },
   "include": ["src"]
