@@ -1,7 +1,7 @@
+import Stock from '@entities/stocks/stock';
 import SqliteConnection from '@sqlite/sqlite_connection';
 import SqliteStocksInvestedStorage from '@sqlite/storages/sqlite_stocks_invested_storage';
 import SqliteStocksStorage from '@sqlite/storages/sqlite_stocks_storage';
-import Stock from 'domain/stock';
 import useSqlite from 'tests/hooks/use_sqlite';
 
 describe('Sqlite stocks invested storage', () => {

@@ -1,4 +1,4 @@
-import StockType from 'domain/stock_type';
+import StockType from '@entities/stocks/stock_type';
 import { FC, useState } from 'react';
 import Status from 'renderer/domain/status';
 import useComponentWillMount from 'renderer/hooks/use_component_will_mount';

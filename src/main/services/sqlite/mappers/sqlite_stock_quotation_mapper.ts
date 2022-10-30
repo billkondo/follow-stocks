@@ -1,5 +1,5 @@
+import StockQuotation from '@entities/stock_quotation';
 import SqliteStockQuotationModel from '@sqlite/models/sqlite_stock_quotation_model';
-import StockQuotation from 'domain/stock_quotation';
 
 class SqliteStockQuotationMapper {
   static toModel(stockQuotation: StockQuotation): SqliteStockQuotationModel {

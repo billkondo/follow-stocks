@@ -1,7 +1,7 @@
+import StockInvested from '@entities/stock_invested/stock_invested';
 import SqliteStockInvestedMapper from '@sqlite/mappers/sqlite_stock_invested_mapper';
 import SqliteStockInvestedModel from '@sqlite/models/sqlite_stock_invested_model';
 import { Database, Statement } from 'better-sqlite3';
-import StockInvested from 'domain/stock_invested';
 import StocksInvestedStorage from 'main/storage/stocks_invested_storage';
 
 class SqliteStocksInvestedStorage implements StocksInvestedStorage {

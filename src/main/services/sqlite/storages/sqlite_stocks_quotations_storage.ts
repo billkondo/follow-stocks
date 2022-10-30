@@ -1,8 +1,8 @@
+import Stock from '@entities/stocks/stock';
+import StockQuotation from '@entities/stock_quotation';
 import SqliteStockQuotationMapper from '@sqlite/mappers/sqlite_stock_quotation_mapper';
 import SqliteStockQuotationModel from '@sqlite/models/sqlite_stock_quotation_model';
 import { Database, Statement } from 'better-sqlite3';
-import Stock from 'domain/stock';
-import StockQuotation from 'domain/stock_quotation';
 import StocksQuotationsStorage from 'main/storage/stocks_quotations_storage';
 
 class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {

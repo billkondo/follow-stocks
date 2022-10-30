@@ -1,6 +1,6 @@
+import UnitOfWorkRepository from '@repositories/unit_of_work_repository';
 import { Mutex } from 'async-mutex';
 import { Database, Statement } from 'better-sqlite3';
-import UnitOfWorkRepository from 'main/repositories/unit_of_work_repository';
 
 class SqliteUnitOfWorkService implements UnitOfWorkRepository {
   db: Database;

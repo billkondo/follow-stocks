@@ -1,3 +1,4 @@
+const alias = require('./webpack.alias');
 const path = require('path');
 
 module.exports = {
@@ -13,6 +14,7 @@ module.exports = {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
     modules: ['node_modules', path.join(__dirname, 'src')],
     alias: {
+      ...alias,
       '@services': path.join(__dirname, 'src/main/services'),
       '@sqlite': path.join(__dirname, 'src/main/services/sqlite'),
     },

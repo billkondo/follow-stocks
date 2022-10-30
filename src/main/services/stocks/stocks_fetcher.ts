@@ -1,9 +1,16 @@
+import Stock from '@entities/stocks/stock';
+import StockType from '@entities/stocks/stock_type';
+import NotImplementedError from '@errors/not_implemented_error';
 import HttpService from '@services/http_service';
-import Stock from 'domain/stock';
-import StockType from 'domain/stock_type';
 import NodeHtmlParser from 'node-html-parser';
 
 const StocksFetcher: { [key in StockType]: () => Promise<Stock[]> } = {
+  BDR: async () => {
+    throw new NotImplementedError();
+  },
+  BR_STOCK: async () => {
+    throw new NotImplementedError();
+  },
   FII: async () => {
     const FIIS_URL = 'https://fiis.com.br/lista-de-fundos-imobiliarios';
     const response = await HttpService.get(FIIS_URL);
@@ -22,6 +29,12 @@ const StocksFetcher: { [key in StockType]: () => Promise<Stock[]> } = {
             type: 'FII',
           } as Stock),
       );
+  },
+  FIXED_INCOME: async () => {
+    throw new NotImplementedError();
+  },
+  SUBSCRIPTION: async () => {
+    throw new NotImplementedError();
   },
 };
 

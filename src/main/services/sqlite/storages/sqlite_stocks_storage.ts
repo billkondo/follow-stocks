@@ -1,8 +1,8 @@
+import Stock from '@entities/stocks/stock';
+import StockType from '@entities/stocks/stock_type';
 import SqliteStockMapper from '@sqlite/mappers/sqlite_stock_mapper';
 import SqliteStockModel from '@sqlite/models/sqlite_stock_model';
 import { Database, Statement, Transaction } from 'better-sqlite3';
-import Stock from 'domain/stock';
-import StockType from 'domain/stock_type';
 import StocksStorage from 'main/storage/stocks_storage';
 
 class SqliteStocksStorage implements StocksStorage {

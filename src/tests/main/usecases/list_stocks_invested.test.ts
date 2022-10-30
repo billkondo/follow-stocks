@@ -1,7 +1,7 @@
-import StockInvestedWithQuotation from 'domain/stock_invested_with_quotation';
-import StockType from 'domain/stock_type';
+import StockType from '@entities/stocks/stock_type';
+import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
+import StocksInvestedWithQuotationsRepository from '@repositories/stocks_invested_wtih_quotations_repository';
 import { mock } from 'jest-mock-extended';
-import StocksInvestedWithQuotationsRepository from 'main/repositories/stocks_invested_wtih_quotations_repository';
 import ListStocksInvested from 'main/usecases/list_stocks_invested';
 
 describe('List stocks invested', () => {
