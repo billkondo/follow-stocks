@@ -13,24 +13,30 @@ interface SellsBalance {
   tax: number;
 }
 
-export type ComputeTaxFunction = (
-  bruteBalance: number,
-  sellsVolume: number,
-) => number;
+interface SellsBalancesParams {
+  maximumMonthlySellsVolumeWithoutTaxing?: number;
+  profitTaxPercentage?: number;
+}
 
 class SellsBalances {
-  computeTax: ComputeTaxFunction;
   lastDate: Date | null;
   sellsBalances: {
     [year: number]: {
       [month: number]: SellsBalance;
     };
   };
+  maximumMonthlySellsVolumeWithoutTaxing: number;
+  profitTaxPercentage: number;
 
-  constructor(computeTax: ComputeTaxFunction) {
-    this.computeTax = computeTax;
+  constructor(params: SellsBalancesParams = {}) {
+    const { maximumMonthlySellsVolumeWithoutTaxing, profitTaxPercentage } =
+      params;
+
     this.lastDate = null;
     this.sellsBalances = {};
+    this.maximumMonthlySellsVolumeWithoutTaxing =
+      maximumMonthlySellsVolumeWithoutTaxing || 0;
+    this.profitTaxPercentage = profitTaxPercentage || 0;
   }
 
   addSell(sell: Sell) {
@@ -135,15 +141,20 @@ class SellsBalances {
 
     sellsBalance.bruteBalance += balance;
     sellsBalance.sellsVolume += sellsVolume;
-    sellsBalance.compensatedLoss = Math.max(
-      0,
-      Math.min(sellsBalance.bruteBalance, -sellsBalance.previousMonthLoss),
-    );
+    sellsBalance.compensatedLoss =
+      sellsBalance.sellsVolume < this.maximumMonthlySellsVolumeWithoutTaxing
+        ? 0
+        : Math.max(
+            0,
+            Math.min(
+              sellsBalance.bruteBalance,
+              -sellsBalance.previousMonthLoss,
+            ),
+          );
 
-    const tax = this.computeTax(
-      sellsBalance.bruteBalance - sellsBalance.compensatedLoss,
-      sellsBalance.sellsVolume,
-    );
+    const tax =
+      (sellsBalance.bruteBalance - sellsBalance.compensatedLoss) *
+      this.profitTaxPercentage;
 
     sellsBalance.tax = tax;
     sellsBalance.liquidBalance =

@@ -1,15 +1,8 @@
 import SellsBalances from '@entities/sells_balances';
 
 describe('Sells balances', () => {
-  const mockComputeTaxFunction = jest.fn();
-
-  beforeEach(() => {
-    mockComputeTaxFunction.mockClear();
-    mockComputeTaxFunction.mockReturnValue(0);
-  });
-
   it('should throw error if a sell is added before last date', () => {
-    const sellsBalances = new SellsBalances(mockComputeTaxFunction);
+    const sellsBalances = new SellsBalances();
     const lastDate = new Date(2022, 11);
     const dateBeforeLastDate = new Date(2022, 10);
 
@@ -25,7 +18,7 @@ describe('Sells balances', () => {
   });
 
   it('should initialize sells balances with first sell added', () => {
-    const sellsBalances = new SellsBalances(mockComputeTaxFunction);
+    const sellsBalances = new SellsBalances();
 
     expect(sellsBalances.lastDate).toBe(null);
     expect(sellsBalances.sellsBalances).toStrictEqual({});
@@ -52,7 +45,7 @@ describe('Sells balances', () => {
   });
 
   it('should update months with no sells balances when a sell is added', () => {
-    const sellsBalances = new SellsBalances(mockComputeTaxFunction);
+    const sellsBalances = new SellsBalances();
 
     sellsBalances.lastDate = new Date(2021, 11);
     sellsBalances.sellsBalances = {
@@ -115,7 +108,7 @@ describe('Sells balances', () => {
   });
 
   it('should compute previous month loss', () => {
-    const sellsBalances = new SellsBalances(mockComputeTaxFunction);
+    const sellsBalances = new SellsBalances();
 
     sellsBalances.lastDate = new Date(2022, 4);
     sellsBalances.sellsBalances = {
@@ -161,7 +154,7 @@ describe('Sells balances', () => {
   });
 
   it('should add multiple sells', () => {
-    const sellsBalances = new SellsBalances(mockComputeTaxFunction);
+    const sellsBalances = new SellsBalances();
 
     sellsBalances.addSell({
       balance: 1500,
@@ -190,9 +183,9 @@ describe('Sells balances', () => {
   });
 
   it('should update tax and liquid balance', () => {
-    mockComputeTaxFunction.mockReturnValue(200);
-
-    const sellsBalances = new SellsBalances(mockComputeTaxFunction);
+    const sellsBalances = new SellsBalances({
+      profitTaxPercentage: 0.05,
+    });
 
     sellsBalances.addSell({
       balance: 4000,
@@ -213,13 +206,12 @@ describe('Sells balances', () => {
         },
       },
     });
-    expect(mockComputeTaxFunction).toHaveBeenCalledWith(4000, 10000);
   });
 
   it('should use previous month loss to compensate a greater liquid balance', () => {
-    mockComputeTaxFunction.mockReturnValue(50);
-
-    const sellsBalances = new SellsBalances(mockComputeTaxFunction);
+    const sellsBalances = new SellsBalances({
+      profitTaxPercentage: 0.1,
+    });
 
     sellsBalances.sellsBalances = {
       2021: {
@@ -263,13 +255,10 @@ describe('Sells balances', () => {
         },
       },
     });
-    expect(mockComputeTaxFunction).toHaveBeenCalledWith(500, 2500);
   });
 
   it('should use previous month loss to compensate a smaller liquid balance', () => {
-    mockComputeTaxFunction.mockReturnValue(0);
-
-    const sellsBalances = new SellsBalances(mockComputeTaxFunction);
+    const sellsBalances = new SellsBalances();
 
     sellsBalances.sellsBalances = {
       2021: {
@@ -311,6 +300,54 @@ describe('Sells balances', () => {
         },
       },
     });
-    expect(mockComputeTaxFunction).toHaveBeenCalledWith(0, 1500);
+  });
+
+  it('should not use previous month loss when liquid balance is less than maximum monthly sells volume', () => {
+    const sellsBalances = new SellsBalances({
+      maximumMonthlySellsVolumeWithoutTaxing: 10000,
+    });
+
+    sellsBalances.sellsBalances = {
+      2021: {
+        11: {
+          bruteBalance: 100,
+          compensatedLoss: 0,
+          liquidBalance: 50,
+          previousMonthLoss: -250,
+          sellsVolume: 1500,
+          tax: 75,
+        },
+      },
+    };
+
+    sellsBalances.addSell({
+      balance: 750,
+      date: new Date(2022, 0),
+      sellsVolume: 2500,
+    });
+
+    expect(sellsBalances.lastDate).toMatchObject(new Date(2022, 0));
+    expect(sellsBalances.sellsBalances).toStrictEqual({
+      2021: {
+        11: {
+          bruteBalance: 100,
+          compensatedLoss: 0,
+          liquidBalance: 50,
+          previousMonthLoss: -250,
+          sellsVolume: 1500,
+          tax: 75,
+        },
+      },
+      2022: {
+        0: {
+          bruteBalance: 750,
+          compensatedLoss: 0,
+          liquidBalance: 750,
+          previousMonthLoss: -250,
+          sellsVolume: 2500,
+          tax: 0,
+        },
+      },
+    });
   });
 });
