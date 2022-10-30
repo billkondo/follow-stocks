@@ -1,5 +1,5 @@
-import Stock from 'domain/stock';
-import StockQuotation from 'domain/stock_quotation';
+import Stock from '@entities/stocks/stock';
+import StockQuotation from '@entities/stock_quotation';
 
 interface StocksQuotationsStorage {
   save: (stockQuotation: StockQuotation) => Promise<void>;

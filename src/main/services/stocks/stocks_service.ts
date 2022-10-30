@@ -1,6 +1,6 @@
-import Stock from 'domain/stock';
-import StockType from 'domain/stock_type';
-import StocksRepository from 'main/repositories/stocks_repository';
+import Stock from '@entities/stocks/stock';
+import StockType from '@entities/stocks/stock_type';
+import StocksRepository from '@repositories/stocks_repository';
 import StocksStorage from 'main/storage/stocks_storage';
 import StocksFetcher from './stocks_fetcher';
 

@@ -1,4 +1,4 @@
-import StockInvested from 'domain/stock_invested';
+import StockInvested from '@entities/stock_invested/stock_invested';
 import { createContext } from 'react';
 import Status from 'renderer/domain/status';
 

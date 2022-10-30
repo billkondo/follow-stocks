@@ -1,4 +1,4 @@
-import StockType from 'domain/stock_type';
+import StockType from '@entities/stocks/stock_type';
 import { contextBridge, ipcRenderer } from 'electron';
 
 const configurePreload = () => {

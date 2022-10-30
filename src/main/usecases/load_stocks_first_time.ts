@@ -1,5 +1,5 @@
-import StockType from 'domain/stock_type';
-import StocksRepository from 'main/repositories/stocks_repository';
+import StockType from '@entities/stocks/stock_type';
+import StocksRepository from '@repositories/stocks_repository';
 import LoadStocks from './load_stocks';
 
 const LoadStocksFirstTime =

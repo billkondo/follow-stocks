@@ -1,8 +1,8 @@
+import HttpResponse from '@entities/http_response';
+import Stock from '@entities/stocks/stock';
+import StockQuotation from '@entities/stock_quotation';
 import HttpService from '@services/http_service';
 import { STOCKS_RATE_LIMIT_MS } from 'config/rate_limit';
-import HttpResponse from 'domain/http_response';
-import Stock from 'domain/stock';
-import StockQuotation from 'domain/stock_quotation';
 import LoadStockQuotation from 'main/usecases/load_stock_quotation';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';

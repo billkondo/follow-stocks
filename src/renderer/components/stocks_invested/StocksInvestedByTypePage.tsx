@@ -1,5 +1,5 @@
+import StockType from '@entities/stocks/stock_type';
 import { Grid } from '@mui/material';
-import StockType from 'domain/stock_type';
 import { FC } from 'react';
 import StocksInvestedProvider from 'renderer/stocks/stocks_invested_provider';
 import StocksInvestedCard from './card/StocksInvestedCard';
@@ -9,10 +9,14 @@ interface IProps {
 }
 
 const stocksTexts: { [key in StockType]: string } = {
+  BDR: 'BDRs',
+  BR_STOCK: 'BR Stcoks',
   FII: 'FIIs',
+  FIXED_INCOME: 'Fixed Incomes',
+  SUBSCRIPTION: 'Subscriptions',
 };
 
-const StocksNegotiationsByTypePage: FC<IProps> = ({ type }) => {
+const EventsByTypePage: FC<IProps> = ({ type }) => {
   return (
     <StocksInvestedProvider type={type}>
       <Grid container>
@@ -24,4 +28,4 @@ const StocksNegotiationsByTypePage: FC<IProps> = ({ type }) => {
   );
 };
 
-export default StocksNegotiationsByTypePage;
+export default EventsByTypePage;

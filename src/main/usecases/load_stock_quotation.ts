@@ -1,7 +1,7 @@
+import Stock from '@entities/stocks/stock';
+import StockQuotation from '@entities/stock_quotation';
+import StocksQuotationsRepository from '@repositories/stocks_quotations_repository';
 import { STOCKS_RATE_LIMIT_MS } from 'config/rate_limit';
-import Stock from 'domain/stock';
-import StockQuotation from 'domain/stock_quotation';
-import StocksQuotationsRepository from 'main/repositories/stocks_quotations_repository';
 
 const LoadStockQuotation =
   (stocksQuotationsRepository: StocksQuotationsRepository) =>
