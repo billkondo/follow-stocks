@@ -13,8 +13,34 @@ describe('Monthly sales', () => {
       tax: 0,
     });
 
-    expect(monthlySales.maximumSalesVolumeWithouTaxing).toBe(0);
+    expect(monthlySales.maximumSalesVolumeWithoutTaxing).toBe(0);
     expect(monthlySales.profitTaxPercentage).toBe(0);
+  });
+
+  it('should create monthly sales', () => {
+    const monthlySales = new MonthlySales({
+      bruteBalance: 10,
+      compensatedLoss: 20,
+      liquidBalance: 30,
+      previousMonthLoss: 40,
+      salesVolume: 50,
+      tax: 60,
+
+      maximumSalesVolumeWithoutTaxing: 10000,
+      profitTaxPercentage: 0.5,
+    });
+
+    assertMonthlySales(monthlySales, {
+      bruteBalance: 10,
+      compensatedLoss: 20,
+      liquidBalance: 30,
+      previousMonthLoss: 40,
+      salesVolume: 50,
+      tax: 60,
+    });
+
+    expect(monthlySales.maximumSalesVolumeWithoutTaxing).toBe(10000);
+    expect(monthlySales.profitTaxPercentage).toBe(0.5);
   });
 
   it('should update monthly sales with profit sale', () => {
@@ -76,7 +102,7 @@ describe('Monthly sales', () => {
 
   it('should not apply taxes when sales volume is under maximum sales volume', () => {
     const monthlySales = new MonthlySales({
-      maximumSalesVolumeWithouTaxing: 15000,
+      maximumSalesVolumeWithoutTaxing: 15000,
       profitTaxPercentage: 0.2,
     });
 
@@ -98,7 +124,7 @@ describe('Monthly sales', () => {
 
   it('should compensate loss when sales volume is above maximum sales volume', () => {
     const monthlySales = new MonthlySales({
-      maximumSalesVolumeWithouTaxing: 5000,
+      maximumSalesVolumeWithoutTaxing: 5000,
       profitTaxPercentage: 0.2,
     });
 
@@ -122,7 +148,7 @@ describe('Monthly sales', () => {
 
   it('should not compensate loss when sales volume is under maximum sales volume', () => {
     const monthlySales = new MonthlySales({
-      maximumSalesVolumeWithouTaxing: 15000,
+      maximumSalesVolumeWithoutTaxing: 15000,
       profitTaxPercentage: 0.2,
     });
 
@@ -146,7 +172,7 @@ describe('Monthly sales', () => {
 
   it('should not compensate loss when there is not profit', () => {
     const monthlySales = new MonthlySales({
-      maximumSalesVolumeWithouTaxing: 15000,
+      maximumSalesVolumeWithoutTaxing: 15000,
       profitTaxPercentage: 0.2,
     });
 
@@ -170,7 +196,7 @@ describe('Monthly sales', () => {
 
   it('should compensate loss partially', () => {
     const monthlySales = new MonthlySales({
-      maximumSalesVolumeWithouTaxing: 5000,
+      maximumSalesVolumeWithoutTaxing: 5000,
       profitTaxPercentage: 0.2,
     });
 
@@ -194,7 +220,7 @@ describe('Monthly sales', () => {
 
   it('should increase month loss with loss sale', () => {
     const monthlySales = new MonthlySales({
-      maximumSalesVolumeWithouTaxing: 5000,
+      maximumSalesVolumeWithoutTaxing: 5000,
       profitTaxPercentage: 0.2,
     });
 

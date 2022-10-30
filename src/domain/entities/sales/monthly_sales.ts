@@ -8,24 +8,38 @@ class MonthlySales {
   salesVolume: number;
   tax: number;
 
-  maximumSalesVolumeWithouTaxing: number;
+  maximumSalesVolumeWithoutTaxing: number;
   profitTaxPercentage: number;
 
   constructor({
-    maximumSalesVolumeWithouTaxing,
+    bruteBalance,
+    compensatedLoss,
+    liquidBalance,
+    previousMonthLoss,
+    salesVolume,
+    tax,
+
+    maximumSalesVolumeWithoutTaxing,
     profitTaxPercentage,
   }: {
-    maximumSalesVolumeWithouTaxing?: number;
+    bruteBalance?: number;
+    compensatedLoss?: number;
+    liquidBalance?: number;
+    previousMonthLoss?: number;
+    salesVolume?: number;
+    tax?: number;
+
+    maximumSalesVolumeWithoutTaxing?: number;
     profitTaxPercentage?: number;
   } = {}) {
-    this.bruteBalance = 0;
-    this.compensatedLoss = 0;
-    this.liquidBalance = 0;
-    this.previousMonthLoss = 0;
-    this.salesVolume = 0;
-    this.tax = 0;
+    this.bruteBalance = bruteBalance || 0.0;
+    this.compensatedLoss = compensatedLoss || 0.0;
+    this.liquidBalance = liquidBalance || 0.0;
+    this.previousMonthLoss = previousMonthLoss || 0.0;
+    this.salesVolume = salesVolume || 0.0;
+    this.tax = tax || 0.0;
 
-    this.maximumSalesVolumeWithouTaxing = maximumSalesVolumeWithouTaxing || 0;
+    this.maximumSalesVolumeWithoutTaxing = maximumSalesVolumeWithoutTaxing || 0;
     this.profitTaxPercentage = profitTaxPercentage || 0.0;
   }
 
@@ -37,7 +51,7 @@ class MonthlySales {
 
     const monthHasProfit = this.bruteBalance > 0;
     const maximumSalesReached =
-      this.salesVolume > this.maximumSalesVolumeWithouTaxing;
+      this.salesVolume > this.maximumSalesVolumeWithoutTaxing;
     const shouldApplyTaxesAndCompensateLoss =
       monthHasProfit && maximumSalesReached;
 
