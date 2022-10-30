@@ -1,7 +1,7 @@
 import Event from '@entities/event/event';
 import EventType from '@entities/event/event_type';
 import Stock from '@entities/stock/stock';
-import StockPosition from '@entities/stock_position';
+import StockPosition from '@entities/stocks/stock_position';
 import DomainError from '@errors/domain_error';
 import { mock } from 'jest-mock-extended';
 

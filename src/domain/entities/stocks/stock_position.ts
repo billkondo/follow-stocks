@@ -1,7 +1,7 @@
+import Event from '@entities/event/event';
 import Stock from '@entities/stock/stock';
 import DomainError from '@errors/domain_error';
 import { BigNumber } from 'bignumber.js';
-import Event from './event/event';
 
 class StockPosition {
   averagePrice: number;
