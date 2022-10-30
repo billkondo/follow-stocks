@@ -1,6 +1,6 @@
 import Event from '@entities/event/event';
 import Price from '@entities/price/price';
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import { mock } from 'jest-mock-extended';
 import AddEventsToList from 'main/usecases/add_events_to_list';
 

@@ -1,5 +1,5 @@
 import Price from '@entities/price/price';
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import EventType from './event_type';
 
 interface Event {

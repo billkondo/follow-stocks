@@ -1,4 +1,4 @@
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 
 const compareStocksInAscendingOrderByTicker = (
   stockA: Stock,

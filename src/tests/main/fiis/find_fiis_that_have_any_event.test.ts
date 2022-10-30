@@ -1,4 +1,4 @@
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import compareStocksInAscendingOrderByTicker from '@usecases/stock/compare_stocks_in_ascending_order_by_ticker';
 import FindStocksThatHaveAnyEvent from 'main/usecases/find_stocks_that_have_any_event';
 import useSqlite from 'tests/hooks/use_sqlite';

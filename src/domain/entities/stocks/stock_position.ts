@@ -1,5 +1,5 @@
 import Event from '@entities/event/event';
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import DomainError from '@errors/domain_error';
 import { BigNumber } from 'bignumber.js';
 

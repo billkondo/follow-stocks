@@ -1,4 +1,4 @@
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
 import ListStocksInvested from 'main/usecases/list_stocks_invested';

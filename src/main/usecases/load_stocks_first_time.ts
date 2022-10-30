@@ -1,4 +1,4 @@
-import StockType from '@entities/stock/stock_type';
+import StockType from '@entities/stocks/stock_type';
 import StocksRepository from '@repositories/stocks_repository';
 import LoadStocks from './load_stocks';
 

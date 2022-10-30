@@ -1,4 +1,4 @@
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import DomainError from '@errors/domain_error';
 import { mock } from 'jest-mock-extended';
 import AssertEventsBalanceIsNotNegative from 'main/usecases/assert_events_balance_is_not_negative';

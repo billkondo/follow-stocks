@@ -1,5 +1,5 @@
 import Event from '@entities/event/event';
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import EventsRepository from '@repositories/events_repository';
 import { mock } from 'jest-mock-extended';
 import FindEventsByStockAndDate from 'main/usecases/find_events_by_stock_and_date';

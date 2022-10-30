@@ -1,5 +1,5 @@
 import PriceCode from '@entities/price/price_code';
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import StockQuotation from '@entities/stock_quotation';
 import HttpService from '@services/http_service';
 import NodeHtmlParser, { HTMLElement } from 'node-html-parser';

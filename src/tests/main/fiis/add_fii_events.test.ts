@@ -1,5 +1,5 @@
 import Event from '@entities/event/event';
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import StocksInvestedRepository from '@repositories/stocks_invested_repository';
 import { mock } from 'jest-mock-extended';

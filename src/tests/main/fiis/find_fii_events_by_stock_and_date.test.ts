@@ -1,5 +1,5 @@
 import Event from '@entities/event/event';
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import FindEventsByStockAndDate from 'main/usecases/find_events_by_stock_and_date';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';

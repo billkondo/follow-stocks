@@ -1,4 +1,4 @@
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import SqliteStockModel from '@sqlite/models/sqlite_stock_model';
 
 class SqliteStockMapper {

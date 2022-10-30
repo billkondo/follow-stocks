@@ -1,5 +1,5 @@
 import Event from '@entities/event/event';
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import { mock } from 'jest-mock-extended';
 import GenerateAveragePricesFromEvents from 'main/usecases/generate_average_prices_from_events';

@@ -1,6 +1,6 @@
 import EventType from '@entities/event/event_type';
 import PriceCode from '@entities/price/price_code';
-import StockType from '@entities/stock/stock_type';
+import StockType from '@entities/stocks/stock_type';
 
 interface SqliteEventModel {
   date: string;

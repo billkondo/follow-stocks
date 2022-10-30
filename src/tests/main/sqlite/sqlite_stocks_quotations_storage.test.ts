@@ -1,4 +1,4 @@
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import StockQuotation from '@entities/stock_quotation';
 import SqliteConnection from '@sqlite/sqlite_connection';
 import SqliteStocksQuotationsStorage from '@sqlite/storages/sqlite_stocks_quotations_storage';

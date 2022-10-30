@@ -1,4 +1,4 @@
-import Stock from '@entities/stock/stock';
+import Stock from '@entities/stocks/stock';
 import StockQuotation from '@entities/stock_quotation';
 import StocksQuotationsRepository from '@repositories/stocks_quotations_repository';
 import { mock } from 'jest-mock-extended';
