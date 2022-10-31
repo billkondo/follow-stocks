@@ -1,5 +1,5 @@
-import { LocalizationProvider } from '@mui/lab';
-import DateAdapter from '@mui/lab/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NegotiationsNewOnesDateTimePicker from './NegotiationsNewOnesDatePicker';
@@ -7,7 +7,7 @@ import NegotiationsNewOnesDateTimePicker from './NegotiationsNewOnesDatePicker';
 describe('Date picker', () => {
   test('should disable keyboard', async () => {
     render(
-      <LocalizationProvider dateAdapter={DateAdapter}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <NegotiationsNewOnesDateTimePicker date={null} setDate={jest.fn()} />
       </LocalizationProvider>,
     );

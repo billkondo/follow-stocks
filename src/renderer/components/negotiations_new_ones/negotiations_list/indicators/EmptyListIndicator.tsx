@@ -1,6 +1,6 @@
+import Stock from '@entities/stocks/stock';
 import { Grid, Icon, Typography } from '@mui/material';
 import { IconMoodEmpty } from '@tabler/icons';
-import Stock from 'domain/stock';
 import { FC } from 'react';
 
 interface Props {
@@ -17,8 +17,12 @@ const EmptyListIndicator: FC<Props> = ({ stock }) => {
       </Grid>
 
       <Grid item sx={{ mt: 1 }}>
-        <Typography variant="h6">
+        <Typography variant="h6" textAlign="center">
           There are no {stock.ticker} negotiations
+        </Typography>
+
+        <Typography variant="h6" textAlign="center">
+          at this date
         </Typography>
       </Grid>
     </Grid>

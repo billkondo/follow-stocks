@@ -1,10 +1,22 @@
-import { Grid, Typography } from '@mui/material';
-import Stock from 'domain/stock';
-import StockNegotiation from 'domain/stock_negotiation';
+import NegotiationForm from '@components/forms/negotiation_form';
+import MenuButton from '@components/menu_button';
+import Event from '@entities/event/event';
+import EventType from '@entities/event/event_type';
+import PriceCode from '@entities/price/price_code';
+import Stock from '@entities/stocks/stock';
+import {
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  Typography,
+} from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { GRID_SPACING } from 'renderer/config/constants';
 import useSubmit from 'renderer/hooks/use_submit';
 import delayed from 'utils/delayed';
+import NegotiationTableRow from '../negotiation_table_row';
 import EmptyListIndicator from './indicators/EmptyListIndicator';
 import FailedIndicator from './indicators/FailedIndicator';
 import LoadingIndicator from './indicators/LoadingIndicator';
@@ -29,7 +41,7 @@ const NegotiationsList: FC<Props> = ({ stock, negotiationDate }) => {
   const year = negotiationDate.getFullYear();
   const dateString = `${day}/${month}/${year}`;
 
-  const [negotiations, setNegotiations] = useState<StockNegotiation[]>([]);
+  const [negotiations, setNegotiations] = useState<Event[]>([]);
   const isEmpty = !negotiations.length;
 
   const { submit, loading, failed, done } = useSubmit(
@@ -47,18 +59,66 @@ const NegotiationsList: FC<Props> = ({ stock, negotiationDate }) => {
     submit();
   }, [stock, negotiationDate]);
 
+  const addStockNegotiation = (
+    stockNegotiationType: EventType,
+    quantity: number,
+    priceCode: PriceCode,
+    price: number,
+  ) => {
+    const negotiation: Event = {
+      date: negotiationDate,
+      stock,
+      price: {
+        code: priceCode,
+        value: price,
+      },
+      quantity,
+      type: stockNegotiationType,
+    };
+
+    setNegotiations(negotiations.concat(negotiation));
+  };
+
+  const deleteNegotiation = (deletedNegotiation: Event) =>
+    setNegotiations(
+      negotiations.filter((negotiation) => negotiation !== deletedNegotiation),
+    );
+
   return (
     <Grid container spacing={GRID_SPACING}>
-      <Grid item xs={12}>
-        <Typography variant="h4">
+      <Grid item container xs={12} alignItems="center">
+        <Typography variant="h4" sx={{ flexGrow: 1 }}>
           {`${stockTicker} negotiations at ${dateString}`}
         </Typography>
+
+        <MenuButton label="Add" variant="contained">
+          <NegotiationForm submitForm={addStockNegotiation} />
+        </MenuButton>
       </Grid>
 
       <Grid item xs={12} sx={{ minHeight: 120 }}>
         {loading && <LoadingIndicator />}
         {failed && <FailedIndicator stock={stock} retry={submit} />}
         {done && isEmpty && <EmptyListIndicator stock={stock} />}
+
+        {done && !isEmpty && (
+          <Table>
+            <TableHead>
+              <TableCell>Buy/Sell</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell></TableCell>
+            </TableHead>
+            <TableBody>
+              {negotiations.map((negotiation) => (
+                <NegotiationTableRow
+                  negotiation={negotiation}
+                  onDeleteButtonClick={() => deleteNegotiation(negotiation)}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </Grid>
     </Grid>
   );

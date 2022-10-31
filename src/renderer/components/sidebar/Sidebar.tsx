@@ -13,19 +13,6 @@ const Sidebar: FC<IProps> = ({ drawerOpen, onDrawerToggle }) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
-  const drawer = (
-    <>
-      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-        <Box sx={{ display: 'flex', p: 2, mx: 'auto' }}>
-          <Logo />
-        </Box>
-      </Box>
-      <Box sx={{ px: 2 }}>
-        <MenuList />
-      </Box>
-    </>
-  );
-
   return (
     <Box
       component="nav"
@@ -52,7 +39,14 @@ const Sidebar: FC<IProps> = ({ drawerOpen, onDrawerToggle }) => {
         ModalProps={{ keepMounted: true }}
         color="inherit"
       >
-        {drawer}
+        <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+          <Box sx={{ display: 'flex', p: 2, mx: 'auto' }}>
+            <Logo />
+          </Box>
+        </Box>
+        <Box sx={{ px: 2 }}>
+          <MenuList />
+        </Box>
       </Drawer>
     </Box>
   );

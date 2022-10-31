@@ -1,3 +1,5 @@
+import Stock from '@entities/stocks/stock';
+import StockType from '@entities/stocks/stock_type';
 import {
   Autocomplete,
   Box,
@@ -6,8 +8,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import Stock from 'domain/stock';
-import StockType from 'domain/stock_type';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { MIN_WIDTH } from 'renderer/config/constants';
 import debounce from 'utils/debounce';
@@ -58,7 +58,13 @@ const NegotiationsNewOneAutocomplete: FC<Props> = ({
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       onInputChange={(_, newValue) => setTickerInput(newValue)}
-      getOptionLabel={(option) => (option ? option.ticker : '')}
+      getOptionLabel={(option) => {
+        if (typeof option === 'string') {
+          return option;
+        }
+
+        return option.ticker;
+      }}
       filterOptions={(option) => option}
       onChange={(_, newStock) => setStock(newStock as Stock)}
       noOptionsText="No stocks were found"

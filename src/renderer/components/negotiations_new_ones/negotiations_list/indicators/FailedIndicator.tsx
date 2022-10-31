@@ -1,5 +1,5 @@
+import Stock from '@entities/stocks/stock';
 import { Button, Grid, Typography, useTheme } from '@mui/material';
-import Stock from 'domain/stock';
 import { FC } from 'react';
 
 interface Props {

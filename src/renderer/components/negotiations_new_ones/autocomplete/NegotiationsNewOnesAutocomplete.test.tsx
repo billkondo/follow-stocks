@@ -1,6 +1,6 @@
+import Stock from '@entities/stocks/stock';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Stock from 'domain/stock';
 import NegotiationsNewOnesAutocomplete from './NegotiationsNewOnesAutocomplete';
 
 describe('Stocks autocomplete', () => {

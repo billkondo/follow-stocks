@@ -1,3 +1,5 @@
+import StockNegotiationType from '@entities/event/event_type';
+import PriceCode from '@entities/price/price_code';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import {
   Button,
@@ -8,8 +10,6 @@ import {
   Typography,
 } from '@mui/material';
 import { IconCurrencyDollar, IconCurrencyReal } from '@tabler/icons';
-import PriceCode from 'domain/price_code';
-import StockNegotiationType from 'domain/stock_negotiation_type';
 import { FC, useRef, useState } from 'react';
 
 type Props = {

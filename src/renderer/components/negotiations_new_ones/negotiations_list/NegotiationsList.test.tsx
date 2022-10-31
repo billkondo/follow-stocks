@@ -1,6 +1,6 @@
+import Stock from '@entities/stocks/stock';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Stock from 'domain/stock';
 import NegotiationsList from './NegotiationsList';
 
 describe('Negotiations list', () => {

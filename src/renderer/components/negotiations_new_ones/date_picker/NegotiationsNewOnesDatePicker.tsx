@@ -1,5 +1,5 @@
-import { DesktopDatePicker } from '@mui/lab';
 import { TextField } from '@mui/material';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { FC } from 'react';
 import { MIN_WIDTH } from 'renderer/config/constants';
 
