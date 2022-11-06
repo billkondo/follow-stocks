@@ -4,7 +4,7 @@ import Price from '@entities/price/price';
 import Stock from '@entities/stocks/stock';
 import StockType from '@entities/stocks/stock_type';
 import parseDate from '@usecases/dates/parseDate';
-import { readFile, utils } from 'xlsx';
+import { read, utils } from 'xlsx';
 
 type B3Row = {
   Data: string;
@@ -18,8 +18,8 @@ type B3Row = {
 class B3Parser {
   EXCEL_SHEETNAME = 'Movimentação';
 
-  processeFile(filePath: string): Event[] {
-    const workbook = readFile(filePath);
+  parseExcelFile(buffer: Buffer): Event[] {
+    const workbook = read(buffer);
     const sheet = workbook.Sheets[this.EXCEL_SHEETNAME];
     const jsonData = utils.sheet_to_json(sheet) as B3Row[];
 

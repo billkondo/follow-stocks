@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 class JSONFile {
   filePath: string;
@@ -12,9 +12,13 @@ class JSONFile {
   }
 
   read() {
+    if (!this.exists()) {
+      return {};
+    }
+
     const fileContent = fs.readFileSync(this.filePath);
 
-    return JSON.parse(fileContent);
+    return JSON.parse(fileContent.toString());
   }
 
   save(content: any) {
@@ -22,6 +26,10 @@ class JSONFile {
   }
 
   remove() {
+    if (!this.exists()) {
+      return;
+    }
+
     fs.rmSync(this.filePath);
   }
 }

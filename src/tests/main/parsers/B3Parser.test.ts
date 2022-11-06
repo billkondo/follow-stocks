@@ -1,17 +1,25 @@
 import Event from '@entities/event/event';
 import B3Parser from 'main/parsers/B3Parser';
 
+import fs from 'fs';
+
 import path from 'path';
 
 describe('B3 Parser', () => {
   const buildTestFilePath = (fileName: string) =>
     path.join(__dirname, 'tests_cases', fileName);
 
+  const readTestFile = (fileName: string) => {
+    const filePath = buildTestFilePath(fileName);
+
+    return fs.readFileSync(filePath);
+  };
+
   it('should parse valid events', () => {
     const b3Parser = new B3Parser();
-    const filePath = buildTestFilePath('valid_events.xlsx');
+    const file = readTestFile('valid_events.xlsx');
 
-    const events = b3Parser.processeFile(filePath);
+    const events = b3Parser.parseExcelFile(file);
 
     expect(events).toEqual([
       {
@@ -130,9 +138,9 @@ describe('B3 Parser', () => {
 
   it('should parse unknown events', () => {
     const b3Parser = new B3Parser();
-    const filePath = buildTestFilePath('unknown_type_events.xlsx');
+    const file = readTestFile('unknown_type_events.xlsx');
 
-    const events = b3Parser.processeFile(filePath);
+    const events = b3Parser.parseExcelFile(file);
 
     expect(events).toEqual([
       {
@@ -182,9 +190,9 @@ describe('B3 Parser', () => {
 
   it('should parse ignored events', () => {
     const b3Parser = new B3Parser();
-    const filePath = buildTestFilePath('ignored_events.xlsx');
+    const file = readTestFile('ignored_events.xlsx');
 
-    const events = b3Parser.processeFile(filePath);
+    const events = b3Parser.parseExcelFile(file);
 
     expect(events).toEqual([
       {

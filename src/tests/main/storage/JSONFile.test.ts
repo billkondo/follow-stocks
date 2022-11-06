@@ -10,6 +10,9 @@ describe('JSON File', () => {
   const createTestFile = (content = '') =>
     fs.writeFileSync(testFilePath, content);
 
+  const expectFileDoesNotExist = () =>
+    expect(fs.existsSync(testFilePath)).toBeFalsy();
+
   beforeEach(() => {
     jsonFile = new JSONFile(testFilePath);
   });
@@ -32,6 +35,12 @@ describe('JSON File', () => {
     });
   });
 
+  it('should read json file when it does not exist', () => {
+    expectFileDoesNotExist();
+
+    expect(jsonFile.read()).toEqual({});
+  });
+
   it('should save json file content', () => {
     const testContent = {
       '1': 'one',
@@ -52,6 +61,14 @@ describe('JSON File', () => {
 
     jsonFile.remove();
 
-    expect(fs.existsSync(testFilePath)).toBeFalsy();
+    expectFileDoesNotExist();
+  });
+
+  it('should try remove json file without throwing error', () => {
+    expectFileDoesNotExist();
+
+    jsonFile.remove();
+
+    expectFileDoesNotExist();
   });
 });
