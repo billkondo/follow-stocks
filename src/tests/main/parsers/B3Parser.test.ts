@@ -1,23 +1,11 @@
 import Event from '@entities/event/event';
 import B3Parser from 'main/parsers/B3Parser';
-
-import fs from 'fs';
-
-import path from 'path';
+import readTestFilePath from 'tests/readTestFilePath';
 
 describe('B3 Parser', () => {
-  const buildTestFilePath = (fileName: string) =>
-    path.join(__dirname, 'tests_cases', fileName);
-
-  const readTestFile = (fileName: string) => {
-    const filePath = buildTestFilePath(fileName);
-
-    return fs.readFileSync(filePath);
-  };
-
   it('should parse valid events', () => {
     const b3Parser = new B3Parser();
-    const file = readTestFile('valid_events.xlsx');
+    const file = readTestFilePath('mocks/b3_spreadsheets/validEvents.xlsx');
 
     const events = b3Parser.parseExcelFile(file);
 
@@ -138,7 +126,9 @@ describe('B3 Parser', () => {
 
   it('should parse unknown events', () => {
     const b3Parser = new B3Parser();
-    const file = readTestFile('unknown_type_events.xlsx');
+    const file = readTestFilePath(
+      'mocks/b3_spreadsheets/unknownTypeEvents.xlsx',
+    );
 
     const events = b3Parser.parseExcelFile(file);
 
@@ -190,7 +180,7 @@ describe('B3 Parser', () => {
 
   it('should parse ignored events', () => {
     const b3Parser = new B3Parser();
-    const file = readTestFile('ignored_events.xlsx');
+    const file = readTestFilePath('mocks/b3_spreadsheets/ignoredEvents.xlsx');
 
     const events = b3Parser.parseExcelFile(file);
 
