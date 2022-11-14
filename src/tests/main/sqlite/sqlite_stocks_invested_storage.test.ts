@@ -28,7 +28,7 @@ describe('Sqlite stocks invested storage', () => {
       type: 'FII',
     };
 
-    await sqliteStocksStorage.save([stock]);
+    await sqliteStocksStorage.save(stock);
 
     await sqliteStocksInvestedStorage.saveStockInvested({
       averagePrice: {

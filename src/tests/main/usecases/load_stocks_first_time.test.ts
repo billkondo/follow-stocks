@@ -27,6 +27,6 @@ describe('Load stocks first time', () => {
     await expect(loadStocksFirstTime(mockStockType)).resolves.toBeTruthy();
     expect(mockStocksRepository.count).toBeCalledWith(mockStockType);
     expect(mockStocksRepository.load).toBeCalledWith(mockStockType);
-    expect(mockStocksRepository.save).toBeCalledWith(mockStocks);
+    expect(mockStocksRepository.saveMany).toBeCalledWith(mockStocks);
   });
 });

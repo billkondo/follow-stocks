@@ -19,7 +19,7 @@ describe('Search FIIs by ticker', () => {
   beforeEach(async () => {
     const stocksService = stocksServiceFactory();
 
-    await stocksService.save([
+    await stocksService.saveMany([
       {
         name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
         ticker: 'HGRE11',

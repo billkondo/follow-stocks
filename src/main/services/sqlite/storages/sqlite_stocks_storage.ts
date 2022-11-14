@@ -9,6 +9,7 @@ class SqliteStocksStorage implements StocksStorage {
   insertStockStatement: Statement;
   insertManyStocksStatement: Transaction;
 
+  findAllStatement: Statement;
   findStocksByTypeStatement: Statement;
   findStockByTickerStatement: Statement;
 
@@ -28,6 +29,12 @@ class SqliteStocksStorage implements StocksStorage {
       (stocks: SqliteStockModel[]) => {
         for (const stock of stocks) this.insertStockStatement.run(stock);
       },
+    );
+
+    this.findAllStatement = db.prepare(
+      `
+        SELECT ticker, name, type from stocks
+      `,
     );
 
     this.findStocksByTypeStatement = db.prepare(
@@ -104,10 +111,22 @@ class SqliteStocksStorage implements StocksStorage {
     return count;
   }
 
-  async save(stocks: Stock[]) {
+  async save(stock: Stock) {
+    const model = SqliteStockMapper.toModel(stock);
+
+    this.insertStockStatement.run(model);
+  }
+
+  async saveMany(stocks: Stock[]) {
     const models = stocks.map(SqliteStockMapper.toModel);
 
-    await this.insertManyStocksStatement(models);
+    this.insertManyStocksStatement(models);
+  }
+
+  async findAll() {
+    const docs = this.findAllStatement.all();
+
+    return docs.map(SqliteStockMapper.fromModel);
   }
 
   async findAllByType(type: 'FII'): Promise<Stock[]> {

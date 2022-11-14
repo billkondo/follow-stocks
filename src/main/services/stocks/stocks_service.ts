@@ -15,8 +15,12 @@ class StocksService implements StocksRepository {
     return this.stocksStorage.exists(stock);
   }
 
-  async save(stocks: Stock[]) {
-    this.stocksStorage.save(stocks);
+  async save(stock: Stock) {
+    this.stocksStorage.save(stock);
+  }
+
+  async saveMany(stocks: Stock[]) {
+    this.stocksStorage.saveMany(stocks);
   }
 
   search(tickerText: string, type: StockType): Promise<Stock[]> {

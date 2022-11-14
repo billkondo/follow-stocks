@@ -38,7 +38,7 @@ describe('Load FIIs for the first time', () => {
   test('should not load FIIs when there is FII stored', async () => {
     const { stocksService, loadStocksFirstTime } = setup();
 
-    await stocksService.save([
+    await stocksService.saveMany([
       { name: 'FII name', ticker: 'FII11', type: 'FII' },
     ]);
     expect(await loadStocksFirstTime('FII')).toBeFalsy();

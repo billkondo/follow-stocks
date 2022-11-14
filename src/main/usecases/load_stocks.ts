@@ -5,7 +5,7 @@ const LoadStocks =
   (stocksRepository: StocksRepository) => async (type: StockType) => {
     const stocks = await stocksRepository.load(type);
 
-    await stocksRepository.save(stocks);
+    await stocksRepository.saveMany(stocks);
   };
 
 export default LoadStocks;

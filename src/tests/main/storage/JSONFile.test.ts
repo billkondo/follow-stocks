@@ -38,7 +38,7 @@ describe('JSON File', () => {
   it('should read json file when it does not exist', () => {
     expectFileDoesNotExist();
 
-    expect(jsonFile.read()).toEqual({});
+    expect(jsonFile.read()).toBeFalsy();
   });
 
   it('should save json file content', () => {

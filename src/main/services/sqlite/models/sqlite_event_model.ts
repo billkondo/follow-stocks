@@ -5,8 +5,8 @@ import StockType from '@entities/stocks/stock_type';
 interface SqliteEventModel {
   date: string;
   quantity: number;
-  price_value: number;
-  price_code: PriceCode;
+  price_value?: number;
+  price_code?: PriceCode;
   stock_ticker: string;
   stock_name: string;
   stock_type: StockType;

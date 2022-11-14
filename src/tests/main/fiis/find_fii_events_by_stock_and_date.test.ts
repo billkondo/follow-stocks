@@ -29,8 +29,8 @@ describe('Find FII events by stock and date', () => {
     const stocksService = stocksServiceFactory();
     const eventsService = eventsServiceFactory();
 
-    await stocksService.save([hgreStock, xplgStock]);
-    await eventsService.saveEvents(hgreStock, [
+    await stocksService.saveMany([hgreStock, xplgStock]);
+    await eventsService.saveMany([
       {
         date: new Date(2022, 12, 1),
         price: { code: 'BRL', value: 120 },
@@ -53,7 +53,7 @@ describe('Find FII events by stock and date', () => {
         type: 'BUY',
       },
     ]);
-    await eventsService.saveEvents(xplgStock, [
+    await eventsService.saveMany([
       {
         date: new Date(2021, 12, 1),
         price: { code: 'BRL', value: 50 },
@@ -91,7 +91,7 @@ describe('Find FII events by stock and date', () => {
           stock: hgreStock,
           type: 'BUY',
         },
-      ],
+      ] as Event[],
     ],
     [
       new Date(2022, 12, 2),
@@ -111,7 +111,7 @@ describe('Find FII events by stock and date', () => {
           stock: hgreStock,
           type: 'BUY',
         },
-      ],
+      ] as Event[],
     ],
     [
       new Date(2021, 12, 1),
@@ -138,7 +138,7 @@ describe('Find FII events by stock and date', () => {
           stock: xplgStock,
           type: 'SELL',
         },
-      ],
+      ] as Event[],
     ],
   ])(
     'should find FII events on given date',

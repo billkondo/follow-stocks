@@ -1,5 +1,5 @@
-import Event from '@entities/event/event';
-import EventType from '@entities/event/event_type';
+import Event from '@entities/events/Event';
+import EventType from '@entities/events/EventType';
 import Price from '@entities/price/price';
 import Stock from '@entities/stocks/stock';
 import StockType from '@entities/stocks/stock_type';
@@ -27,13 +27,13 @@ class B3Parser {
   }
 
   parseExcelRow(row: B3Row): Event {
-    return {
+    return new Event({
       date: this.parseExcelDate(row),
       price: this.parseExcelUnitPrice(row),
       quantity: this.parseExcelQuantity(row),
       stock: this.parseExcelStock(row),
       type: this.parseExcelTransactionType(row),
-    };
+    });
   }
 
   parseExcelDate(row: B3Row): Date {

@@ -32,13 +32,13 @@ describe('Find FIIs that have any event', () => {
     const fiisService = stocksServiceFactory();
     const fiisEventsService = eventsServiceFactory();
 
-    await fiisService.save([
+    await fiisService.saveMany([
       xplgStock,
       hgreStock,
       { name: 'HGLG STOCK', ticker: 'HGLG11', type: 'FII' },
     ]);
 
-    await fiisEventsService.saveEvents(xplgStock, [
+    await fiisEventsService.saveMany([
       {
         stock: xplgStock,
         date: new Date(2022, 12, 1),
@@ -55,7 +55,7 @@ describe('Find FIIs that have any event', () => {
       },
     ]);
 
-    await fiisEventsService.saveEvents(hgreStock, [
+    await fiisEventsService.saveMany([
       {
         stock: hgreStock,
         date: new Date(2022, 12, 1),

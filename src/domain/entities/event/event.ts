@@ -6,7 +6,7 @@ interface Event {
   date: Date;
   type: EventType;
   stock: Stock;
-  price: Price;
+  price?: Price;
   quantity: number;
 }
 

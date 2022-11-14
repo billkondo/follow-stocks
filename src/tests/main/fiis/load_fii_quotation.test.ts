@@ -30,7 +30,7 @@ describe('Load FII quotation', () => {
 
     const stocksService = stocksServiceFactory();
 
-    await stocksService.save([hgreStock]);
+    await stocksService.save(hgreStock);
   });
 
   test('should load FII quotation', async () => {

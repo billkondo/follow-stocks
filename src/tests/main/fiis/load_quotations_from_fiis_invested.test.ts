@@ -58,7 +58,7 @@ describe('Load quotations from FIIs invested', () => {
       },
     ];
 
-    await stocksService.save(stocks);
+    await stocksService.saveMany(stocks);
     await Promise.all(
       stocks.map((stock) =>
         stocksInvestedService.saveStockInvested({

@@ -11,8 +11,12 @@ class EventsService implements EventsRepository {
     this.eventsStorage = EventsStorage;
   }
 
-  async saveEvents(stock: Stock, Events: Event[]) {
-    this.eventsStorage.saveEvents(stock, Events);
+  async save(event: Event) {
+    this.eventsStorage.save(event);
+  }
+
+  async saveMany(events: Event[]) {
+    this.eventsStorage.saveMany(events);
   }
 
   findEventsByStock(stock: Stock): Promise<Event[]> {

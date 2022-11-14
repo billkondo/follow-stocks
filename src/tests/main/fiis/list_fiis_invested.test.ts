@@ -75,7 +75,7 @@ describe('List FIIs invested', () => {
       stock: stockB,
     };
 
-    await stocksService.save([stockA, stockB]);
+    await stocksService.saveMany([stockA, stockB]);
     await stocksInvestedService.saveStockInvested(stockAInvested);
     await stocksInvestedService.saveStockInvested(stockBInvested);
     await stocksQuotationsService.saveStockQuotation({

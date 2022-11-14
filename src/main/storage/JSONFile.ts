@@ -13,7 +13,7 @@ class JSONFile {
 
   read() {
     if (!this.exists()) {
-      return {};
+      return;
     }
 
     const fileContent = fs.readFileSync(this.filePath);

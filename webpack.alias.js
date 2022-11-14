@@ -4,4 +4,5 @@ module.exports = {
   '@entities': path.join(__dirname, 'src/domain/entities'),
   '@errors': path.join(__dirname, 'src/domain/errors'),
   '@repositories': path.join(__dirname, 'src/domain/repositories'),
+  '@usecases': path.join(__dirname, 'src/domain/usecases'),
 };

@@ -1,4 +1,9 @@
-import { IconBuilding, IconCirclePlus, IconNotebook } from '@tabler/icons';
+import {
+  IconBuilding,
+  IconCirclePlus,
+  IconFileUpload,
+  IconNotebook,
+} from '@tabler/icons';
 import AppRoutes from 'renderer/config/app_routes';
 import { MenuGroup } from './menu_types';
 
@@ -19,22 +24,29 @@ const menuItems: MenuGroup[] = [
   },
   {
     id: 'NEGOTIATIONS',
-    title: 'Negotiations',
+    title: 'Events',
     type: 'GROUP',
     children: [
       {
-        id: 'HISTORICAL',
-        title: 'Historical',
+        id: 'TRACK_RECORD',
+        title: 'Track Record',
         type: 'ITEM',
-        icon: <IconNotebook stroke={1.5} size="1.3rem" />,
         url: AppRoutes.NEGOTIATIONS_HISTORICAL,
+        icon: <IconNotebook stroke={1.5} size="1.3rem" />,
       },
       {
-        id: 'NEW_ONE',
+        id: 'NEW_ONES',
         title: 'New ones',
         type: 'ITEM',
-        icon: <IconCirclePlus stroke={1.5} size="1.3rem" />,
         url: AppRoutes.NEGOTIATIONS_NEW_ONE,
+        icon: <IconCirclePlus stroke={1.5} size="1.3rem" />,
+      },
+      {
+        id: 'UPLOAD_FILE',
+        title: 'Upload File',
+        type: 'ITEM',
+        url: AppRoutes.EVENTS_UPLOAD_FILE,
+        icon: <IconFileUpload stroke={1.5} size="1.3rem" />,
       },
     ],
   },

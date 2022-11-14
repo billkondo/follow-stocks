@@ -17,7 +17,7 @@ describe('Sqlite stocks quotations storage', () => {
   beforeEach(async () => {
     const stocksService = stocksServiceFactory();
 
-    await stocksService.save([xplgStock]);
+    await stocksService.save(xplgStock);
   });
 
   const setup = () => {

@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { lazy } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
+import AppRoutes from './config/app_routes';
 import StocksProvider from './stocks/stocks_provider';
 
 const StocksInvestedByTypePage = Loadable(
@@ -19,6 +20,11 @@ const NegotiationsHistoricalPage = Loadable(
 const NegotiationsNewOnesPage = Loadable(
   lazy(
     () => import('@components/negotiations_new_ones/NegotiationsNewOnesPage'),
+  ),
+);
+const EventsUploadFilePage = Loadable(
+  lazy(
+    () => import('@components/events/upload_file_page/EventsUploadFilePage'),
   ),
 );
 
@@ -42,6 +48,10 @@ const App = () => {
                 <Route
                   path="/negotiations/new_one"
                   element={<NegotiationsNewOnesPage />}
+                />
+                <Route
+                  path={AppRoutes.EVENTS_UPLOAD_FILE}
+                  element={<EventsUploadFilePage />}
                 />
               </Route>
             </Routes>

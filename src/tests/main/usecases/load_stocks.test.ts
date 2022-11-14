@@ -14,6 +14,6 @@ describe('Load stocks', () => {
     mockStocksRepository.load.mockResolvedValue(mockStocks);
     await loadStocks(mockStockType);
     expect(mockStocksRepository.load).toBeCalledWith(mockStockType);
-    expect(mockStocksRepository.save).toBeCalledWith(mockStocks);
+    expect(mockStocksRepository.saveMany).toBeCalledWith(mockStocks);
   });
 });

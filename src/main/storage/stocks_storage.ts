@@ -11,7 +11,11 @@ interface StocksStorage {
 
   countByType: (type: StockType) => Promise<number>;
 
-  save: (stocks: Stock[]) => Promise<void>;
+  save: (stock: Stock) => Promise<void>;
+
+  saveMany: (stocks: Stock[]) => Promise<void>;
+
+  findAll: () => Promise<Stock[]>;
 
   findAllByType: (type: StockType) => Promise<Stock[]>;
 }
