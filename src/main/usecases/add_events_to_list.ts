@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 
 const AddEventsToList = (events: Event[], newEvents: Event[]) => {
   const eventsByDate: { [key: string]: Event[] } = {};

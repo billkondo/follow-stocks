@@ -1,7 +1,7 @@
-import Event from './event';
+import Event from '@entities/events/Event';
 import IncomeType from './income_type';
 
-interface IncomeEvent extends Event {
+class IncomeEvent extends Event {
   incomeType: IncomeType;
 }
 

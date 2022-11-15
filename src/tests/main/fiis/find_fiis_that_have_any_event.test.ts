@@ -1,3 +1,4 @@
+import Event from '@entities/events/Event';
 import Stock from '@entities/stocks/stock';
 import compareStocksInAscendingOrderByTicker from '@usecases/stock/compare_stocks_in_ascending_order_by_ticker';
 import FindStocksThatHaveAnyEvent from 'main/usecases/find_stocks_that_have_any_event';
@@ -39,30 +40,30 @@ describe('Find FIIs that have any event', () => {
     ]);
 
     await fiisEventsService.saveMany([
-      {
+      new Event({
         stock: xplgStock,
         date: new Date(2022, 12, 1),
         price: { value: 100, code: 'BRL' },
         quantity: 25,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         stock: xplgStock,
         date: new Date(2022, 12, 2),
         price: { value: 125, code: 'BRL' },
         quantity: 17,
         type: 'SELL',
-      },
+      }),
     ]);
 
     await fiisEventsService.saveMany([
-      {
+      new Event({
         stock: hgreStock,
         date: new Date(2022, 12, 1),
         price: { value: 150, code: 'BRL' },
         quantity: 5,
         type: 'BUY',
-      },
+      }),
     ]);
   });
 

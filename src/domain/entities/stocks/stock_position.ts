@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import Stock from '@entities/stocks/stock';
 import DomainError from '@errors/domain_error';
 import { BigNumber } from 'bignumber.js';

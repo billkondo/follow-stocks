@@ -1,7 +1,7 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
+import FilterOptions from '@entities/filters/FilterOptions';
 import {
   Box,
-  Button,
   Divider,
   Grid,
   Paper,
@@ -14,34 +14,44 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { FC, useState } from 'react';
-import EventsTableFileUpload from './EventsTableFileUpload';
+import { FC, useEffect, useState } from 'react';
 import EventsTableRow from './EventsTableRow';
 
 const ROWS_PER_PAGE = 5;
 
 type Props = {
-  onSave: () => Promise<void>;
+  eventsCount: number;
+  eventsInPage: Event[];
+
+  title?: string;
+
+  filterEvents: (filterOptions: FilterOptions) => void;
+  renderEmptyEvents: () => JSX.Element;
+  renderHeader?: () => JSX.Element;
 };
 
-const EventsTable: FC<Props> = ({ onSave }) => {
-  const [events, setEvents] = useState<Event[]>([]);
+const EventsTable: FC<Props> = ({
+  eventsCount,
+  eventsInPage,
+
+  title = 'Events List',
+
+  filterEvents,
+  renderEmptyEvents,
+  renderHeader,
+}) => {
   const [page, setPage] = useState(0);
 
-  const hasAnyEvent = events.length > 0;
-  const hasNoEvents = events.length === 0;
+  const hasAnyEvent = eventsCount > 0;
+  const hasNoEvents = eventsCount === 0;
 
-  const eventsInPage = events.slice(
-    page * ROWS_PER_PAGE,
-    (page + 1) * ROWS_PER_PAGE,
-  );
+  useEffect(() => {
+    filterEvents({ page, pageSize: ROWS_PER_PAGE });
+  }, [page]);
 
-  const isSaveButtonDisabled = events.length === 0;
-
-  const onSaveButtonClicked = async () => {
-    await onSave();
-    setEvents([]);
-  };
+  useEffect(() => {
+    setPage(0);
+  }, [eventsCount]);
 
   return (
     <TableContainer
@@ -53,25 +63,21 @@ const EventsTable: FC<Props> = ({ onSave }) => {
           padding: 2,
         }}
       >
-        <Typography variant="h4">Events List</Typography>
+        <Typography variant="h4">{title}</Typography>
       </Box>
 
       <Divider sx={{ borderBottomColor: 'rgb(224, 224, 224)' }}></Divider>
 
-      <Grid
-        container
-        direction="row"
-        sx={{ px: 2, py: 3 }}
-        justifyContent="flex-end"
-      >
-        <Button
-          variant="contained"
-          onClick={onSaveButtonClicked}
-          disabled={isSaveButtonDisabled}
+      {renderHeader && (
+        <Grid
+          container
+          direction="row"
+          sx={{ px: 2, py: 3 }}
+          justifyContent="flex-end"
         >
-          Save
-        </Button>
-      </Grid>
+          {renderHeader()}
+        </Grid>
+      )}
 
       <Table>
         <TableHead>
@@ -104,9 +110,7 @@ const EventsTable: FC<Props> = ({ onSave }) => {
       </Table>
 
       {hasNoEvents && (
-        <Box sx={{ padding: 2, flexGrow: 1 }}>
-          <EventsTableFileUpload setEvents={setEvents}></EventsTableFileUpload>
-        </Box>
+        <Box sx={{ padding: 2, flexGrow: 1 }}>{renderEmptyEvents()}</Box>
       )}
 
       {hasAnyEvent && (
@@ -122,7 +126,7 @@ const EventsTable: FC<Props> = ({ onSave }) => {
             component="div"
             size="small"
             rowsPerPage={ROWS_PER_PAGE}
-            count={events.length}
+            count={eventsCount}
             page={page}
             rowsPerPageOptions={[]}
             onPageChange={(_, newPage) => setPage(newPage)}

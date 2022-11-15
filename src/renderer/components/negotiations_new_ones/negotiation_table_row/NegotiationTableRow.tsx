@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import { Fade, IconButton, TableCell, TableRow, Tooltip } from '@mui/material';
 import { IconPencil, IconTrash } from '@tabler/icons';
 import { FC, useState } from 'react';

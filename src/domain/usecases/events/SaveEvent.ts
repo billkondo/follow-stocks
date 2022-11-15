@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import EventsRepository from '@repositories/events_repository';
 import StocksRepository from '@repositories/stocks_repository';
 import SaveStock from '@usecases/stocks/SaveStock';

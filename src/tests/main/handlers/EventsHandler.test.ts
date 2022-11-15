@@ -1,5 +1,6 @@
 import Event from '@entities/events/Event';
 import EventJSON from '@entities/events/EventJSON';
+import FilterResults from '@entities/filters/FilterResults';
 import SqliteConnection from '@services/sqlite/sqlite_connection';
 import electron, { BrowserWindow, IpcMainInvokeEvent } from 'electron';
 import { mock, mockClear } from 'jest-mock-extended';
@@ -11,6 +12,7 @@ import buildTestFilePath from 'tests/buildTestFilePath';
 import useSqlite from 'tests/hooks/use_sqlite';
 import validEvents, {
   stocksValidEvents,
+  validEventsJSON,
 } from 'tests/mocks/b3_spreadsheets/validEvents';
 
 jest.mock('electron', () => {
@@ -87,5 +89,25 @@ describe('EventsHandler', () => {
     expect(b3EventsFile.read()).toBeFalsy();
     expect(await storage.events.findAll()).toEqual(validEvents);
     expect(await storage.stocks.findAll()).toEqual(stocksValidEvents);
+  });
+
+  it('should list B3 events', async () => {
+    const { eventsHandler, storage } = setup();
+
+    expect(await storage.events.findAll()).toEqual([]);
+    expect(await storage.stocks.findAll()).toEqual([]);
+
+    await storage.stocks.saveMany(stocksValidEvents);
+    await storage.events.saveMany(validEvents);
+
+    expect(
+      await eventsHandler.getB3Events(ipcMainInvokeEvent, {
+        page: 0,
+        pageSize: 100,
+      }),
+    ).toEqual({
+      results: validEventsJSON,
+      totalResults: 9,
+    } as FilterResults<EventJSON>);
   });
 });

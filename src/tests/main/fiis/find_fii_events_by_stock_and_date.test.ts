@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import Stock from '@entities/stocks/stock';
 import FindEventsByStockAndDate from 'main/usecases/find_events_by_stock_and_date';
 import useSqlite from 'tests/hooks/use_sqlite';
@@ -31,50 +31,50 @@ describe('Find FII events by stock and date', () => {
 
     await stocksService.saveMany([hgreStock, xplgStock]);
     await eventsService.saveMany([
-      {
+      new Event({
         date: new Date(2022, 12, 1),
         price: { code: 'BRL', value: 120 },
         quantity: 20,
         stock: hgreStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2022, 12, 2),
         price: { code: 'BRL', value: 150 },
         quantity: 10,
         stock: hgreStock,
         type: 'SELL',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2022, 12, 2),
         price: { code: 'BRL', value: 135 },
         quantity: 10,
         stock: hgreStock,
         type: 'BUY',
-      },
+      }),
     ]);
     await eventsService.saveMany([
-      {
+      new Event({
         date: new Date(2021, 12, 1),
         price: { code: 'BRL', value: 50 },
         quantity: 30,
         stock: xplgStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2021, 12, 1),
         price: { code: 'BRL', value: 100 },
         quantity: 10,
         stock: xplgStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2021, 12, 1),
         price: { code: 'BRL', value: 75 },
         quantity: 40,
         stock: xplgStock,
         type: 'SELL',
-      },
+      }),
     ]);
   });
 

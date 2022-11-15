@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import BigNumber from 'bignumber.js';
 

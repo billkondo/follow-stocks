@@ -1,6 +1,9 @@
 import Event from '@entities/events/Event';
 import EventJSON from '@entities/events/EventJSON';
+import FilterOptions from '@entities/filters/FilterOptions';
+import FilterResults from '@entities/filters/FilterResults';
 import Repositories from '@repositories/repositories';
+import FilterEvents from '@usecases/events/FilterEvents';
 import SaveEvent from '@usecases/events/SaveEvent';
 import { app, BrowserWindow, dialog, IpcMainInvokeEvent } from 'electron';
 import fs from 'fs';
@@ -22,6 +25,20 @@ const EventsHandler = (
   };
 
   return {
+    getB3Events: async (
+      _event: IpcMainInvokeEvent,
+      filterOptions: FilterOptions,
+    ): Promise<FilterResults<EventJSON>> => {
+      const filterEvents = FilterEvents(repositories);
+      const { results: filteredEvents, totalResults: eventsCount } =
+        await filterEvents(filterOptions);
+      const filteredEventsJSON = filteredEvents.map((event) => event.toJSON());
+
+      return {
+        results: filteredEventsJSON,
+        totalResults: eventsCount,
+      };
+    },
     saveB3Events: async (_event: IpcMainInvokeEvent) => {
       const saveEvent = SaveEvent({
         eventsRepository,

@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import Stock from '@entities/stocks/stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import { mock } from 'jest-mock-extended';
@@ -23,7 +23,7 @@ describe('Generate average prices from events', () => {
   test('should generate average price, total invested and total quantity', () => {
     const mockStock = mock<Stock>();
     const mockEvents: Event[] = [
-      {
+      new Event({
         date: new Date(2019, 7, 22),
         price: {
           value: 23.33,
@@ -32,8 +32,8 @@ describe('Generate average prices from events', () => {
         quantity: 4,
         stock: mockStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2019, 7, 26),
         price: {
           value: 24.0,
@@ -42,8 +42,8 @@ describe('Generate average prices from events', () => {
         quantity: 4,
         stock: mockStock,
         type: 'SELL',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2019, 9, 19),
         price: {
           value: 24.46,
@@ -52,8 +52,8 @@ describe('Generate average prices from events', () => {
         quantity: 100,
         stock: mockStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2019, 9, 25),
         price: {
           value: 25.46,
@@ -62,8 +62,8 @@ describe('Generate average prices from events', () => {
         quantity: 100,
         stock: mockStock,
         type: 'SELL',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2019, 11, 12),
         price: {
           value: 25.81,
@@ -72,8 +72,8 @@ describe('Generate average prices from events', () => {
         quantity: 52,
         stock: mockStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2019, 11, 18),
         price: {
           value: 26.92,
@@ -82,8 +82,8 @@ describe('Generate average prices from events', () => {
         quantity: 33,
         stock: mockStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2019, 11, 18),
         price: {
           value: 26.93,
@@ -92,8 +92,8 @@ describe('Generate average prices from events', () => {
         quantity: 32,
         stock: mockStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2020, 3, 6),
         price: {
           value: 28.09,
@@ -102,8 +102,8 @@ describe('Generate average prices from events', () => {
         quantity: 48,
         stock: mockStock,
         type: 'SELL',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2020, 3, 20),
         price: {
           value: 20.03,
@@ -112,7 +112,7 @@ describe('Generate average prices from events', () => {
         quantity: 14,
         stock: mockStock,
         type: 'BUY',
-      },
+      }),
     ];
     const expectedValues: StockInvested[] = [
       {
@@ -231,7 +231,7 @@ describe('Generate average prices from events', () => {
   describe('should deal with floating precision', () => {
     const mockStock = mock<Stock>();
     const mockEvents: Event[] = [
-      {
+      new Event({
         date: new Date(2022, 12, 1),
         price: {
           value: 0.1,
@@ -240,8 +240,8 @@ describe('Generate average prices from events', () => {
         quantity: 1,
         stock: mockStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2022, 12, 1),
         price: {
           value: 0.2,
@@ -250,8 +250,8 @@ describe('Generate average prices from events', () => {
         quantity: 1,
         stock: mockStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2022, 12, 1),
         price: {
           value: 0.4,
@@ -260,7 +260,7 @@ describe('Generate average prices from events', () => {
         quantity: 1,
         stock: mockStock,
         type: 'SELL',
-      },
+      }),
     ];
     const expectedValues: StockInvested[] = [
       {
@@ -289,7 +289,7 @@ describe('Generate average prices from events', () => {
   test('should reset average price if all stocks are sold', () => {
     const mockStock = mock<Stock>();
     const mockEvents: Event[] = [
-      {
+      new Event({
         date: new Date(2022, 12, 1),
         price: {
           code: 'USD',
@@ -298,8 +298,8 @@ describe('Generate average prices from events', () => {
         quantity: 0.5,
         stock: mockStock,
         type: 'BUY',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2022, 12, 2),
         price: {
           code: 'USD',
@@ -308,8 +308,8 @@ describe('Generate average prices from events', () => {
         quantity: 0.25,
         stock: mockStock,
         type: 'SELL',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2022, 12, 3),
         price: {
           code: 'USD',
@@ -318,8 +318,8 @@ describe('Generate average prices from events', () => {
         quantity: 0.25,
         stock: mockStock,
         type: 'SELL',
-      },
-      {
+      }),
+      new Event({
         date: new Date(2022, 12, 1),
         price: {
           code: 'USD',
@@ -328,7 +328,7 @@ describe('Generate average prices from events', () => {
         quantity: 0.5,
         stock: mockStock,
         type: 'BUY',
-      },
+      }),
     ];
     const expectedValues: StockInvested[] = [
       {

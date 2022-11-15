@@ -1,3 +1,4 @@
+import Event from '@entities/events/Event';
 import Stock from '@entities/stocks/stock';
 import DomainError from '@errors/domain_error';
 import { mock } from 'jest-mock-extended';
@@ -7,7 +8,7 @@ describe('Assert events balance is not negative', () => {
   test('should throw domain error if quantity becomes negative', () => {
     expect(() =>
       AssertEventsBalanceIsNotNegative([
-        {
+        new Event({
           date: new Date(2022, 12, 1),
           price: {
             code: 'BRL',
@@ -16,8 +17,8 @@ describe('Assert events balance is not negative', () => {
           quantity: 20,
           stock: mock<Stock>(),
           type: 'BUY',
-        },
-        {
+        }),
+        new Event({
           date: new Date(2022, 12, 2),
           price: {
             code: 'BRL',
@@ -26,7 +27,7 @@ describe('Assert events balance is not negative', () => {
           quantity: 30,
           stock: mock<Stock>(),
           type: 'SELL',
-        },
+        }),
       ]),
     ).toThrow(new DomainError('total quantity should be greater than zero'));
   });
@@ -36,7 +37,7 @@ describe('Assert events balance is not negative', () => {
 
     expect(
       AssertEventsBalanceIsNotNegative([
-        {
+        new Event({
           date: new Date(2022, 12, 1),
           price: {
             code: 'BRL',
@@ -45,8 +46,8 @@ describe('Assert events balance is not negative', () => {
           quantity: 20,
           stock: mockStock,
           type: 'BUY',
-        },
-        {
+        }),
+        new Event({
           date: new Date(2022, 12, 4),
           price: {
             code: 'BRL',
@@ -55,8 +56,8 @@ describe('Assert events balance is not negative', () => {
           quantity: 10,
           stock: mockStock,
           type: 'BUY',
-        },
-        {
+        }),
+        new Event({
           date: new Date(2022, 12, 7),
           price: {
             code: 'BRL',
@@ -65,7 +66,7 @@ describe('Assert events balance is not negative', () => {
           quantity: 8,
           stock: mockStock,
           type: 'SELL',
-        },
+        }),
       ]),
     ).toEqual({
       stock: mockStock,

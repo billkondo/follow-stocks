@@ -4,15 +4,15 @@ import { Grid, IconButton, Typography } from '@mui/material';
 import { FC } from 'react';
 
 type Props = {
-  setEvents: (events: Event[]) => void;
+  onLoad: (events: Event[]) => void;
 };
 
-const EventsTableFileUpload: FC<Props> = ({ setEvents }) => {
+const UploadB3SpreadSheet: FC<Props> = ({ onLoad }) => {
   const onUploadButtonClick = async () => {
     const eventsJSON = await window.events.uploadB3SpreadSheet();
     const events = eventsJSON.map((eventJSON) => new Event(eventJSON));
 
-    setEvents(events);
+    onLoad(events);
   };
 
   return (
@@ -24,7 +24,7 @@ const EventsTableFileUpload: FC<Props> = ({ setEvents }) => {
       sx={{ height: '100%' }}
     >
       <Grid item>
-        <Typography variant="h5">Select a B3 transactions file</Typography>
+        <Typography variant="h5">Select a B3 events spreadsheet</Typography>
       </Grid>
       <Grid item sx={{ mt: 0.5 }}>
         <IconButton color="primary" size="small" onClick={onUploadButtonClick}>
@@ -35,4 +35,4 @@ const EventsTableFileUpload: FC<Props> = ({ setEvents }) => {
   );
 };
 
-export default EventsTableFileUpload;
+export default UploadB3SpreadSheet;

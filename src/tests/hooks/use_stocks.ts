@@ -1,4 +1,4 @@
-import SqliteEventsStorage from '@services/sqlite/storages/sqlite_events_storage';
+import SqliteEventsStorage from '@services/sqlite/storages/SqliteEventsStorage';
 import EventsService from '@services/stocks/events_service';
 import StocksInvestedService from '@services/stocks/stocks_invested_service';
 import StocksInvestedWithQuotationsService from '@services/stocks/stocks_invested_with_quotations_service';

@@ -1,49 +1,6 @@
 import Event from '@entities/events/Event';
 import Stock from '@entities/stocks/stock';
 
-export const stocksValidEvents: Stock[] = [
-  {
-    name: 'ITAUSA S/A',
-    ticker: 'ITSA4',
-    type: 'BR_STOCK',
-  },
-  {
-    name: 'XP LOG FUNDO DE INVESTIMENTO IMOBILIARIO FII',
-    ticker: 'XPLG11',
-    type: 'FII',
-  },
-  {
-    name: 'APPLE INC.',
-    ticker: 'AAPL34',
-    type: 'BDR',
-  },
-  {
-    name: 'FDO INV IMOB - FII UBS (BR) RECEB IMOB',
-    ticker: 'RECR12',
-    type: 'SUBSCRIPTION',
-  },
-  {
-    name: 'BANCO BRADESCO S/A',
-    ticker: 'BBDC4',
-    type: 'BR_STOCK',
-  },
-  {
-    name: 'AES BRASIL ENERGIA S.A.',
-    ticker: 'AESB3',
-    type: 'BR_STOCK',
-  },
-  {
-    name: 'WEG S.A.',
-    ticker: 'WEGE3',
-    type: 'BR_STOCK',
-  },
-  {
-    name: 'CDB320551LM - PARANA BANCO S/A',
-    ticker: 'CDB',
-    type: 'FIXED_INCOME',
-  },
-];
-
 const validEvents: Event[] = [
   new Event({
     date: new Date(2022, 8, 5),
@@ -157,5 +114,50 @@ const validEvents: Event[] = [
     type: 'BUY',
   }),
 ];
+
+export const stocksValidEvents: Stock[] = [
+  {
+    name: 'ITAUSA S/A',
+    ticker: 'ITSA4',
+    type: 'BR_STOCK',
+  },
+  {
+    name: 'XP LOG FUNDO DE INVESTIMENTO IMOBILIARIO FII',
+    ticker: 'XPLG11',
+    type: 'FII',
+  },
+  {
+    name: 'APPLE INC.',
+    ticker: 'AAPL34',
+    type: 'BDR',
+  },
+  {
+    name: 'FDO INV IMOB - FII UBS (BR) RECEB IMOB',
+    ticker: 'RECR12',
+    type: 'SUBSCRIPTION',
+  },
+  {
+    name: 'BANCO BRADESCO S/A',
+    ticker: 'BBDC4',
+    type: 'BR_STOCK',
+  },
+  {
+    name: 'AES BRASIL ENERGIA S.A.',
+    ticker: 'AESB3',
+    type: 'BR_STOCK',
+  },
+  {
+    name: 'WEG S.A.',
+    ticker: 'WEGE3',
+    type: 'BR_STOCK',
+  },
+  {
+    name: 'CDB320551LM - PARANA BANCO S/A',
+    ticker: 'CDB',
+    type: 'FIXED_INCOME',
+  },
+];
+
+export const validEventsJSON = validEvents.map((event) => event.toJSON());
 
 export default validEvents;

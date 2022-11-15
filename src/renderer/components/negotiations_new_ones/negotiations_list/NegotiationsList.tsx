@@ -1,7 +1,8 @@
 import NegotiationForm from '@components/forms/negotiation_form';
 import MenuButton from '@components/menu_button';
-import Event from '@entities/event/event';
-import EventType from '@entities/event/event_type';
+import Event from '@entities/events/Event';
+import EventType from '@entities/events/EventType';
+
 import PriceCode from '@entities/price/price_code';
 import Stock from '@entities/stocks/stock';
 import {
@@ -65,7 +66,7 @@ const NegotiationsList: FC<Props> = ({ stock, negotiationDate }) => {
     priceCode: PriceCode,
     price: number,
   ) => {
-    const negotiation: Event = {
+    const negotiation: Event = new Event({
       date: negotiationDate,
       stock,
       price: {
@@ -74,7 +75,7 @@ const NegotiationsList: FC<Props> = ({ stock, negotiationDate }) => {
       },
       quantity,
       type: stockNegotiationType,
-    };
+    });
 
     setNegotiations(negotiations.concat(negotiation));
   };

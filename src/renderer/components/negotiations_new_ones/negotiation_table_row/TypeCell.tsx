@@ -1,4 +1,4 @@
-import EventType from '@entities/event/event_type';
+import EventType from '@entities/events/EventType';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import { Grid, Icon, TableCell } from '@mui/material';
 import { FC } from 'react';

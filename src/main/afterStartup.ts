@@ -8,6 +8,7 @@ const afterStartup = (
   repositories: Repositories,
 ) => {
   const eventsHandler = EventsHandler(browserWindow, repositories);
+  ipcMain.handle('events:getB3Events', eventsHandler.getB3Events);
   ipcMain.handle('events:saveB3Events', eventsHandler.saveB3Events);
   ipcMain.handle(
     'events:uploadB3SpreadSheet',

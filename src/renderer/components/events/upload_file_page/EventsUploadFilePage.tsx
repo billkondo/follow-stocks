@@ -1,12 +1,8 @@
-import EventsTable from '@components/events/table/EventsTable';
 import { Grid, Paper, Typography } from '@mui/material';
 import { GRID_SPACING } from 'renderer/config/constants';
+import EventsTableFixed from '../table/EventsTableFixed';
 
 const EventsUploadFilePage = () => {
-  const onSave = async () => {
-    await window.events.saveB3Events();
-  };
-
   return (
     <Grid container spacing={GRID_SPACING} direction="column">
       <Grid item container>
@@ -18,7 +14,7 @@ const EventsUploadFilePage = () => {
       </Grid>
 
       <Grid container item>
-        <EventsTable onSave={onSave}></EventsTable>
+        <EventsTableFixed title="New Events"></EventsTableFixed>
       </Grid>
     </Grid>
   );

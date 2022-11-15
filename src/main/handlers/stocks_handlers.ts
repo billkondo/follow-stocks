@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import Stock from '@entities/stocks/stock';
 import StockType from '@entities/stocks/stock_type';
 import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';

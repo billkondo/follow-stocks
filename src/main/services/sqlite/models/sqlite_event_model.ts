@@ -1,4 +1,4 @@
-import EventType from '@entities/event/event_type';
+import EventType from '@entities/events/EventType';
 import PriceCode from '@entities/price/price_code';
 import StockType from '@entities/stocks/stock_type';
 

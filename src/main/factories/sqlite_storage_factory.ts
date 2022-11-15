@@ -1,4 +1,4 @@
-import SqliteEventsStorage from '@services/sqlite/storages/sqlite_events_storage';
+import SqliteEventsStorage from '@services/sqlite/storages/SqliteEventsStorage';
 import SqliteStocksStorage from '@sqlite/storages/sqlite_stocks_storage';
 import { Database } from 'better-sqlite3';
 import Storage from 'main/storage/storage';

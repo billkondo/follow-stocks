@@ -1,4 +1,4 @@
-import StockNegotiationType from '@entities/event/event_type';
+import EventType from '@entities/events/EventType';
 import PriceCode from '@entities/price/price_code';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import {
@@ -14,7 +14,7 @@ import { FC, useRef, useState } from 'react';
 
 type Props = {
   submitForm: (
-    stockNegotiationType: StockNegotiationType,
+    stockNegotiationType: EventType,
     quantity: number,
     priceCode: PriceCode,
     price: number,
@@ -23,7 +23,7 @@ type Props = {
 
 const NegotiationForm: FC<Props> = ({ submitForm }) => {
   const [stockNegotiationType, setStockNegotiationType] =
-    useState<StockNegotiationType>('BUY');
+    useState<EventType>('BUY');
   const [quantity, setQuantity] = useState<string>('');
   const [priceCode, setPriceCode] = useState<PriceCode>('BRL');
   const [price, setPrice] = useState<string>('');

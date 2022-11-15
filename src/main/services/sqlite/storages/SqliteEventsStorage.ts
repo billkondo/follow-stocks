@@ -1,13 +1,16 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
+import FilterOptions from '@entities/filters/FilterOptions';
 import Stock from '@entities/stocks/stock';
 import StockType from '@entities/stocks/stock_type';
-import SqliteEventMapper from '@services/sqlite/mappers/sqlite_event_mapper';
+import SqliteEventMapper from '@services/sqlite/mappers/SqliteEventMapper';
 import SqliteEventModel from '@services/sqlite/models/sqlite_event_model';
 import SqliteStockMapper from '@sqlite/mappers/sqlite_stock_mapper';
 import { Database, Statement, Transaction } from 'better-sqlite3';
 import EventsStorage from 'main/storage/events_storage';
 
 class SqliteEventsStorage implements EventsStorage {
+  countEventsStatement: Statement;
+
   insertEventStatement: Statement;
   insertManyEventsStatement: Transaction;
 
@@ -15,12 +18,20 @@ class SqliteEventsStorage implements EventsStorage {
 
   updateEventsStatement: Transaction;
 
+  filterStatement: Statement;
+
   findAllStatement: Statement;
   findEventsByStockStatement: Statement;
   findEventsByStockAndDateStatement: Statement;
   findStocksThatHaveAnyEventStatement: Statement;
 
   constructor(db: Database) {
+    this.countEventsStatement = db.prepare(
+      `
+        SELECT COUNT(*) as count FROM events
+      `,
+    );
+
     this.insertEventStatement = db.prepare(
       `
         INSERT INTO events (quantity, date, type, price_value, price_code, stock_ticker)
@@ -57,6 +68,10 @@ class SqliteEventsStorage implements EventsStorage {
         ON stocks.ticker=events.stock_ticker
         WHERE ${whereClause}
       `;
+
+    this.filterStatement = db.prepare(
+      findEventsByStatement('1=1 LIMIT @pageSize OFFSET @offset'),
+    );
 
     this.findAllStatement = db.prepare(findEventsByStatement('1=1'));
 
@@ -105,6 +120,26 @@ class SqliteEventsStorage implements EventsStorage {
     ).run();
   }
 
+  async count() {
+    return this.countEventsStatement.get().count;
+  }
+
+  async filter(filterOptions: FilterOptions) {
+    const { page, pageSize } = filterOptions;
+    const docs = this.filterStatement.all({
+      pageSize,
+      offset: page * pageSize,
+    });
+
+    return docs.map(SqliteEventMapper.fromModel);
+  }
+
+  async findAll() {
+    const docs: SqliteEventModel[] = this.findAllStatement.all();
+
+    return docs.map(SqliteEventMapper.fromModel);
+  }
+
   async save(event: Event) {
     const model = SqliteEventMapper.toModel(event);
 
@@ -115,12 +150,6 @@ class SqliteEventsStorage implements EventsStorage {
     const models = events.map(SqliteEventMapper.toModel);
 
     this.insertManyEventsStatement(models);
-  }
-
-  async findAll() {
-    const docs: SqliteEventModel[] = this.findAllStatement.all();
-
-    return docs.map(SqliteEventMapper.fromModel);
   }
 
   async findEventsByStockAndDate(stock: Stock, date: Date): Promise<Event[]> {

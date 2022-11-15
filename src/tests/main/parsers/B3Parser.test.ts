@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import B3Parser from 'main/parsers/B3Parser';
 import readTestFilePath from 'tests/readTestFilePath';
 

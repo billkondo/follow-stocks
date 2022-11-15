@@ -1,4 +1,5 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
+import FilterOptions from '@entities/filters/FilterOptions';
 import Stock from '@entities/stocks/stock';
 import StockType from '@entities/stocks/stock_type';
 import EventsRepository from '@repositories/events_repository';
@@ -9,6 +10,14 @@ class EventsService implements EventsRepository {
 
   constructor(EventsStorage: EventsStorage) {
     this.eventsStorage = EventsStorage;
+  }
+
+  async count() {
+    return this.eventsStorage.count();
+  }
+
+  async filter(filterOptions: FilterOptions) {
+    return this.eventsStorage.filter(filterOptions);
   }
 
   async save(event: Event) {

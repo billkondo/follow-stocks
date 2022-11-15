@@ -11,11 +11,8 @@ import StocksProvider from './stocks/stocks_provider';
 const StocksInvestedByTypePage = Loadable(
   lazy(() => import('@components/stocks_invested/StocksInvestedByTypePage')),
 );
-const NegotiationsHistoricalPage = Loadable(
-  lazy(
-    () =>
-      import('@components/negotiations_historical/NegotiationsHistoricalPage'),
-  ),
+const EventsTrackRecordPage = Loadable(
+  lazy(() => import('@pages/EventsTrackRecordPage')),
 );
 const NegotiationsNewOnesPage = Loadable(
   lazy(
@@ -43,7 +40,7 @@ const App = () => {
                 />
                 <Route
                   path="/negotiations/historical"
-                  element={<NegotiationsHistoricalPage />}
+                  element={<EventsTrackRecordPage />}
                 />
                 <Route
                   path="/negotiations/new_one"

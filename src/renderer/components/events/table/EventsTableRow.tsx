@@ -1,5 +1,5 @@
 import PriceText from '@components/prices/PriceText';
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import { TableCell, TableRow } from '@mui/material';
 import stringifyDate from '@usecases/dates/stringifyDate';
 import { FC } from 'react';

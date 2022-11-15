@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import DomainError from '@errors/domain_error';
 import GenerateAveragePricesFromEvents from './generate_average_prices_from_events';

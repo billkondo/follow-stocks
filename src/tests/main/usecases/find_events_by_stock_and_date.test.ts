@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import Stock from '@entities/stocks/stock';
 import EventsRepository from '@repositories/events_repository';
 import { mock } from 'jest-mock-extended';

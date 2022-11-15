@@ -1,4 +1,4 @@
-import EventType from '@entities/event/event_type';
+import EventType from '@entities/events/EventType';
 import { Chip } from '@mui/material';
 import { FC } from 'react';
 

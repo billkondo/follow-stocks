@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import Price from '@entities/price/price';
 import PriceCode from '@entities/price/price_code';
 import SqliteEventModel from '@services/sqlite/models/sqlite_event_model';
@@ -6,7 +6,6 @@ import SqliteEventModel from '@services/sqlite/models/sqlite_event_model';
 class SqliteEventMapper {
   static toModel(event: Event): SqliteEventModel {
     const { price, date, quantity, stock, type } = event;
-
     let priceValue: number;
     let priceCode: PriceCode;
 
@@ -38,8 +37,8 @@ class SqliteEventMapper {
       stock_type,
       type,
     } = event;
-
     let price: Price = null;
+
     if (price_code && price_value !== null) {
       price = {
         code: price_code,
@@ -47,7 +46,7 @@ class SqliteEventMapper {
       };
     }
 
-    return {
+    return new Event({
       date: new Date(date),
       price,
       quantity,
@@ -57,7 +56,7 @@ class SqliteEventMapper {
         type: stock_type,
       },
       type,
-    };
+    });
   }
 }
 
