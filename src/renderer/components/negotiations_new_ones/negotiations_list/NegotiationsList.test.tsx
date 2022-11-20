@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NegotiationsList from './NegotiationsList';
@@ -53,7 +53,12 @@ describe('Negotiations list', () => {
   );
 
   test('should render empty negotiations list indicator', async () => {
-    const stock: Stock = { name: 'VINO Stock', ticker: 'VINO11', type: 'FII' };
+    const stock: Stock = {
+      currencyCode: 'BRL',
+      name: 'VINO Stock',
+      ticker: 'VINO11',
+      type: 'FII',
+    };
     const negotiationDate = new Date(2015, 6, 9);
 
     mockListStockNegotiationsAtDate.mockResolvedValue([]);
@@ -75,6 +80,7 @@ describe('Negotiations list', () => {
   test('should render failed indicator when stock negotiations listing fails', async () => {
     const user = userEvent.setup();
     const stock: Stock = {
+      currencyCode: 'BRL',
       name: 'HGRE Stock',
       ticker: 'HGRE11',
       type: 'FII',

@@ -1,4 +1,4 @@
-import StockType from './stock_type';
+import StockType from './StockType';
 
 const stockTypes: StockType[] = ['BDR', 'BR_STOCK', 'FII'];
 

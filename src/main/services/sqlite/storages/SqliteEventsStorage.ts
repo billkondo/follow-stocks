@@ -1,7 +1,7 @@
 import Event from '@entities/events/Event';
 import FilterOptions from '@entities/filters/FilterOptions';
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 import SqliteEventMapper from '@services/sqlite/mappers/SqliteEventMapper';
 import SqliteEventModel from '@services/sqlite/models/sqlite_event_model';
 import SqliteStockMapper from '@sqlite/mappers/sqlite_stock_mapper';
@@ -34,8 +34,8 @@ class SqliteEventsStorage implements EventsStorage {
 
     this.insertEventStatement = db.prepare(
       `
-        INSERT INTO events (quantity, date, type, price_value, price_code, stock_ticker)
-        VALUES (@quantity, @date, @type, @price_value, @price_code, @stock_ticker)
+        INSERT INTO events (quantity, date, type, total_value, unit_price, stock_ticker)
+        VALUES (@quantity, @date, @type, @total_value, @unit_price, @stock_ticker)
       `,
     );
 
@@ -62,7 +62,11 @@ class SqliteEventsStorage implements EventsStorage {
 
     const findEventsByStatement = (whereClause: string) =>
       `
-        SELECT events.*, stocks.name as stock_name, stocks.type as stock_type 
+        SELECT 
+          events.*, 
+          stocks.name as stock_name, 
+          stocks.type as stock_type, 
+          stocks.currency_code as stock_currency_code
         FROM events 
         LEFT JOIN stocks 
         ON stocks.ticker=events.stock_ticker
@@ -94,7 +98,11 @@ class SqliteEventsStorage implements EventsStorage {
 
     this.findStocksThatHaveAnyEventStatement = db.prepare(
       `
-        SELECT stocks.name as name, stocks.ticker as ticker, stocks.type as type
+        SELECT 
+          stocks.name as name, 
+          stocks.ticker as ticker,
+          stocks.type as type,
+          stocks.currency_code as currency_code
         FROM stocks
         INNER JOIN events
         ON events.stock_ticker=stocks.ticker
@@ -111,8 +119,8 @@ class SqliteEventsStorage implements EventsStorage {
           quantity DECIMAL, 
           date DATE, 
           type CHAR, 
-          price_value DECIMAL, 
-          price_code CHAR,
+          total_value DECIMAL,
+          unit_price DECIMAL,
           stock_ticker VARCHAR,
           FOREIGN KEY (stock_ticker) REFERENCES stocks (ticker) ON UPDATE CASCADE
         )

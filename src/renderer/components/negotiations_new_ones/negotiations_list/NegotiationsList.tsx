@@ -3,8 +3,8 @@ import MenuButton from '@components/menu_button';
 import Event from '@entities/events/Event';
 import EventType from '@entities/events/EventType';
 
-import PriceCode from '@entities/price/price_code';
-import Stock from '@entities/stocks/stock';
+import PriceCode from '@entities/currencies/CurrencyCode';
+import Stock from '@entities/stocks/Stock';
 import {
   Grid,
   Table,
@@ -69,12 +69,10 @@ const NegotiationsList: FC<Props> = ({ stock, negotiationDate }) => {
     const negotiation: Event = new Event({
       date: negotiationDate,
       stock,
-      price: {
-        code: priceCode,
-        value: price,
-      },
       quantity,
       type: stockNegotiationType,
+      unitPrice: price,
+      totalValue: 0,
     });
 
     setNegotiations(negotiations.concat(negotiation));

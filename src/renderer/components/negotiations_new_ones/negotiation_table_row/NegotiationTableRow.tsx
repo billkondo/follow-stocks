@@ -27,7 +27,10 @@ const NegotiationTableRow: FC<Props> = ({
         <b>{negotiation.quantity}</b>
       </TableCell>
 
-      <PriceCell price={negotiation.price} />
+      <PriceCell
+        price={negotiation.unitPrice}
+        currencyCode={negotiation.getCurrencyCode()}
+      />
 
       <TableCell>
         <Fade in={isMouseOver}>

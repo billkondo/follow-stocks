@@ -1,13 +1,13 @@
-import Price from '@entities/price/price';
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import EventType from './EventType';
 
 type EventJSON = {
   date: string;
-  price: Price;
   quantity: number;
   stock: Stock;
+  totalValue: number;
   type: EventType;
+  unitPrice: number;
 };
 
 export default EventJSON;

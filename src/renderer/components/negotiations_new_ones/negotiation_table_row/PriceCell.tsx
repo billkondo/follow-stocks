@@ -1,23 +1,23 @@
-import Price from '@entities/price/price';
+import CurrencyCode from '@entities/currencies/CurrencyCode';
 import { Grid, TableCell } from '@mui/material';
 import { IconCurrencyDollar, IconCurrencyReal } from '@tabler/icons';
 import { FC } from 'react';
 
 type Props = {
-  price: Price;
+  price: number;
+  currencyCode: CurrencyCode;
 };
 
-const PriceCell: FC<Props> = ({ price }) => {
-  const { code, value } = price;
-
-  const PriceCodeIcon = code === 'BRL' ? IconCurrencyReal : IconCurrencyDollar;
+const PriceCell: FC<Props> = ({ price, currencyCode }) => {
+  const PriceCodeIcon =
+    currencyCode === 'BRL' ? IconCurrencyReal : IconCurrencyDollar;
 
   return (
     <TableCell>
       <Grid container alignItems="center">
         <PriceCodeIcon size={20} />
 
-        <b style={{ marginLeft: 4 }}>{value.toFixed(2)}</b>
+        <b style={{ marginLeft: 4 }}>{price.toFixed(2)}</b>
       </Grid>
     </TableCell>
   );

@@ -1,5 +1,5 @@
 import HttpResponse from '@entities/http_response';
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockQuotation from '@entities/stock_quotation';
 import HttpService from '@services/http_service';
 import LoadQuotationsFromStocksInvested from 'main/usecases/load_quotations_from_stocks_invested';
@@ -50,11 +50,13 @@ describe('Load quotations from FIIs invested', () => {
         name: 'A Stock',
         ticker: 'A11',
         type: 'FII',
+        currencyCode: 'BRL',
       },
       {
         name: 'B Stock',
         ticker: 'B11',
         type: 'FII',
+        currencyCode: 'BRL',
       },
     ];
 
@@ -62,16 +64,10 @@ describe('Load quotations from FIIs invested', () => {
     await Promise.all(
       stocks.map((stock) =>
         stocksInvestedService.saveStockInvested({
-          averagePrice: {
-            code: 'BRL',
-            value: 123,
-          },
+          averagePrice: 123,
           quantity: 25,
           stock,
-          totalInvested: {
-            code: 'BRL',
-            value: 1230,
-          },
+          totalInvested: 1230,
         }),
       ),
     );
@@ -83,10 +79,7 @@ describe('Load quotations from FIIs invested', () => {
           stocksQuotationsService.findStockQuotation(stock),
         ).resolves.toEqual({
           stock,
-          quotation: {
-            code: 'BRL',
-            value: 256.43,
-          },
+          quotation: 256.43,
           updatedAt: new Date(2022, 12, 1),
         } as StockQuotation);
       }),

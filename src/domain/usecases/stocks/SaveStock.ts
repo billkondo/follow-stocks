@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StocksRepository from '@repositories/stocks_repository';
 
 const SaveStock =

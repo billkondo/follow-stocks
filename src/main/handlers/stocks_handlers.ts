@@ -1,6 +1,6 @@
 import Event from '@entities/events/Event';
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
 import Repositories from '@repositories/repositories';
 import { BrowserWindow, IpcMainInvokeEvent } from 'electron';

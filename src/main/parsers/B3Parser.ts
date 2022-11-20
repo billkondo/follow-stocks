@@ -1,8 +1,7 @@
 import Event from '@entities/events/Event';
 import EventType from '@entities/events/EventType';
-import Price from '@entities/price/price';
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 import parseDate from '@usecases/dates/parseDate';
 import { read, utils } from 'xlsx';
 
@@ -13,6 +12,7 @@ type B3Row = {
   Produto: string;
   Quantidade: string;
   'Preço unitário': string;
+  'Valor da Operação': string;
 };
 
 class B3Parser {
@@ -29,10 +29,11 @@ class B3Parser {
   parseExcelRow(row: B3Row): Event {
     return new Event({
       date: this.parseExcelDate(row),
-      price: this.parseExcelUnitPrice(row),
       quantity: this.parseExcelQuantity(row),
       stock: this.parseExcelStock(row),
       type: this.parseExcelTransactionType(row),
+      totalValue: this.parseExcelPrice(row, 'Valor da Operação'),
+      unitPrice: this.parseExcelPrice(row, 'Preço unitário'),
     });
   }
 
@@ -40,17 +41,14 @@ class B3Parser {
     return parseDate(row.Data);
   }
 
-  parseExcelUnitPrice(row: B3Row): Price {
-    const price = parseFloat(row['Preço unitário']);
+  parseExcelPrice(row: B3Row, column: keyof B3Row): number {
+    const price = parseFloat(row[column]);
 
     if (isNaN(price)) {
       return null;
     }
 
-    return {
-      code: 'BRL',
-      value: price,
-    };
+    return price;
   }
 
   parseExcelQuantity(row: B3Row): number {
@@ -70,6 +68,7 @@ class B3Parser {
       type: this.parseExcelStockType(row),
       ticker,
       name,
+      currencyCode: 'BRL',
     };
   }
 

@@ -13,22 +13,24 @@ class SqliteStocksInvestedStorage implements StocksInvestedStorage {
   constructor(db: Database) {
     this.insertStockInvestedStatement = db.prepare(
       `
-        INSERT INTO stocks_invested (quantity, total_invested, average_price, price_code, stock_ticker)
-        VALUES (@quantity, @total_invested, @average_price, @price_code, @stock_ticker)
+        INSERT INTO stocks_invested (quantity, total_invested, average_price, stock_ticker)
+        VALUES (@quantity, @total_invested, @average_price, @stock_ticker)
         ON CONFLICT(stock_ticker) DO UPDATE SET
           quantity=excluded.quantity,
           total_invested=excluded.total_invested,
-          average_price=excluded.average_price,
-          price_code=excluded.price_code
+          average_price=excluded.average_price
       `,
     );
 
     const findStatement = (whereClause = '') => `
-        SELECT stocks_invested.*, stocks.name as stock_name, stocks.type as stock_type 
+        SELECT 
+          stocks_invested.*, 
+          stocks.name as stock_name, 
+          stocks.type as stock_type,
+          stocks.currency_code as stock_currency_code
         FROM stocks_invested
         LEFT JOIN stocks 
-        ON stocks.ticker=stocks_invested.stock_ticker
-        ${whereClause}
+        ON stocks.ticker=stocks_invested.stock_ticker        ${whereClause}
     `;
 
     this.findAllStocksInvestedStatement = db.prepare(findStatement());

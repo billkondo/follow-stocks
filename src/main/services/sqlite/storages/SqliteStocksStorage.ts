@@ -1,5 +1,5 @@
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 import SqliteStockMapper from '@sqlite/mappers/sqlite_stock_mapper';
 import SqliteStockModel from '@sqlite/models/sqlite_stock_model';
 import { Database, Statement, Transaction } from 'better-sqlite3';
@@ -20,8 +20,8 @@ class SqliteStocksStorage implements StocksStorage {
   constructor(db: Database) {
     this.insertStockStatement = db.prepare(
       `
-        INSERT INTO stocks (ticker, name, type)
-        VALUES (@ticker, @name, @type)
+        INSERT INTO stocks (currency_code, ticker, name, type)
+        VALUES (@currency_code, @ticker, @name, @type)
       `,
     );
 
@@ -33,20 +33,20 @@ class SqliteStocksStorage implements StocksStorage {
 
     this.findAllStatement = db.prepare(
       `
-        SELECT ticker, name, type from stocks
+        SELECT currency_code, ticker, name, type from stocks
       `,
     );
 
     this.findStocksByTypeStatement = db.prepare(
       `
-        SELECT ticker, name, type from stocks
+        SELECT currency_code, ticker, name, type from stocks
         WHERE type=@type
       `,
     );
 
     this.searchStocksByTickerAndTypeStatement = db.prepare(
       `
-        SELECT ticker, name, type from stocks 
+        SELECT currency_code, ticker, name, type from stocks 
         WHERE ticker LIKE :tickerText
         AND type=@type
         LIMIT 10
@@ -55,7 +55,7 @@ class SqliteStocksStorage implements StocksStorage {
 
     this.findStockByTickerStatement = db.prepare(
       `
-        SELECT name, ticker, type from stocks
+        SELECT currency_code, name, ticker, type from stocks
         WHERE ticker=@ticker
       `,
     );
@@ -73,6 +73,7 @@ class SqliteStocksStorage implements StocksStorage {
     db.prepare(
       `
         CREATE TABLE IF NOT EXISTS stocks (
+          currency_code VARCHAR,
           ticker VARCHAR PRIMARY KEY,
           name VARCHAR,
           type VARCHAR

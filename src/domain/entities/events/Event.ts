@@ -1,27 +1,30 @@
-import Price from '@entities/price/price';
-import Stock from '@entities/stocks/stock';
+import CurrencyCode from '@entities/currencies/CurrencyCode';
+import Stock from '@entities/stocks/Stock';
 import EventJSON from './EventJSON';
 import EventType from './EventType';
 
 class Event {
   date: Date;
-  price?: Price;
   quantity: number;
   stock: Stock;
+  totalValue: number;
   type: EventType;
+  unitPrice: number;
 
   constructor({
     date,
-    price,
     quantity,
     stock,
     type,
+    totalValue,
+    unitPrice,
   }: {
     date: Date | string;
-    price: Price;
     quantity: number;
     stock: Stock;
     type: EventType;
+    totalValue: number;
+    unitPrice: number;
   }) {
     if (date instanceof Date) {
       this.date = date;
@@ -29,19 +32,25 @@ class Event {
       this.date = new Date(date);
     }
 
-    this.price = price;
     this.quantity = quantity;
     this.stock = stock;
     this.type = type;
+    this.totalValue = totalValue;
+    this.unitPrice = unitPrice;
+  }
+
+  getCurrencyCode(): CurrencyCode {
+    return this.stock.currencyCode;
   }
 
   toJSON(): EventJSON {
     return {
       date: this.date.toISOString(),
-      price: this.price,
       quantity: this.quantity,
       stock: this.stock,
       type: this.type,
+      totalValue: this.totalValue,
+      unitPrice: this.unitPrice,
     };
   }
 }

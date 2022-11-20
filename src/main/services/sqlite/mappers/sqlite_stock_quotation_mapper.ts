@@ -6,34 +6,32 @@ class SqliteStockQuotationMapper {
     const { quotation, stock, updatedAt } = stockQuotation;
 
     return {
-      quotation_code: quotation.code,
-      quotation_value: quotation.value,
+      quotation: quotation,
       stock_name: stock.name,
       stock_ticker: stock.ticker,
       stock_type: stock.type,
+      stock_currency_code: stock.currencyCode,
       updated_at: updatedAt.toISOString(),
     };
   }
 
   static fromModel(stockQuotation: SqliteStockQuotationModel): StockQuotation {
     const {
-      quotation_code,
-      quotation_value,
+      quotation,
       stock_name,
       stock_ticker,
       stock_type,
+      stock_currency_code,
       updated_at,
     } = stockQuotation;
 
     return {
-      quotation: {
-        code: quotation_code,
-        value: quotation_value,
-      },
+      quotation,
       stock: {
         name: stock_name,
         ticker: stock_ticker,
         type: stock_type,
+        currencyCode: stock_currency_code,
       },
       updatedAt: new Date(updated_at),
     };

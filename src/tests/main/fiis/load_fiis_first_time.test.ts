@@ -31,7 +31,7 @@ describe('Load FIIs for the first time', () => {
 
     expect(await loadStocksFirstTime('FII')).toBeTruthy();
     expect(await stocksService.findAll('FII')).toEqual([
-      { name: 'XP Log', ticker: 'XPLG11', type: 'FII' },
+      { name: 'XP Log', ticker: 'XPLG11', type: 'FII', currencyCode: 'BRL' },
     ]);
   });
 
@@ -39,7 +39,7 @@ describe('Load FIIs for the first time', () => {
     const { stocksService, loadStocksFirstTime } = setup();
 
     await stocksService.saveMany([
-      { name: 'FII name', ticker: 'FII11', type: 'FII' },
+      { name: 'FII name', ticker: 'FII11', type: 'FII', currencyCode: 'BRL' },
     ]);
     expect(await loadStocksFirstTime('FII')).toBeFalsy();
   });

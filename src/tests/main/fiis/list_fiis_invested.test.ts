@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
 import ListStocksInvested from 'main/usecases/list_stocks_invested';
@@ -41,37 +41,27 @@ describe('List FIIs invested', () => {
       stocksQuotationsService,
     } = setup();
     const stockA: Stock = {
+      currencyCode: 'BRL',
       name: 'A Stock',
       ticker: 'A11',
       type: 'FII',
     };
     const stockB: Stock = {
+      currencyCode: 'BRL',
       name: 'B Stock',
       ticker: 'B11',
       type: 'FII',
     };
     const stockAInvested: StockInvested = {
-      averagePrice: {
-        code: 'BRL',
-        value: 124,
-      },
+      averagePrice: 124,
       quantity: 25,
-      totalInvested: {
-        code: 'BRL',
-        value: 1250,
-      },
+      totalInvested: 1250,
       stock: stockA,
     };
     const stockBInvested: StockInvested = {
-      averagePrice: {
-        code: 'USD',
-        value: 20,
-      },
+      averagePrice: 20,
       quantity: 100,
-      totalInvested: {
-        code: 'USD',
-        value: 2000,
-      },
+      totalInvested: 2000,
       stock: stockB,
     };
 
@@ -79,10 +69,7 @@ describe('List FIIs invested', () => {
     await stocksInvestedService.saveStockInvested(stockAInvested);
     await stocksInvestedService.saveStockInvested(stockBInvested);
     await stocksQuotationsService.saveStockQuotation({
-      quotation: {
-        code: 'BRL',
-        value: 12,
-      },
+      quotation: 12,
       stock: stockA,
       updatedAt: new Date(2022, 12, 1),
     });
@@ -90,10 +77,7 @@ describe('List FIIs invested', () => {
     await expect(listStocksInvested('FII')).resolves.toEqual([
       {
         ...stockAInvested,
-        quotation: {
-          code: 'BRL',
-          value: 12,
-        },
+        quotation: 12,
       },
       stockBInvested,
     ] as StockInvestedWithQuotation[]);

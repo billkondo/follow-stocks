@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NegotiationsNewOnesAutocomplete from './NegotiationsNewOnesAutocomplete';
@@ -47,6 +47,7 @@ describe('Stocks autocomplete', () => {
       name: 'RECR Stock',
       ticker: 'RECR11',
       type: 'FII',
+      currencyCode: 'BRL',
     };
 
     await user.type(input, 'RE');

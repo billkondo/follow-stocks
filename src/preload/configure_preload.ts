@@ -1,6 +1,6 @@
 import FilterOptions from '@entities/filters/FilterOptions';
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 import { contextBridge, ipcRenderer } from 'electron';
 
 const configurePreload = () => {

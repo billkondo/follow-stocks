@@ -1,4 +1,4 @@
-import StockType from '@entities/stocks/stock_type';
+import StockType from '@entities/stocks/StockType';
 import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
 
 interface StocksInvestedWithQuotationsRepository {

@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockQuotation from '@entities/stock_quotation';
 import SqliteConnection from '@sqlite/sqlite_connection';
 import SqliteStocksQuotationsStorage from '@sqlite/storages/sqlite_stocks_quotations_storage';
@@ -12,6 +12,7 @@ describe('Sqlite stocks quotations storage', () => {
     name: 'XPLG Stock',
     ticker: 'XPLG11',
     type: 'FII',
+    currencyCode: 'BRL',
   };
 
   beforeEach(async () => {
@@ -32,10 +33,7 @@ describe('Sqlite stocks quotations storage', () => {
   test('should save stock quotation', async () => {
     const { stocksQuotationStorage } = setup();
     const stockQuotation: StockQuotation = {
-      quotation: {
-        code: 'BRL',
-        value: 125,
-      },
+      quotation: 125,
       stock: xplgStock,
       updatedAt: new Date(2022, 12, 1),
     };
@@ -49,19 +47,13 @@ describe('Sqlite stocks quotations storage', () => {
   test('should replace stock quotation', async () => {
     const { stocksQuotationStorage } = setup();
     const stockQuotation: StockQuotation = {
-      quotation: {
-        code: 'BRL',
-        value: 250,
-      },
+      quotation: 250,
       stock: xplgStock,
       updatedAt: new Date(2022, 12, 1),
     };
 
     await stocksQuotationStorage.save({
-      quotation: {
-        code: 'BRL',
-        value: 125,
-      },
+      quotation: 125,
       stock: xplgStock,
       updatedAt: new Date(2022, 12, 1),
     });

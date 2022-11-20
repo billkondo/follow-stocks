@@ -1,8 +1,8 @@
-import PriceCode from './price_code';
+import CurrencyCode from '../currencies/CurrencyCode';
 
 interface Price {
   value: number;
-  code: PriceCode;
+  code: CurrencyCode;
 }
 
 export default Price;

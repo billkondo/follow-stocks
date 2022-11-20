@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import { Grid, Icon, Typography } from '@mui/material';
 import { IconMoodEmpty } from '@tabler/icons';
 import { FC } from 'react';

@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockQuotation from '@entities/stock_quotation';
 import StocksQuotationsRepository from '@repositories/stocks_quotations_repository';
 import StocksQuotationsStorage from 'main/storage/stocks_quotations_storage';

@@ -1,4 +1,4 @@
-import StockType from '@entities/stocks/stock_type';
+import StockType from '@entities/stocks/StockType';
 import StocksRepository from '@repositories/stocks_repository';
 
 const LoadStocks =

@@ -1,5 +1,5 @@
 import Event from '@entities/events/Event';
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import { mock } from 'jest-mock-extended';
 import GenerateAveragePricesFromEvents from 'main/usecases/generate_average_prices_from_events';
@@ -12,10 +12,11 @@ describe('Generate average prices from events', () => {
     const generateAveragePricesFromEvents =
       GenerateAveragePricesFromEvents(events);
 
-    for (const expectedValue of expectedStocksInvested)
+    for (const expectedValue of expectedStocksInvested) {
       expect(generateAveragePricesFromEvents.next().value).toEqual(
         expectedValue,
       );
+    }
 
     expect(generateAveragePricesFromEvents.next().done).toBeTruthy();
   };
@@ -25,203 +26,131 @@ describe('Generate average prices from events', () => {
     const mockEvents: Event[] = [
       new Event({
         date: new Date(2019, 7, 22),
-        price: {
-          value: 23.33,
-          code: 'BRL',
-        },
         quantity: 4,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 23.33,
       }),
       new Event({
         date: new Date(2019, 7, 26),
-        price: {
-          value: 24.0,
-          code: 'BRL',
-        },
         quantity: 4,
         stock: mockStock,
         type: 'SELL',
+        totalValue: null,
+        unitPrice: 24.0,
       }),
       new Event({
         date: new Date(2019, 9, 19),
-        price: {
-          value: 24.46,
-          code: 'BRL',
-        },
         quantity: 100,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 24.46,
       }),
       new Event({
         date: new Date(2019, 9, 25),
-        price: {
-          value: 25.46,
-          code: 'BRL',
-        },
         quantity: 100,
         stock: mockStock,
         type: 'SELL',
+        totalValue: null,
+        unitPrice: 25.46,
       }),
       new Event({
         date: new Date(2019, 11, 12),
-        price: {
-          value: 25.81,
-          code: 'BRL',
-        },
         quantity: 52,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 25.81,
       }),
       new Event({
         date: new Date(2019, 11, 18),
-        price: {
-          value: 26.92,
-          code: 'BRL',
-        },
         quantity: 33,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 26.92,
       }),
       new Event({
         date: new Date(2019, 11, 18),
-        price: {
-          value: 26.93,
-          code: 'BRL',
-        },
         quantity: 32,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 26.93,
       }),
       new Event({
         date: new Date(2020, 3, 6),
-        price: {
-          value: 28.09,
-          code: 'BRL',
-        },
         quantity: 48,
         stock: mockStock,
         type: 'SELL',
+        totalValue: null,
+        unitPrice: 28.09,
       }),
       new Event({
         date: new Date(2020, 3, 20),
-        price: {
-          value: 20.03,
-          code: 'BRL',
-        },
         quantity: 14,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 20.03,
       }),
     ];
     const expectedValues: StockInvested[] = [
       {
         stock: mockStock,
         quantity: 4,
-        averagePrice: {
-          value: 23.33,
-          code: 'BRL',
-        },
-        totalInvested: {
-          value: 93.32,
-          code: 'BRL',
-        },
+        averagePrice: 23.33,
+        totalInvested: 93.32,
       },
       {
         stock: mockStock,
         quantity: 0,
-        averagePrice: {
-          value: 0,
-          code: 'BRL',
-        },
-        totalInvested: {
-          value: 0,
-          code: 'BRL',
-        },
+        averagePrice: 0,
+        totalInvested: 0,
       },
       {
         stock: mockStock,
         quantity: 100,
-        averagePrice: {
-          value: 24.46,
-          code: 'BRL',
-        },
-        totalInvested: {
-          value: 2446.0,
-          code: 'BRL',
-        },
+        averagePrice: 24.46,
+        totalInvested: 2446.0,
       },
       {
         stock: mockStock,
         quantity: 0,
-        averagePrice: {
-          value: 0,
-          code: 'BRL',
-        },
-        totalInvested: {
-          value: 0,
-          code: 'BRL',
-        },
+        averagePrice: 0,
+        totalInvested: 0,
       },
       {
         stock: mockStock,
         quantity: 52,
-        averagePrice: {
-          value: 25.81,
-          code: 'BRL',
-        },
-        totalInvested: {
-          value: 1342.12,
-          code: 'BRL',
-        },
+        averagePrice: 25.81,
+        totalInvested: 1342.12,
       },
       {
         stock: mockStock,
         quantity: 85,
-        averagePrice: {
-          value: 26.2409,
-          code: 'BRL',
-        },
-        totalInvested: {
-          value: 2230.48,
-          code: 'BRL',
-        },
+        averagePrice: 26.2409,
+        totalInvested: 2230.48,
       },
       {
         stock: mockStock,
         quantity: 117,
-        averagePrice: {
-          value: 26.4294,
-          code: 'BRL',
-        },
-        totalInvested: {
-          value: 3092.24,
-          code: 'BRL',
-        },
+        averagePrice: 26.4294,
+        totalInvested: 3092.24,
       },
       {
         stock: mockStock,
         quantity: 69,
-        averagePrice: {
-          value: 26.4294,
-          code: 'BRL',
-        },
-        totalInvested: {
-          value: 1823.6287,
-          code: 'BRL',
-        },
+        averagePrice: 26.4294,
+        totalInvested: 1823.6287,
       },
       {
         stock: mockStock,
         quantity: 83,
-        averagePrice: {
-          value: 25.35,
-          code: 'BRL',
-        },
-        totalInvested: {
-          value: 2104.0487,
-          code: 'BRL',
-        },
+        averagePrice: 25.35,
+        totalInvested: 2104.0487,
       },
     ];
 
@@ -233,52 +162,46 @@ describe('Generate average prices from events', () => {
     const mockEvents: Event[] = [
       new Event({
         date: new Date(2022, 12, 1),
-        price: {
-          value: 0.1,
-          code: 'BRL',
-        },
         quantity: 1,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 0.1,
       }),
       new Event({
         date: new Date(2022, 12, 1),
-        price: {
-          value: 0.2,
-          code: 'BRL',
-        },
         quantity: 1,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 0.2,
       }),
       new Event({
         date: new Date(2022, 12, 1),
-        price: {
-          value: 0.4,
-          code: 'BRL',
-        },
         quantity: 1,
         stock: mockStock,
         type: 'SELL',
+        totalValue: null,
+        unitPrice: 0.4,
       }),
     ];
     const expectedValues: StockInvested[] = [
       {
         stock: mockStock,
-        totalInvested: { value: 0.1, code: 'BRL' },
-        averagePrice: { value: 0.1, code: 'BRL' },
+        totalInvested: 0.1,
+        averagePrice: 0.1,
         quantity: 1,
       },
       {
         stock: mockStock,
-        totalInvested: { value: 0.3, code: 'BRL' },
-        averagePrice: { value: 0.15, code: 'BRL' },
+        totalInvested: 0.3,
+        averagePrice: 0.15,
         quantity: 2,
       },
       {
         stock: mockStock,
-        totalInvested: { value: 0.15, code: 'BRL' },
-        averagePrice: { value: 0.15, code: 'BRL' },
+        totalInvested: 0.15,
+        averagePrice: 0.15,
         quantity: 1,
       },
     ];
@@ -291,93 +214,61 @@ describe('Generate average prices from events', () => {
     const mockEvents: Event[] = [
       new Event({
         date: new Date(2022, 12, 1),
-        price: {
-          code: 'USD',
-          value: 120,
-        },
         quantity: 0.5,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 120,
       }),
       new Event({
         date: new Date(2022, 12, 2),
-        price: {
-          code: 'USD',
-          value: 125,
-        },
         quantity: 0.25,
         stock: mockStock,
         type: 'SELL',
+        totalValue: null,
+        unitPrice: 125,
       }),
       new Event({
         date: new Date(2022, 12, 3),
-        price: {
-          code: 'USD',
-          value: 140,
-        },
         quantity: 0.25,
         stock: mockStock,
         type: 'SELL',
+        totalValue: null,
+        unitPrice: 140,
       }),
       new Event({
         date: new Date(2022, 12, 1),
-        price: {
-          code: 'USD',
-          value: 100,
-        },
         quantity: 0.5,
         stock: mockStock,
         type: 'BUY',
+        totalValue: null,
+        unitPrice: 100,
       }),
     ];
     const expectedValues: StockInvested[] = [
       {
-        averagePrice: {
-          code: 'USD',
-          value: 120,
-        },
+        averagePrice: 120,
         quantity: 0.5,
         stock: mockStock,
-        totalInvested: {
-          code: 'USD',
-          value: 60,
-        },
+        totalInvested: 60,
       },
       {
-        averagePrice: {
-          code: 'USD',
-          value: 120,
-        },
+        averagePrice: 120,
         quantity: 0.25,
         stock: mockStock,
-        totalInvested: {
-          code: 'USD',
-          value: 30,
-        },
+        totalInvested: 30,
       },
       {
-        averagePrice: {
-          code: 'USD',
-          value: 0,
-        },
+        averagePrice: 0,
         quantity: 0,
         stock: mockStock,
-        totalInvested: {
-          code: 'USD',
-          value: 0,
-        },
+        totalInvested: 0,
       },
       {
-        averagePrice: {
-          code: 'USD',
-          value: 100,
-        },
+        averagePrice: 100,
         quantity: 0.5,
         stock: mockStock,
-        totalInvested: {
-          code: 'USD',
-          value: 50,
-        },
+        totalInvested: 50,
       },
     ];
 

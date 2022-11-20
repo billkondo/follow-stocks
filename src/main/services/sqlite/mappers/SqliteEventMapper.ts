@@ -1,61 +1,48 @@
 import Event from '@entities/events/Event';
-import Price from '@entities/price/price';
-import PriceCode from '@entities/price/price_code';
 import SqliteEventModel from '@services/sqlite/models/sqlite_event_model';
 
 class SqliteEventMapper {
   static toModel(event: Event): SqliteEventModel {
-    const { price, date, quantity, stock, type } = event;
-    let priceValue: number;
-    let priceCode: PriceCode;
-
-    if (price) {
-      priceValue = price.value;
-      priceCode = price.code;
-    }
+    const { date, quantity, stock, type, totalValue, unitPrice } = event;
 
     return {
       date: date.toISOString(),
       quantity,
-      price_value: priceValue,
-      price_code: priceCode,
       stock_name: stock.name,
       stock_ticker: stock.ticker,
       stock_type: stock.type,
+      stock_currency_code: stock.currencyCode,
       type,
+      total_value: totalValue,
+      unit_price: unitPrice,
     };
   }
 
   static fromModel(event: SqliteEventModel): Event {
     const {
       date,
-      price_code,
-      price_value,
       quantity,
       stock_name,
       stock_ticker,
       stock_type,
+      stock_currency_code,
       type,
+      total_value,
+      unit_price,
     } = event;
-    let price: Price = null;
-
-    if (price_code && price_value !== null) {
-      price = {
-        code: price_code,
-        value: price_value,
-      };
-    }
 
     return new Event({
       date: new Date(date),
-      price,
       quantity,
       stock: {
         name: stock_name,
         ticker: stock_ticker,
         type: stock_type,
+        currencyCode: stock_currency_code,
       },
       type,
+      totalValue: total_value,
+      unitPrice: unit_price,
     });
   }
 }

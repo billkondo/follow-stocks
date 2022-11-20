@@ -1,5 +1,5 @@
+import PriceCode from '@entities/currencies/CurrencyCode';
 import EventType from '@entities/events/EventType';
-import PriceCode from '@entities/price/price_code';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import {
   Button,

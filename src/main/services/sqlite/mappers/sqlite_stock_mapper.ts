@@ -1,11 +1,12 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import SqliteStockModel from '@sqlite/models/sqlite_stock_model';
 
 class SqliteStockMapper {
   static toModel(stock: Stock): SqliteStockModel {
-    const { name, ticker, type } = stock;
+    const { currencyCode, name, ticker, type } = stock;
 
     return {
+      currency_code: currencyCode,
       name,
       ticker,
       type,
@@ -13,9 +14,10 @@ class SqliteStockMapper {
   }
 
   static fromModel(stock: SqliteStockModel): Stock {
-    const { name, ticker, type } = stock;
+    const { currency_code, name, ticker, type } = stock;
 
     return {
+      currencyCode: currency_code,
       name,
       ticker,
       type,

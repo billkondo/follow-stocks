@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import SearchStocksByTicker from 'main/usecases/search_stocks_by_ticker';
 import useSqlite from 'tests/hooks/use_sqlite';
 import useStocks from 'tests/hooks/use_stocks';
@@ -21,27 +21,31 @@ describe('Search FIIs by ticker', () => {
 
     await stocksService.saveMany([
       {
+        currencyCode: 'BRL',
         name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
         ticker: 'HGRE11',
         type: 'FII',
       },
       {
+        currencyCode: 'BRL',
         name: 'CSHG RENDA URBANA - FDO INV IMOB - FII',
         ticker: 'HGRU11',
-
         type: 'FII',
       },
       {
+        currencyCode: 'BRL',
         name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
         ticker: 'HGLG11',
         type: 'FII',
       },
       {
+        currencyCode: 'BRL',
         name: 'XP CREDITO IMOBILIÁRIO - FDO INV IMOB',
         ticker: 'XPCI11',
         type: 'FII',
       },
       {
+        currencyCode: 'BRL',
         name: 'XP LOG FDO INV IMOB - FII',
         ticker: 'XPLG11',
         type: 'FII',
@@ -54,16 +58,19 @@ describe('Search FIIs by ticker', () => {
       'HG',
       [
         {
+          currencyCode: 'BRL',
           name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
           ticker: 'HGRE11',
           type: 'FII',
         },
         {
+          currencyCode: 'BRL',
           name: 'CSHG RENDA URBANA - FDO INV IMOB - FII',
           ticker: 'HGRU11',
           type: 'FII',
         },
         {
+          currencyCode: 'BRL',
           name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
           ticker: 'HGLG11',
           type: 'FII',
@@ -74,11 +81,13 @@ describe('Search FIIs by ticker', () => {
       'G11',
       [
         {
+          currencyCode: 'BRL',
           name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
           ticker: 'HGLG11',
           type: 'FII',
         },
         {
+          currencyCode: 'BRL',
           name: 'XP LOG FDO INV IMOB - FII',
           ticker: 'XPLG11',
           type: 'FII',
@@ -89,11 +98,13 @@ describe('Search FIIs by ticker', () => {
       'LG',
       [
         {
+          currencyCode: 'BRL',
           name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
           ticker: 'HGLG11',
           type: 'FII',
         },
         {
+          currencyCode: 'BRL',
           name: 'XP LOG FDO INV IMOB - FII',
           ticker: 'XPLG11',
           type: 'FII',
@@ -104,11 +115,13 @@ describe('Search FIIs by ticker', () => {
       'XP',
       [
         {
+          currencyCode: 'BRL',
           name: 'XP CREDITO IMOBILIÁRIO - FDO INV IMOB',
           ticker: 'XPCI11',
           type: 'FII',
         },
         {
+          currencyCode: 'BRL',
           name: 'XP LOG FDO INV IMOB - FII',
           ticker: 'XPLG11',
           type: 'FII',
@@ -119,26 +132,31 @@ describe('Search FIIs by ticker', () => {
       '',
       [
         {
+          currencyCode: 'BRL',
           name: 'CSHG REAL ESTATE FDO INV IMOB - FII',
           ticker: 'HGRE11',
           type: 'FII',
         },
         {
+          currencyCode: 'BRL',
           name: 'CSHG RENDA URBANA - FDO INV IMOB - FII',
           ticker: 'HGRU11',
           type: 'FII',
         },
         {
+          currencyCode: 'BRL',
           name: 'CSHG LOGÍSTICA FDO INV IMOB - FII',
           ticker: 'HGLG11',
           type: 'FII',
         },
         {
+          currencyCode: 'BRL',
           name: 'XP CREDITO IMOBILIÁRIO - FDO INV IMOB',
           ticker: 'XPCI11',
           type: 'FII',
         },
         {
+          currencyCode: 'BRL',
           name: 'XP LOG FDO INV IMOB - FII',
           ticker: 'XPLG11',
           type: 'FII',

@@ -1,7 +1,7 @@
 import Event from '@entities/events/Event';
 import FilterOptions from '@entities/filters/FilterOptions';
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 
 interface EventsStorage {
   count: () => Promise<number>;

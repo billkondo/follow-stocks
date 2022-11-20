@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import { Button, Grid, Typography, useTheme } from '@mui/material';
 import { FC } from 'react';
 
