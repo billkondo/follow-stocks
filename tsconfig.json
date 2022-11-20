@@ -16,6 +16,7 @@
       "@entities/*": ["domain/entities/*"],
       "@errors/*": ["domain/errors/*"],
       "@repositories/*": ["domain/repositories/*"],
+      "@pages/*": ["renderer/pages/*"],
       "@services/*": ["main/services/*"],
       "@sqlite/*": ["main/services/sqlite/*"],
       "@usecases/*": ["domain/usecases/*"],

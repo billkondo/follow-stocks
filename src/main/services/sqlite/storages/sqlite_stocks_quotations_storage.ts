@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockQuotation from '@entities/stock_quotation';
 import SqliteStockQuotationMapper from '@sqlite/mappers/sqlite_stock_quotation_mapper';
 import SqliteStockQuotationModel from '@sqlite/models/sqlite_stock_quotation_model';
@@ -14,11 +14,10 @@ class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {
   constructor(db: Database) {
     this.insertStockQuotationStatement = db.prepare(
       `
-        INSERT INTO stocks_quotations (stock_ticker, quotation_value, quotation_code, updated_at)
-        VALUES (@stock_ticker, @quotation_value, @quotation_code, @updated_at)
+        INSERT INTO stocks_quotations (stock_ticker, quotation, updated_at)
+        VALUES (@stock_ticker, @quotation, @updated_at)
         ON CONFLICT(stock_ticker) DO UPDATE SET
-          quotation_value=excluded.quotation_value,
-          quotation_code=excluded.quotation_code,
+          quotation=excluded.quotation,
           updated_at=excluded.updated_at
       `,
     );
@@ -27,7 +26,11 @@ class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {
       const WHERE = whereClause ? `WHERE ${whereClause}` : '';
 
       return `
-        SELECT stocks_quotations.*, stocks.name as stock_name, stocks.type as stock_type
+        SELECT 
+          stocks_quotations.*, 
+          stocks.name as stock_name,
+          stocks.type as stock_type, 
+          stocks.currency_code as stock_currency_code
         FROM stocks_quotations
         LEFT JOIN stocks 
         ON stocks.ticker=stocks_quotations.stock_ticker
@@ -46,8 +49,7 @@ class SqliteStocksQuotationsStorage implements StocksQuotationsStorage {
     db.prepare(
       `
         CREATE TABLE IF NOT EXISTS stocks_quotations (
-          quotation_value DECIMAL, 
-          quotation_code DECIMAL,
+          quotation DECIMAL, 
           updated_at DATE,
           stock_ticker VARCHAR UNIQUE,
           FOREIGN KEY (stock_ticker) REFERENCES stocks (ticker) ON UPDATE CASCADE

@@ -1,4 +1,4 @@
-import Event from '@entities/event/event';
+import Event from '@entities/events/Event';
 import StockInvested from '@entities/stock_invested/stock_invested';
 import BigNumber from 'bignumber.js';
 
@@ -8,11 +8,11 @@ function* GenerateAveragePricesFromEvents(events: Event[]) {
   let averagePrice = new BigNumber(0);
 
   for (const event of events) {
-    const { stock, price, quantity, type } = event;
+    const { stock, quantity, type, unitPrice } = event;
 
     if (type === 'BUY') {
       totalInvested = totalInvested.plus(
-        new BigNumber(price.value).multipliedBy(quantity),
+        new BigNumber(unitPrice).multipliedBy(quantity),
       );
       totalQuantity = totalQuantity.plus(quantity);
       averagePrice = totalInvested.div(totalQuantity);
@@ -29,14 +29,8 @@ function* GenerateAveragePricesFromEvents(events: Event[]) {
     yield {
       stock,
       quantity: parseFloat(totalQuantity.toString()),
-      totalInvested: {
-        value: parseFloat(totalInvested.toFixed(4)),
-        code: price.code,
-      },
-      averagePrice: {
-        value: parseFloat(averagePrice.toFixed(4)),
-        code: price.code,
-      },
+      totalInvested: parseFloat(totalInvested.toFixed(4)),
+      averagePrice: parseFloat(averagePrice.toFixed(4)),
     } as StockInvested;
   }
 }

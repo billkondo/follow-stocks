@@ -1,5 +1,5 @@
-import Event from '@entities/event/event';
-import Stock from '@entities/stocks/stock';
+import Event from '@entities/events/Event';
+import Stock from '@entities/stocks/Stock';
 import DomainError from '@errors/domain_error';
 import { BigNumber } from 'bignumber.js';
 
@@ -51,12 +51,11 @@ class StockPosition {
   }
 
   updateWithBuyEvent(event: Event) {
-    const { price, quantity } = event;
-    const { value } = price;
+    const { quantity, unitPrice } = event;
 
     const quantityBigNumber = new BigNumber(this.quantity).plus(quantity);
     const totalInvestedBigNumber = new BigNumber(this.quantity)
-      .multipliedBy(value)
+      .multipliedBy(unitPrice)
       .plus(this.totalInvested);
     const averagePriceBigNumber =
       totalInvestedBigNumber.dividedBy(quantityBigNumber);

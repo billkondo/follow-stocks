@@ -1,5 +1,5 @@
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 import StocksRepository from '@repositories/stocks_repository';
 import { mock } from 'jest-mock-extended';
 import LoadStocks from 'main/usecases/load_stocks';
@@ -14,6 +14,6 @@ describe('Load stocks', () => {
     mockStocksRepository.load.mockResolvedValue(mockStocks);
     await loadStocks(mockStockType);
     expect(mockStocksRepository.load).toBeCalledWith(mockStockType);
-    expect(mockStocksRepository.save).toBeCalledWith(mockStocks);
+    expect(mockStocksRepository.saveMany).toBeCalledWith(mockStocks);
   });
 });

@@ -1,37 +1,64 @@
-import StockType from '@entities/stocks/stock_type';
+import Event from '@entities/events/Event';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 import StockInvestedWithQuotation from '@entities/stock_invested/stock_invested_with_quotation';
-import StocksInvestedWithQuotationsRepository from '@repositories/stocks_invested_wtih_quotations_repository';
-import StocksRepository from '@repositories/stocks_repository';
-import { IpcMainInvokeEvent } from 'electron';
+import Repositories from '@repositories/repositories';
+import { BrowserWindow, IpcMainInvokeEvent } from 'electron';
+import FindEventsByStockAndDate from 'main/usecases/find_events_by_stock_and_date';
 import ListStocksInvested from 'main/usecases/list_stocks_invested';
 import LoadStocksFirstTime from 'main/usecases/load_stocks_first_time';
+import SearchStocksByTicker from 'main/usecases/search_stocks_by_ticker';
 
-const StocksHandlers = ({
-  stocksRepository,
-  stocksInvestedWithQuotationsRepository,
-}: {
-  stocksRepository: StocksRepository;
-  stocksInvestedWithQuotationsRepository: StocksInvestedWithQuotationsRepository;
-}) => ({
-  async load(event: IpcMainInvokeEvent, type: StockType) {
-    const loadStocksFirstTime = LoadStocksFirstTime(stocksRepository);
+const StocksHandlers = (
+  _browserWindow: BrowserWindow,
+  repositories: Repositories,
+) => {
+  const {
+    events: eventsRepository,
+    stocks: stocksRepository,
+    stocksInvestedWithQuotations: stocksInvestedWithQuotationsRepository,
+  } = repositories;
 
-    await loadStocksFirstTime(type);
+  return {
+    async load(_event: IpcMainInvokeEvent, type: StockType) {
+      const loadStocksFirstTime = LoadStocksFirstTime(stocksRepository);
 
-    return {
-      message: 'SUCCESS',
-    };
-  },
-  async listInvested(
-    event: IpcMainInvokeEvent,
-    type: StockType,
-  ): Promise<StockInvestedWithQuotation[]> {
-    const listStocksInvested = ListStocksInvested(
-      stocksInvestedWithQuotationsRepository,
-    );
+      await loadStocksFirstTime(type);
 
-    return listStocksInvested(type);
-  },
-});
+      return {
+        message: 'SUCCESS',
+      };
+    },
+    async listInvested(
+      _event: IpcMainInvokeEvent,
+      type: StockType,
+    ): Promise<StockInvestedWithQuotation[]> {
+      const listStocksInvested = ListStocksInvested(
+        stocksInvestedWithQuotationsRepository,
+      );
+
+      return listStocksInvested(type);
+    },
+    async searchStocksByTicker(
+      _event: IpcMainInvokeEvent,
+      type: StockType,
+      ticker: string,
+    ) {
+      const searchStocksByTicker = SearchStocksByTicker(stocksRepository);
+
+      return searchStocksByTicker(ticker, type);
+    },
+    async listStockNegotiationsAtDate(
+      _event: IpcMainInvokeEvent,
+      stock: Stock,
+      date: Date,
+    ): Promise<Event[]> {
+      const findStockNegotiationsByDate =
+        FindEventsByStockAndDate(eventsRepository);
+
+      return findStockNegotiationsByDate(stock, date);
+    },
+  };
+};
 
 export default StocksHandlers;

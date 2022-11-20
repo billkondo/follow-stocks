@@ -1,5 +1,5 @@
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 import StocksRepository from '@repositories/stocks_repository';
 import StocksStorage from 'main/storage/stocks_storage';
 import StocksFetcher from './stocks_fetcher';
@@ -15,8 +15,12 @@ class StocksService implements StocksRepository {
     return this.stocksStorage.exists(stock);
   }
 
-  async save(stocks: Stock[]) {
-    this.stocksStorage.save(stocks);
+  async save(stock: Stock) {
+    this.stocksStorage.save(stock);
+  }
+
+  async saveMany(stocks: Stock[]) {
+    this.stocksStorage.saveMany(stocks);
   }
 
   search(tickerText: string, type: StockType): Promise<Stock[]> {

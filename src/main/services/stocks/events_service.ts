@@ -1,6 +1,7 @@
-import Event from '@entities/event/event';
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Event from '@entities/events/Event';
+import FilterOptions from '@entities/filters/FilterOptions';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 import EventsRepository from '@repositories/events_repository';
 import EventsStorage from 'main/storage/events_storage';
 
@@ -11,8 +12,20 @@ class EventsService implements EventsRepository {
     this.eventsStorage = EventsStorage;
   }
 
-  async saveEvents(stock: Stock, Events: Event[]) {
-    this.eventsStorage.saveEvents(stock, Events);
+  async count() {
+    return this.eventsStorage.count();
+  }
+
+  async filter(filterOptions: FilterOptions) {
+    return this.eventsStorage.filter(filterOptions);
+  }
+
+  async save(event: Event) {
+    this.eventsStorage.save(event);
+  }
+
+  async saveMany(events: Event[]) {
+    this.eventsStorage.saveMany(events);
   }
 
   findEventsByStock(stock: Stock): Promise<Event[]> {

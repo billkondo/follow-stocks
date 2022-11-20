@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import EventsRepository from '@repositories/events_repository';
 
 const FindEventsByStockAndDate =

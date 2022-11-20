@@ -1,4 +1,5 @@
-import Stock from '@entities/stocks/stock';
+import Event from '@entities/events/Event';
+import Stock from '@entities/stocks/Stock';
 import compareStocksInAscendingOrderByTicker from '@usecases/stock/compare_stocks_in_ascending_order_by_ticker';
 import FindStocksThatHaveAnyEvent from 'main/usecases/find_stocks_that_have_any_event';
 import useSqlite from 'tests/hooks/use_sqlite';
@@ -11,11 +12,13 @@ describe('Find FIIs that have any event', () => {
     name: 'XPLG STOCK',
     ticker: 'XPLG11',
     type: 'FII',
+    currencyCode: 'BRL',
   };
   const hgreStock: Stock = {
     name: 'HGRE STOCK',
     ticker: 'HGRE11',
     type: 'FII',
+    currencyCode: 'BRL',
   };
 
   const setup = () => {
@@ -32,37 +35,45 @@ describe('Find FIIs that have any event', () => {
     const fiisService = stocksServiceFactory();
     const fiisEventsService = eventsServiceFactory();
 
-    await fiisService.save([
+    await fiisService.saveMany([
       xplgStock,
       hgreStock,
-      { name: 'HGLG STOCK', ticker: 'HGLG11', type: 'FII' },
+      {
+        name: 'HGLG STOCK',
+        ticker: 'HGLG11',
+        type: 'FII',
+        currencyCode: 'BRL',
+      },
     ]);
 
-    await fiisEventsService.saveEvents(xplgStock, [
-      {
+    await fiisEventsService.saveMany([
+      new Event({
         stock: xplgStock,
         date: new Date(2022, 12, 1),
-        price: { value: 100, code: 'BRL' },
         quantity: 25,
         type: 'BUY',
-      },
-      {
+        totalValue: null,
+        unitPrice: 100,
+      }),
+      new Event({
         stock: xplgStock,
         date: new Date(2022, 12, 2),
-        price: { value: 125, code: 'BRL' },
         quantity: 17,
         type: 'SELL',
-      },
+        totalValue: null,
+        unitPrice: 125,
+      }),
     ]);
 
-    await fiisEventsService.saveEvents(hgreStock, [
-      {
+    await fiisEventsService.saveMany([
+      new Event({
         stock: hgreStock,
         date: new Date(2022, 12, 1),
-        price: { value: 150, code: 'BRL' },
         quantity: 5,
         type: 'BUY',
-      },
+        totalValue: null,
+        unitPrice: 150,
+      }),
     ]);
   });
 

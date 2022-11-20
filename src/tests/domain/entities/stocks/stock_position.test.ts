@@ -1,12 +1,13 @@
-import Event from '@entities/event/event';
-import EventType from '@entities/event/event_type';
-import Stock from '@entities/stocks/stock';
+import Event from '@entities/events/Event';
+import EventType from '@entities/events/EventType';
+import Stock from '@entities/stocks/Stock';
 import StockPosition from '@entities/stocks/stock_position';
 import DomainError from '@errors/domain_error';
 import { mock } from 'jest-mock-extended';
 
 describe('Stock position', () => {
   const mockStock: Stock = {
+    currencyCode: 'BRL',
     name: 'XPLG Stock',
     ticker: 'XPLG11',
     type: 'FII',
@@ -65,16 +66,14 @@ describe('Stock position', () => {
         stock: mockStock,
         totalInvested: 1000.0,
       });
-      const event: Event = {
+      const event: Event = new Event({
         date: new Date(2022, 12, 25),
-        price: {
-          code: 'BRL',
-          value: 200,
-        },
         quantity: 10,
         stock: mockStock,
         type: eventType,
-      };
+        totalValue: null,
+        unitPrice: 200,
+      });
 
       stockPosition.updateWithEvent(event);
       assertStockPosition(stockPosition, {
@@ -93,16 +92,14 @@ describe('Stock position', () => {
       stock: mockStock,
       totalInvested: 5000.0,
     });
-    const event: Event = {
+    const event: Event = new Event({
       date: new Date(2022, 25, 10),
-      price: {
-        code: 'BRL',
-        value: 100.0,
-      },
       quantity: 20,
       stock: mockStock,
       type: 'SELL',
-    };
+      totalValue: null,
+      unitPrice: 100.0,
+    });
 
     stockPosition.updateWithEvent(event);
     assertStockPosition(stockPosition, {
@@ -120,16 +117,14 @@ describe('Stock position', () => {
       stock: mockStock,
       totalInvested: 5000.0,
     });
-    const event: Event = {
+    const event: Event = new Event({
       date: new Date(2019, 10, 5),
-      price: {
-        code: 'BRL',
-        value: 57.0,
-      },
       quantity: 50,
       stock: mockStock,
       type: 'SELL',
-    };
+      totalValue: null,
+      unitPrice: 57.0,
+    });
 
     stockPosition.updateWithEvent(event);
     assertStockPosition(stockPosition, {
@@ -147,16 +142,14 @@ describe('Stock position', () => {
       stock: mockStock,
       totalInvested: 5000.0,
     });
-    const event: Event = {
+    const event: Event = new Event({
       date: new Date(2016, 5, 17),
-      price: {
-        code: 'BRL',
-        value: 0.0,
-      },
       quantity: 100,
       stock: mockStock,
       type: 'UNFOLDING',
-    };
+      totalValue: null,
+      unitPrice: 0.0,
+    });
 
     stockPosition.updateWithEvent(event);
     assertStockPosition(stockPosition, {

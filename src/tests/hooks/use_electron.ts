@@ -1,5 +1,6 @@
-import electron, { IpcMainInvokeEvent } from 'electron';
+import electron, { BrowserWindow, IpcMainInvokeEvent } from 'electron';
 import { mock } from 'jest-mock-extended';
+import afterStartup from 'main/afterStartup';
 import startup from 'main/startup';
 import configurePreload from 'preload/configure_preload';
 import useMockHttpService from './use_mock_http_service';
@@ -44,7 +45,11 @@ const useElectron = () => {
     );
 
     configurePreload();
-    startup();
+
+    const repositories = startup();
+    const browserWindow = mock<BrowserWindow>();
+
+    afterStartup(browserWindow, repositories);
   });
 };
 

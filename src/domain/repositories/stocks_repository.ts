@@ -1,10 +1,12 @@
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 
 interface StocksRepository {
   exists: (stock: Stock) => Promise<boolean>;
 
-  save: (stocks: Stock[]) => Promise<void>;
+  save: (stock: Stock) => Promise<void>;
+
+  saveMany: (stocks: Stock[]) => Promise<void>;
 
   search: (tickerText: string, type: StockType) => Promise<Stock[]>;
 

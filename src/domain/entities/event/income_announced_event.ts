@@ -1,7 +1,7 @@
-import Event from './event';
+import Event from '@entities/events/Event';
 import IncomeType from './income_type';
 
-interface IncomeAnnouncedEvent extends Event {
+class IncomeAnnouncedEvent extends Event {
   incomeType: IncomeType;
   paymentDate: Date;
 }

@@ -1,4 +1,4 @@
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockInvested from '@entities/stock_invested/stock_invested';
 
 interface StocksInvestedRepository {

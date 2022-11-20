@@ -1,5 +1,5 @@
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 
 interface StocksStorage {
   searchByTickerAndType: (
@@ -11,7 +11,11 @@ interface StocksStorage {
 
   countByType: (type: StockType) => Promise<number>;
 
-  save: (stocks: Stock[]) => Promise<void>;
+  save: (stock: Stock) => Promise<void>;
+
+  saveMany: (stocks: Stock[]) => Promise<void>;
+
+  findAll: () => Promise<Stock[]>;
 
   findAllByType: (type: StockType) => Promise<Stock[]>;
 }

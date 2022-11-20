@@ -1,11 +1,10 @@
-import Price from '@entities/price/price';
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 
 type StockInvested = {
   stock: Stock;
   quantity: number;
-  totalInvested: Price;
-  averagePrice: Price;
+  totalInvested: number;
+  averagePrice: number;
 };
 
 export default StockInvested;

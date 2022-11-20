@@ -45,9 +45,24 @@ describe('Load FIIs', () => {
     await loadStocks('FII');
 
     expect(await stocksService.findAll('FII')).toEqual([
-      { ticker: 'AFOF11', name: 'Alianza FOF', type: 'FII' },
-      { ticker: 'HTMX11', name: 'Hotel Maxinvest', type: 'FII' },
-      { ticker: 'VGIR11', name: 'Valora RE III', type: 'FII' },
+      {
+        ticker: 'AFOF11',
+        name: 'Alianza FOF',
+        type: 'FII',
+        currencyCode: 'BRL',
+      },
+      {
+        ticker: 'HTMX11',
+        name: 'Hotel Maxinvest',
+        type: 'FII',
+        currencyCode: 'BRL',
+      },
+      {
+        ticker: 'VGIR11',
+        name: 'Valora RE III',
+        type: 'FII',
+        currencyCode: 'BRL',
+      },
     ]);
   });
 });

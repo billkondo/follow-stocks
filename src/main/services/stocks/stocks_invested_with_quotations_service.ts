@@ -22,7 +22,8 @@ class StocksInvestedWithQuotationsService
           stocks_invested.*, 
           stocks.name as stock_name, 
           stocks.ticker as stock_ticker,
-          stocks.type as stock_type
+          stocks.type as stock_type,
+          stocks.currency_code as stock_currency_code
         FROM stocks_invested
         LEFT JOIN stocks_quotations
         ON stocks_invested.stock_ticker=stocks_quotations.stock_ticker
@@ -46,11 +47,12 @@ class StocksInvestedWithQuotationsService
         ...stockInvested,
       };
 
-      if (stockInvestedWithQuotationModel.quotation_code)
+      if (stockInvestedWithQuotationModel.quotation) {
         stockInvestedWithQuotation.quotation =
           SqliteStockQuotationMapper.fromModel(
             stockInvestedWithQuotationModel as SqliteStockQuotationModel,
           ).quotation;
+      }
 
       return stockInvestedWithQuotation;
     });

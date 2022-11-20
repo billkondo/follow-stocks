@@ -1,4 +1,5 @@
-import SqliteEventsStorage from '@services/sqlite/storages/sqlite_events_storage';
+import SqliteEventsStorage from '@services/sqlite/storages/SqliteEventsStorage';
+import SqliteStocksStorage from '@services/sqlite/storages/SqliteStocksStorage';
 import EventsService from '@services/stocks/events_service';
 import StocksInvestedService from '@services/stocks/stocks_invested_service';
 import StocksInvestedWithQuotationsService from '@services/stocks/stocks_invested_with_quotations_service';
@@ -6,7 +7,6 @@ import StocksQuotationsService from '@services/stocks/stocks_quotations_service'
 import StocksService from '@services/stocks/stocks_service';
 import SqliteStocksInvestedStorage from '@sqlite/storages/sqlite_stocks_invested_storage';
 import SqliteStocksQuotationsStorage from '@sqlite/storages/sqlite_stocks_quotations_storage';
-import SqliteStocksStorage from '@sqlite/storages/sqlite_stocks_storage';
 import SqliteConnection from 'main/services/sqlite/sqlite_connection';
 
 const useStocks = () => {

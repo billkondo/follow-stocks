@@ -1,12 +1,12 @@
-import PriceCode from '@entities/price/price_code';
-import StockType from '@entities/stocks/stock_type';
+import CurrencyCode from '@entities/currencies/CurrencyCode';
+import StockType from '@entities/stocks/StockType';
 
 interface SqliteStockQuotationModel {
   stock_name: string;
   stock_ticker: string;
   stock_type: StockType;
-  quotation_value: number;
-  quotation_code: PriceCode;
+  stock_currency_code: CurrencyCode;
+  quotation: number;
   updated_at: string;
 }
 

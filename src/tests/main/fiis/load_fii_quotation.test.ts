@@ -1,5 +1,5 @@
 import HttpResponse from '@entities/http_response';
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockQuotation from '@entities/stock_quotation';
 import HttpService from '@services/http_service';
 import { STOCKS_RATE_LIMIT_MS } from 'config/rate_limit';
@@ -11,6 +11,7 @@ import MOCK_STOCK_QUOTATION_HTML from 'tests/main/mocks/mock_stock_quotation_htm
 describe('Load FII quotation', () => {
   useSqlite();
   const hgreStock: Stock = {
+    currencyCode: 'BRL',
     name: 'HGRE Stock',
     ticker: 'HGRE11',
     type: 'FII',
@@ -30,7 +31,7 @@ describe('Load FII quotation', () => {
 
     const stocksService = stocksServiceFactory();
 
-    await stocksService.save([hgreStock]);
+    await stocksService.save(hgreStock);
   });
 
   test('should load FII quotation', async () => {
@@ -41,10 +42,7 @@ describe('Load FII quotation', () => {
     (Date.now as jest.Mock).mockReturnValue(new Date(2022, 12, 2).getTime());
     const { loadStockQuotation, stocksQuotationsService } = setup();
     const stockQuotation: StockQuotation = {
-      quotation: {
-        code: 'BRL',
-        value: 256.43,
-      },
+      quotation: 256.43,
       stock: hgreStock,
       updatedAt: new Date(2022, 12, 2),
     };
@@ -59,36 +57,6 @@ describe('Load FII quotation', () => {
       ).resolves.toEqual(stockQuotation);
 
     await shouldHaveSavedStockQuotation();
-  });
-
-  test('should fail if currency found does not match any price code', async () => {
-    (HttpService.get as jest.Mock).mockResolvedValue({
-      html: `
-        <div class="C($tertiaryColor) Fz(12px)">
-          <span>São Paulo - São Paulo Delayed Price. Currency in XYZ</span>
-        </div>
-      `,
-    } as HttpResponse);
-    const { loadStockQuotation } = setup();
-
-    await expect(loadStockQuotation(hgreStock)).rejects.toEqual(
-      new Error('XYZ is a invalid price code'),
-    );
-  });
-
-  test('should fail if currency search finds nothing', async () => {
-    (HttpService.get as jest.Mock).mockResolvedValue({
-      html: `
-        <div>
-          <span>São Paulo - São Paulo Delayed Price. Currency in BRL</span>
-        </div>
-      `,
-    } as HttpResponse);
-    const { loadStockQuotation } = setup();
-
-    await expect(loadStockQuotation(hgreStock)).rejects.toEqual(
-      new Error('currency search found nothing'),
-    );
   });
 
   test('should fail if price search finds nothing', async () => {
@@ -135,7 +103,7 @@ describe('Load FII quotation', () => {
     const currentDateTime = new Date(2022, 12, 1).getTime();
     const updatedAtTime = currentDateTime - STOCKS_RATE_LIMIT_MS + 50;
     const stockQuotation: StockQuotation = {
-      quotation: { code: 'BRL', value: 245 },
+      quotation: 245,
       stock: hgreStock,
       updatedAt: new Date(updatedAtTime),
     };

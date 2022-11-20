@@ -1,8 +1,7 @@
-import Price from '@entities/price/price';
 import StockInvested from './stock_invested';
 
 type StockInvestedWithQuotation = StockInvested & {
-  quotation?: Price;
+  quotation?: number;
 };
 
 export default StockInvestedWithQuotation;

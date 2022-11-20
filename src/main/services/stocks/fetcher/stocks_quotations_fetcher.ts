@@ -1,5 +1,4 @@
-import PriceCode from '@entities/price/price_code';
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockQuotation from '@entities/stock_quotation';
 import HttpService from '@services/http_service';
 import NodeHtmlParser, { HTMLElement } from 'node-html-parser';
@@ -10,16 +9,11 @@ class StocksQuotationsFetcher {
     const response = await HttpService.get(buildUrl(stock));
 
     const html = NodeHtmlParser(response.html);
-
-    const currency = extractCurrencyFromHtml(html);
     const price = extractPriceFromHtml(html);
 
     return {
       stock,
-      quotation: {
-        code: currency,
-        value: price,
-      },
+      quotation: price,
       updatedAt: new Date(Date.now()),
     };
   }
@@ -30,32 +24,6 @@ const buildUrl = (stock: Stock) => {
   const suffix = stock.type === 'FII' ? '.SA' : '';
 
   return `${BASE_URL}${stock.ticker}${suffix}`;
-};
-
-const extractCurrencyFromHtml = (html: HTMLElement): PriceCode => {
-  const extractLastThreeDigits = (word: string): string => {
-    return word.slice(word.length - 3);
-  };
-
-  const validatePriceCode = (priceCode: string) => {
-    if (priceCode === 'BRL') return;
-    if (priceCode === 'USD') return;
-
-    throw new Error(`${priceCode} is a invalid price code`);
-  };
-
-  const divWithCurrencyText = html.querySelector(
-    '.Fz\\(12px\\), .C\\($tertiaryColor\\)',
-  );
-
-  if (!divWithCurrencyText) throw new Error('currency search found nothing');
-
-  const currentText = divWithCurrencyText.text.trim();
-  const priceCode = extractLastThreeDigits(currentText);
-
-  validatePriceCode(priceCode);
-
-  return priceCode as PriceCode;
 };
 
 const extractPriceFromHtml = (html: HTMLElement): number => {

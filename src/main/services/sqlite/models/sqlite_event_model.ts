@@ -1,16 +1,17 @@
-import EventType from '@entities/event/event_type';
-import PriceCode from '@entities/price/price_code';
-import StockType from '@entities/stocks/stock_type';
+import CurrencyCode from '@entities/currencies/CurrencyCode';
+import EventType from '@entities/events/EventType';
+import StockType from '@entities/stocks/StockType';
 
 interface SqliteEventModel {
   date: string;
   quantity: number;
-  price_value: number;
-  price_code: PriceCode;
   stock_ticker: string;
   stock_name: string;
   stock_type: StockType;
+  stock_currency_code: CurrencyCode;
   type: EventType;
+  total_value: number;
+  unit_price: number;
 }
 
 export default SqliteEventModel;

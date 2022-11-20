@@ -1,14 +1,14 @@
-import PriceCode from '@entities/price/price_code';
-import StockType from '@entities/stocks/stock_type';
+import CurrencyCode from '@entities/currencies/CurrencyCode';
+import StockType from '@entities/stocks/StockType';
 
 interface SqliteStockInvestedModel {
   quantity: number;
   total_invested: number;
   average_price: number;
-  price_code: PriceCode;
   stock_ticker: string;
   stock_name: string;
   stock_type: StockType;
+  stock_currency_code: CurrencyCode;
 }
 
 export default SqliteStockInvestedModel;

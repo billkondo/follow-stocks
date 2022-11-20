@@ -26,16 +26,19 @@ describe('App launch', () => {
           name: 'Alianza FOF',
           ticker: 'AFOF11',
           type: 'FII',
+          currencyCode: 'BRL',
         },
         {
           name: 'Hotel Maxinvest',
           ticker: 'HTMX11',
           type: 'FII',
+          currencyCode: 'BRL',
         },
         {
           name: 'Valora RE III',
           ticker: 'VGIR11',
           type: 'FII',
+          currencyCode: 'BRL',
         },
       ]);
     });

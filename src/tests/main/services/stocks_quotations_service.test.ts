@@ -1,5 +1,5 @@
 import HttpResponse from '@entities/http_response';
-import Stock from '@entities/stocks/stock';
+import Stock from '@entities/stocks/Stock';
 import StockQuotation from '@entities/stock_quotation';
 import HttpService from '@services/http_service';
 import useSqlite from 'tests/hooks/use_sqlite';
@@ -10,6 +10,7 @@ describe('Stocks quotations service', () => {
   useSqlite();
   const { stocksQuotationsServiceFactory } = useStocks();
   const xplgStock: Stock = {
+    currencyCode: 'BRL',
     name: 'XPLG Stock',
     ticker: 'XPLG11',
     type: 'FII',
@@ -37,10 +38,7 @@ describe('Stocks quotations service', () => {
     );
 
     expect(stockQuotation).toEqual({
-      quotation: {
-        code: 'BRL',
-        value: 256.43,
-      },
+      quotation: 256.43,
       stock: xplgStock,
       updatedAt: new Date(2022, 1, 12),
     } as StockQuotation);

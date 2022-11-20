@@ -1,9 +1,18 @@
-import Event from '@entities/event/event';
-import Stock from '@entities/stocks/stock';
-import StockType from '@entities/stocks/stock_type';
+import Event from '@entities/events/Event';
+import FilterOptions from '@entities/filters/FilterOptions';
+import Stock from '@entities/stocks/Stock';
+import StockType from '@entities/stocks/StockType';
 
 interface EventsStorage {
-  saveEvents: (stock: Stock, events: Event[]) => Promise<void>;
+  count: () => Promise<number>;
+
+  filter: (filterOptions: FilterOptions) => Promise<Event[]>;
+
+  findAll: () => Promise<Event[]>;
+
+  save: (event: Event) => Promise<void>;
+
+  saveMany: (events: Event[]) => Promise<void>;
 
   findEventsByStockAndDate: (stock: Stock, date: Date) => Promise<Event[]>;
 
