@@ -39,6 +39,10 @@ class Event {
     this.unitPrice = unitPrice;
   }
 
+  isIgnored() {
+    return this.type === 'IGNORED';
+  }
+
   getCurrencyCode(): CurrencyCode {
     return this.stock.currencyCode;
   }

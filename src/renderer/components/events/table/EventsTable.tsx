@@ -7,14 +7,12 @@ import {
   Paper,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
   TablePagination,
-  TableRow,
   Typography,
 } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
+import EventsTableHeader from './EventsTableHeader';
 import EventsTableRow from './EventsTableRow';
 
 const ROWS_PER_PAGE = 5;
@@ -80,25 +78,7 @@ const EventsTable: FC<Props> = ({
       )}
 
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>
-              <b>Ticker</b>
-            </TableCell>
-            <TableCell align="right">
-              <b>Date</b>
-            </TableCell>
-            <TableCell align="right">
-              <b>Type</b>
-            </TableCell>
-            <TableCell align="right">
-              <b>Unit Price</b>
-            </TableCell>
-            <TableCell align="right">
-              <b>Total Value</b>
-            </TableCell>
-          </TableRow>
-        </TableHead>
+        <EventsTableHeader></EventsTableHeader>
 
         {hasAnyEvent && (
           <TableBody>
