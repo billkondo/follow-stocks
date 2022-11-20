@@ -1,16 +1,16 @@
-import Price from '@entities/price/price';
+import CurrencyCode from '@entities/currencies/CurrencyCode';
 import { Box, Typography } from '@mui/material';
 import { IconCurrencyDollar, IconCurrencyReal } from '@tabler/icons';
 import { FC } from 'react';
 
 type Props = {
-  price: Price;
+  currencyCode: CurrencyCode;
+  price: number;
 };
 
-const PriceText: FC<Props> = ({ price }) => {
-  const { code, value } = price;
-
-  const PriceCodeIcon = code === 'BRL' ? IconCurrencyReal : IconCurrencyDollar;
+const PriceText: FC<Props> = ({ currencyCode, price }) => {
+  const PriceCodeIcon =
+    currencyCode === 'BRL' ? IconCurrencyReal : IconCurrencyDollar;
 
   return (
     <Box
@@ -23,7 +23,7 @@ const PriceText: FC<Props> = ({ price }) => {
     >
       <PriceCodeIcon size={20} stroke={1.5} />
 
-      <Typography fontSize={14}>{value.toFixed(2)}</Typography>
+      <Typography fontSize={14}>{price.toFixed(2)}</Typography>
     </Box>
   );
 };
